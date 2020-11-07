@@ -1,0 +1,172 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: orisel</title>
+</head>
+
+<body>
+
+<div class="functitle">orisel</div>
+
+<div class="subtitle">Synopsis</div>
+
+<p>
+Compute orientation selectivity weights for ENDOR and ESEEM
+simulations of disordered systems
+</p>
+
+<pre class="mlsyntax">
+orisel(Sys,Par)
+orisel(Sys,Par,Opt)
+Weights = ...
+[Weights,Trans] = ...
+</pre>
+
+<!-- ====================================================== -->
+<div class="subtitle">Description</div>
+
+<p>
+This function calculates weights for orientation selectivity in powders
+and frozen solutions (disordered systems). At a given
+magnetic field not all, but only centres with certain orientations relative to the
+external magnetic field have transitions that are on resonance with the spectrometer
+frequency and can be excited. <code>orisel</code> determines which orientations are excited
+and how strongly.
+</p>
+
+<p>
+<code>Weights</code> is a vector with the selectivity weights for a set of
+orientations. The larger the weight, the stronger the selectivity. The weights
+are not normalized. The maximum values for resonant excitation of a transition
+depend on the number of spins and the g tensor(s). E.g., for an S=1/2 spin
+system with an isotropic g factor, a value of 1231 results if the magnetic
+field is centered on the EPR line.
+</p>
+
+<p>
+<code>Trans</code> is an array listing the transitions included in the computation,
+with one transition per row. A transition is specified by the numbers of the two
+levels participating, with the lowest-energy level having label 1, etc.
+
+<p>
+The orientations are computed internally, but are not returned
+by <code>orisel</code>.
+To obtain the orientations associated with the weights, call
+<a class="esf" href="sphgrid.html">sphgrid</a> with the symmetry
+and number of knots given in the command window output of <code>orisel</code>.
+</p>
+
+<p>
+These weights can directly be used in the options structure in
+<a class="esf" href="salt.html">salt</a>.
+</p>
+
+<p>
+If the function is called with no output argument, the
+weights are plotted as a function of orientation.
+</p>
+
+<p>
+<code>Sys</code> is a <a href="spinsystem.html">spin system structure</a>.
+Be sure to include the EPR line width in the field <code>HStrain</code>,
+since it is used in the selectivity computation.
+</p>
+
+<p>
+<code>Par</code> is the parameter structure containing the following mandatory
+fields.
+</p>
+
+<table class="optionlist" border="1">
+<tr><td><code>Field</code></td><td>Magnetic field in mT.</td></tr>
+<tr><td><code>mwFreq</code></td><td>Spectrometer frequency in GHz.</td></tr>
+</table>
+
+<p>
+In addition, there are a few optional parameters.
+</p>
+
+<table class="optionlist" border="1">
+<tr><td><code>ExciteWidth</code></td><td>FWHM bandwidth of the Gaussian excitation profile, in MHz.
+If not specified, it is assumed to be zero.</td></tr>
+<tr><td><code>Orientations</code></td><td>2xn vector <code>[phi;theta]</code> giving the polar
+angles that define the orientations. This is an optional field. If not given, orientations
+are computed internally using <a class="esf" href="sphgrid.html">sphgrid</a> with the values of
+<code>Symemtry</code> and <code>nKnots</code> given in the <code>Options</code> structure.</td></tr>
+</table>
+
+<p>
+<code>Opt</code> is a structure containing optional settings
+</p>
+
+<table class="optionlist" border="1">
+<tr>
+<td><code>nKnots</code></td><td>Number of orientations, as in
+<a class="esf" href="pepper.html">pepper</a> (optional, default 46).</td>
+</tr>
+<tr>
+<td><code>Symmetry</code></td><td>Point-group symmetry of the spin Hamiltonian, as in
+<a class="esf" href="pepper.html">pepper</a>. If not given, the symmetry is
+determined automatically (see <a class="esf" href="symm.html">symm</a>).</td>
+</tr>
+</table>
+
+<p>
+The total effective excitation bandwidth is the combination of
+<code>Par.ExciteWidth</code> and the anisotropic
+EPR line width <code>Sys.HStrain</code>. Strains (<code>gStrain</code>,
+<code>AStrain</code> and <code>DStrain</code>) are not included in the computation.
+</p>
+
+<div class="subtitle">Examples</div>
+
+<p>
+Orientation selection in the spin system
+</p>
+
+<pre class="mlexample">
+Sys = struct('S',1/2,'g',[2.1 2.2 2],'HStrain',[10 10 10]);
+Sys = nucspinadd(Sys,'1H',[5 4 6]*1e2);
+</pre>
+
+<p>
+can be computed using
+</p>
+
+<pre class="mlexample">
+Exp = struct('mwFreq',9.5,'Field',325,'ExciteWidth',100);
+Weights = orisel(Sys,Exp);
+</pre>
+
+<p>
+The orientation selection can easily be visualised by omitting
+the output argument
+</p>
+
+<pre class="mlexample">
+orisel(Sys,Exp);
+</pre>
+
+<p>
+If the full orientational sphere should be plotted, set the
+symmetry manually to <code>C1</code>
+</p>
+
+<pre class="mlexample">
+Opt = struct('Symmetry','C1');
+orisel(Sys,Exp,Opt);
+</pre>
+
+<div class="subtitle">See also</div>
+
+<p>
+<a class="esf" href="salt.html">salt</a>,
+<a class="esf" href="sham.html">sham</a>
+</p>
+
+<hr>
+</body>
+</html>

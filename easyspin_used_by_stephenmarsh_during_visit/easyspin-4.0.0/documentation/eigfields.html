@@ -1,0 +1,163 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: eigfields</title>
+</head>
+
+<body>
+
+<div class="functitle">eigfields</div>
+
+<div class="subtitle">Synopsis</div>
+
+<p>
+Exact resonance fields (eigenfields) of a spin system.
+</p>
+
+<pre class="mlsyntax">
+B = eigfields(Sys,Par)
+B = eigfields(sys,Par,Opt)
+[B,Int] = eigfields(...)
+</pre>
+
+<!-- ====================================================== -->
+<div class="subtitle">Description</div>
+
+<p>
+Given a spin system <code>Sys</code> and a set of orientations <code>Par.Orientations</code>,
+<code>eigfields</code> computes exact resonance fields (so called eigenfields)
+for a cw EPR experiment.
+</p>
+
+<p>
+<code>Sys</code> is a <a href="spinsystem.html">spin system structure</a>.
+
+<p>
+<code>Par</code> is a structure containing fields for the experimental parameters.
+</p>
+
+<table class="optionlist" border="1">
+<tr><td><code>mwFreq</code></td><td>
+Required parameter giving the spectrometer frequency in GHz.
+</td></tr>
+
+<tr><td><code>Orientations</code></td><td>
+<p>
+A list of orientations for which resonance fields
+should be computed. It can be either a 2xn or a 3xn array, giving
+either two (&phi; &theta;) or three (&phi; &theta;, &chi;)
+<a href="eulerangles.html">Euler angles</a> in radians to describe each orientation.
+</p>
+
+<p>
+&phi;, in the first row, is the angle between the x axis and the xy
+plan projection of the orientation of the external field in the molecular
+frame of the spin system. &theta;, in the second row, is the
+angle at which the external field is off the z axis of the molecular frame.
+The optional &chi;, in the third row, specifies the third
+Euler angle and fixes the x axis of the laboratory in the molecular frame.
+</p>
+
+<p>
+Altogether, these three angles define the <a href="eulerangles.html">relative
+orientation</a> between
+the molecular frame and the laboratory frame. The external field is along
+the lab z axis, and the microwave field is along the lab x axis.
+Resonance fields depend only on the first two angles, intensities also on the
+third.
+</p>
+
+<p>
+If the third angle is not given, intensities are integrated
+over all possible values of &chi;.
+</p>
+
+<tr><td><code>Mode</code></td><td>
+<code>'perpendicular'</code> (default) or <code>'parallel'</code><br>
+Determines the cw EPR mode. In the perpendicular mode, the microwave field is along the laboratory x axis, in the parallel mode it is along the z axis, parallel to the external static field. The perpendicular detection mode is the most common, and it is the default here.
+</td></tr>
+
+<tr><td><code>Range</code></td><td>
+<em>2-element vector</em> <code>[Bmin Bmax]</code><br>
+If set, <code>eigfields</code> will only return eigenfields falling between <code>Bmin</code>
+and <code>Bmax</code> (both in mT).
+</td></tr>
+</table>
+
+
+<p>
+The structure <code>Opt</code> contains computational options.
+</p>
+
+<table class="optionlist" border="1">
+<!--
+<tr><td><code>Freq2Field</code></td><td>
+Determines the order of the frequency-to-field conversion. 0 is off. 1 indicates linear
+conversion with the generalised 1/g factor
+
+-->
+<img src="eqn/eigfields1.png" alt="[eqn]"><!--MATH $(\partial(E_v-E_u)/\partial B)^{-1}$ --><!--.
+<code>Freq2Field</code>
+should never be changed from its default 1.
+</td></tr>
+-->
+<tr><td><code>Threshold</code></td><td>
+Relative threshold for eigenfields. Only eigenfields with a relative
+transition intensity above the threshold are returned. Works only if transition
+intensities are computed, i.e. if two output arguments are requested. The relative
+intensity of the strongest transition is 1.
+</td></tr>
+</table>
+
+<p>
+<code>eigfields</code> returns the resonance fields (mT) in <code>B</code> and,
+optionally,
+transition intensities (MHz^2/mT^2) in <code>Int</code>.
+The intensities returned are integrated over the plane normal to the external
+magnetic field direction if only two of the three Euler angles are
+specified in <code>Ori</code> (see above).
+</p>
+
+<div class="subtitle">Examples</div>
+
+<p>
+The resonance fields of an S=3/2 system with orthorhombic zero-field
+splitting for an arbitrary orientation are
+</p>
+
+<pre class="mloutput">
+B =
+   59.5729
+  123.0851
+  148.9710
+  253.3805
+  387.0805
+  512.8191
+</pre>
+
+<p>
+These values are exact within the numerical accuracy of MATLAB's generalised
+eigenproblem solver <code>eig(A,B)</code>.
+</p>
+
+<div class="subtitle">Algorithm</div>
+
+<p>
+<code>eigfields</code> solves a generalised eigenproblem in Liouville space describing
+the fixed-frequency swept-field situation in cw EPR experiments. This approach
+was first described in R.L. Belford et al., J.Magn.Reson. 11, 251-265 (1973).
+</p>
+
+<div class="subtitle">See also</div>
+
+<p>
+<a class="esf" href="pepper.html">pepper</a>,
+<a class="esf" href="resfields.html">resfields</a>
+</p>
+
+<hr>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: rotmat2axi</title>
+</head>
+
+<body>
+
+<div class="functitle">rotmat2axi</div>
+
+<!-- ============================================================= -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+Get rotation matrix from rotation axis and angle.
+</p>
+
+<pre class="mlsyntax">
+[n,phi] = rotmat2aqxi(R);
+</pre>
+
+<!-- ============================================================= -->
+<div class="subtitle">Description</div>
+
+<p>
+Given a <a href="eulerangles.html">rotation matrix</a>
+<code>R</code>, the function <code>rotmat2axi</code> computes the
+rotation axis <code>n</code> and the angle of rotation <code>phi</code>
+around this axis defining the same rotation.</p>
+
+<p>
+For details about rotation matrices, see the page
+on <a href="eulerangles.html">relative orientations</a>.
+</p>
+
+<!--
+<p>
+The rotation matrix must be a 3x3 real matrix with determinant +1 to within
+0.1, otherwise the function errors. For smaller deviations, a warning is issued.
+</p>
+-->
+
+<!-- ============================================================= -->
+<div class="subtitle">Algorithm</div>
+
+<p>
+<code>rotmat2axi</code> computes the components of the rotation axis
+vector directly from elements in the rotation matrix:
+</p>
+
+<img src="eqn/rotmat2axi1.png" alt="[eqn]"><!--MATH
+$$
+\vc{n} =
+\begin{pmatrix}
+R_{23}-R_{32}\\
+R_{31}-R_{13}\\
+R_{12}-R_{21}
+\end{pmatrix}
+$$
+-->
+
+
+<p>
+The rotation angle is given by
+</p>
+
+<img src="eqn/rotmat2axi2.png" alt="[eqn]"><!--MATH
+$$
+\phi = \mr{acos}
+\frac{\mr{tr}\vc{R} - 1}{2}
+$$
+-->
+
+<!-- ============================================================= -->
+<div class="subtitle">Examples</div>
+
+<p>
+The following rotation matrix describes the interchange
+of the three principal axes of the coordinate system
+</p>
+
+<pre class="mlexample">
+R = [0 1 0; 0 0 1; 1 0 0]
+</pre>
+
+<pre class="mloutput">
+R =
+     0     1     0
+     0     0     1
+     1     0     0
+</pre>
+
+<p>
+Feeding this rotation matrix into <code>rotmat2axi</code>,
+we obtain the rotation axis and the rotation angle
+</p>
+
+<pre class="mlexample">
+[n,phi] = rotmat2axi(R)
+</pre>
+
+<pre class="mloutput">
+n =
+    0.5774
+    0.5774
+    0.5774
+phi =
+    2.0944
+</pre>
+
+<p>
+The rotation is 2&pi;/3 around an axis pointing along the center
+of the first octant.
+</p>
+
+<!-- ============================================================= -->
+<div class="subtitle">See also</div>
+
+<p>
+<a class="esf" href="ang2vec.html">ang2vec</a>,
+<a class="esf" href="erot.html">erot</a>,
+<a class="esf" href="rotaxi2mat.html">rotaxi2mat</a>,
+<a class="esf" href="vec2ang.html">vec2ang</a>
+</p>
+
+<hr>
+</body>
+</html>

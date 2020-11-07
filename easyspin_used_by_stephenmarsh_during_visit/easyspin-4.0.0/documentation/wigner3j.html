@@ -1,0 +1,103 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: wigner3j</title>
+</head>
+
+<body>
+
+<div class="functitle">wigner3j</div>
+
+<!-- ============================================================= -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+Wigner 3-j symbols.
+</p>
+
+<pre class="mlsyntax">
+v = wigner3j(j1,j2,j3,m1,m2,m3)
+v = wigner3j(jm1,jm2,jm3)
+v = wigner3j(j,m)
+</pre>
+
+<!-- ============================================================= -->
+<div class="subtitle">Description</div>
+
+<p>
+<code>wigner3j</code> returns the value of the 3-j symbol
+</p>
+<div class="eqn">
+<img src="eqn/wigner3j1.png" alt="[eqn]"><!--MATH
+\begin{equation*}
+\begin{pmatrix}
+j_1 & j_2 & j_3\\
+m_1 & m_2 & m_3
+\end{pmatrix}
+\end{equation*}
+-->
+</div>
+
+<p>
+The six parameters can be specified separately or in groups.
+In the three-argument form, <code>wigner3j</code> takes <code>jm1 = [j1 m1]</code>
+etc., if two arguments are given, it takes <code>j = [j1 j2 j3]</code> and
+<code>m = [m1 m2 m3]</code>. 
+</p>
+
+<p>
+<code>wigner3j</code> returns accurate values as long as the maximum j is not
+larger than about 300.
+</p>
+
+<!-- ============================================================= -->
+<div class="subtitle">Examples</div>
+
+<pre class="mlexample">
+wigner3j([1 1 0],[0 0 0])
+</pre>
+<pre class="mloutput">
+ans =
+   -0.5774
+</pre>
+<pre class="mlexample">
+wigner3j([1 1 2],[0 0 0])
+</pre>
+<pre class="mloutput">
+ans =
+    0.3651
+</pre>
+
+<!-- ============================================================= -->
+<div class="subtitle">Algorithm</div>
+
+<p>
+For small values of the input parameters, <code>wigner3j</code> uses specific
+expressions. For larger values, a general expression containing an alternating
+sum of binomial coefficients is used. If any of the j values is larger than 20,
+the Java BigInteger class is used to obtain accurate values.
+</p>
+
+<ul>
+<li>
+Shan-Tao Lai, Ying-Nan Chiu, Computer Physics Communications 61, 350-360 (1990)
+<li>
+Robert E. Tuzun, Paul Burkhardt, Don Secrest, Computer Physics Communications 112, 112-148 (1998)
+<li>
+Liqiang Wei, Computer Physics Communications 120, 222-230 (1999)
+</ul>
+
+<!-- ============================================================= -->
+<div class="subtitle">See also</div>
+
+<p>
+<a class="esf" href="clebschgordan.html">clebschgordan</a>,
+<a class="esf" href="wigner6j.html">wigner6j</a>
+</p>
+
+<hr>
+</body>
+</html>

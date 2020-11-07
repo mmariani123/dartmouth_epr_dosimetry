@@ -1,0 +1,99 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css" />
+   <title>EasySpin: Installation</title>
+</head>
+
+<body>
+
+<div class="subtitle" style="margin-top:0ex;">Download and requirements</div>
+
+<p><i>EasySpin</i> comes in a single zip file, containing all toolbox functions and the full documentation.
+
+<p>Visit the <a target="_blank" href="http://easyspin.org">EasySpin website</a> for downloading the latest version.
+
+<p>
+<i>EasySpin</i> requires MATLAB 7.0 (R14) or later on either Windows, Linux or Mac.
+Beyond a basic MATLAB installation, no additional MATLAB toolboxes are needed
+to run EasySpin.
+</p>
+
+
+<div class="subtitle">Installation</div>
+
+<ol>
+<li><b>Download and install support software</b><br>
+A small but critical part of <i>EasySpin</i> is not written in MATLAB, but in C. In order
+to compile and run this part, some support software has to be installed, depending
+on the platform.
+<ul>
+<li>Mac OS X: Download and install <a target="_blank" href="http://developer.apple.com/technologies/tools/xcode.html">Xcode</a> 3 (not Xcode 4).
+<li>64-bit Windows: Download and install <a target="_blank" href="http://www.microsoft.com/downloads/en/details.aspx?familyid=BD512D9E-43C8-4655-81BF-9350143D5867">Microsoft Visual C++ 2010 Redistributable Package (x64)</a>.
+<li>32-bit Windows or Linux: Skip this step.
+</ul>
+<li><b>Download and unpack EasySpin</b><br>
+Download the <i>EasySpin</i> zip file and unpack it to a folder, e.g., <code>C:\</code> or <code>/var/myfiles/</code>.
+Once unpacked, <i>EasySpin</i> is contained in a subfolder of <code>C:\</code>
+(or <code>/var/myfiles/</code> or whatever directory you chose) which in turn contains various subfolders:
+<ul>
+<li><code>easyspin</code> - all the toolbox functions.
+<li><code>documentation</code> - documentation, entry point is <code>index.html</code>.
+<li><code>examples</code> - all examples, grouped into subdirectories.
+</ul>
+
+<li><b>Tell MATLAB about EasySpin</b><br>
+Launch MATLAB and go to menu File &rarr; Set Path... Remove any folders containing older <i>EasySpin</i> installations from the MATLAB search path.
+Add the <i>EasySpin</i> subfolder <code>easyspin</code> to the MATLAB search path by clicking on
+"Add Folder...", selecting the <code>easyspin</code> subfolder in your <i>EasySpin</i> directory, and clicking on "Save".
+
+<li><b>Compile EasySpin</b><br>
+In MATLAB, type <code>easyspin</code> at the command prompt. Possibly you are asked to select a C compiler.
+In that case, choose Lcc (Windows 32bit) or gcc (Linux, Mac). The final output in the command window should look like
+<pre>
+==================================================================
+
+  EasySpin, a MATLAB toolbox for Electron Paramagnetic Resonance
+
+    Release:          4.0.0 (2011-10-16)
+
+==================================================================
+
+    Expiry date:      30-Jun-2013
+    Directory:        D:\easyspin-head\easyspin
+    MATLAB version:   7.13.0.564 (R2011b)
+    Platform:         Microsoft Windows [Version 6.1.7601]
+    System date:      16-Oct-2011 16:12:57
+    Temp dir:         C:\Users\abc\AppData\Local\Temp\
+    mex-files:        mexw64, ok
+
+==================================================================
+</pre>
+
+<li><b>Documentation</b><br>
+To view the documentation, point your web browser to <code>documentation/index.html</code> in your <i>EasySpin</i> installation directory
+and bookmark that page.
+
+In addition, <i>EasySpin</i> documentation is also accessible
+via the MATLAB help browser. It is listed together with other installed toolboxes.
+Type <code>doc</code> in the MATLAB command window to access the MATLAB help system.
+</ol>
+
+<div class="subtitle">License</div>
+
+
+<ol>
+<li>You may download and use <i>EasySpin</i> free of charge and without any restrictions.
+<li>You may copy and distribute verbatim copies of <i>EasySpin</i>.
+<li>You may not rent or sell any part of <i>EasySpin</i>.
+<li>You may not use or modify <i>EasySpin</i> or a part of it for other software which is not freely available at no cost.
+<li>You may not reverse engineer, decompile or disassemble <i>EasySpin</i>.
+<li><i>EasySpin</i> comes without warranty of any kind.
+<li>If you use results obtained with the help of <i>EasySpin</i> in any scientific publication, <a href="references.html">cite</a> the appropriate publication.
+</ol>
+
+</body>
+
+</html>

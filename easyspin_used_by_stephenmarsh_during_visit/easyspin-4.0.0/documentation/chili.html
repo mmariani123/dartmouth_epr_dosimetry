@@ -1,0 +1,368 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: chili</title>
+</head>
+
+<body>
+
+<div class="functitle">chili</div>
+
+<!-- =================================================================== -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+Simulation of slow-motional cw EPR spectra
+</p>
+
+<pre class="mlsyntax">
+chili(Sys,Exp)
+spec = chili(...)
+[B,spec] = chili(...)
+... = chili(Sys,Exp,Opt)
+</pre>
+
+<p>
+See also the <a href="userguide_chili.html">user guide</a> on how to use <code>chili</code>.
+</p>
+
+<!-- =================================================================== -->
+<div class="subtitle">Description</div>
+
+<p>
+<code>chili</code> computes cw EPR spectra of systems with
+one unpaired electron and one or more nuclei in the slow-motional
+regime.
+</p>
+
+<p>
+<code>chili</code> takes up to three input arguments
+
+<ul>
+<li><code>Sys</code>: static and dynamic parameters of the spin system
+<li><code>Exp</code>: experimental parameters
+<li><code>Opt</code>: options and settings
+</ul>
+
+<p>
+If no input argument is given, a short help summary is shown (same
+as when typing <code>help chili</code>).
+</p>
+
+<p>
+Up to two output arguments are returned:
+<ul>
+<li><code>B</code>: magnetic field axis, in mT
+<li><code>spc</code>: spectrum
+</ul>
+
+<p>
+If no output argument is given, <code>chili</code> plots the spectrum.
+</p>
+
+<p>
+<code>Sys</code> is a structure containing the parameters of
+the <a href="spinsystem.html">spin system</a>. Only S=1/2 systems
+are supported. The used static parameters are <code>g</code>, <code>gpa</code>,
+<code>Nucs</code>, <code>A</code>, <code>Apa</code>. See the documentation
+on <a href="spinsystem.html">spin system structures</a> for details.
+The nuclear quadrupole interaction (specified in <code>Q</code> and <code>Qpa</code>)
+is neclected by <code>chili</code>.
+</p>
+
+<p>
+For simulating a multi-component mixture, <code>Sys</code> should be a cell array of spin systems,
+e.g. <code>{Sys1,Sys2}</code> for a two-component mixture. Each of the component spin systems should
+have a field <code>weight</code> that specifies the weight of the corresponding component in the final
+spectrum.
+</p>
+
+<p>
+<code>Sys</code> should contain dynamic parameters relevant to the motional simulation.
+One of the field <code>tcorr</code>, <code>logtcorr</code>, <code>Diff</code> or <code>logDiff</code>
+should be given. If more than one of these is given, the first in the list <code>logtcorr</code>, <code>tcorr</code>,
+<code>logDiff</code>, <code>Diff</code> takes precedence over the other(s).
+</p>
+
+<table border="1" class="optionlist">
+<tr>
+<td><code>tcorr</code></td>
+<td>
+<p>
+Rotational correlation time, in seconds.
+<ul>
+<li>1 number: isotopic diffusion
+<li>2 numbers <code>[txy tz]</code>: anisotropic diffusion with axial diffusion tensor
+<li>3 numbers <code>[tx ty tz]</code>: anisotropic diffusion with rhombic diffusion tensor
+</ul>
+
+<p>For example,
+<pre class="mlexample">
+Sys.tcorr = 1e-9;         % isotropic diffusion, 1ns correlation time
+Sys.tcorr = [5 1]*1e-9;   % axial anisotropic diffusion, 5ns around x and y axes, 1ns around z
+Sys.tcorr = [5 4 1]*1e-9; % rhombic anisotropic diffusion
+</pre>
+  
+<p>
+Instead of <code>tcorr</code>, <code>Diff</code> can be used, see below. If <code>tcorr</code> is given, <code>Diff</code> is ignored. The correlation time <code>tcorr</code> and the diffusion rate <code>Diff</code> are related by <code>tcorr = 1/(6*Diff)</code>.
+<br>
+</td>
+</tr>
+<tr>
+  <td><code>logtcorr</code></td>
+  <td>
+  Base-10 logarithm of the correlation time, offering an alternative way to input the correlation time.
+  If given, <code>tcorr</code>, <code>logDiff</code> and <code>Diff</code> are ignored.<br>
+  Use this instead of <code>tcorr</code> for least-squares fitting
+  with <a class="esf" href="esfit.html">esfit</a>.
+</td>
+</tr>
+<tr>
+  <td><code>Diff</code></td>
+  <td>
+  Rotational diffusion rates (principal values of the rotational diffusion tensor),
+  in second<sup>-1</sup>.
+  <ul>
+  <li>One number: isotopic diffusion tensor
+  <li>two numbers: input <code>[Dxy Dzz]</code> gives axial tensor <code>[Dxy Dxy Dzz]</code>
+  <li>three numbers: rhombic tensor <code>[Dxy Dxy Dzz]</code>
+  </ul>
+  <code>Diff</code> is ignored if <code>logtcorr</code>, <code>tcorr</code> or <code>logDiff</code> is given.
+  </td>
+</tr>
+<tr>
+  <td><code>logDiff</code></td>
+  <td>
+  Base-10 logarithm of <code>Diff</code>. If given, <code>Diff</code> is ignored.
+  <br>
+  Use this instead of <code>Diff</code> for least-squares fitting
+  with <a class="esf" href="esfit.html">esfit</a>.
+</td>
+</tr>
+<tr>
+  <td><code>Diffpa</code></td>
+  <td>3-element vector<br>
+  Euler angles describing the orientation of the rotational diffusion tensor
+  in the molecular frame.
+  </td>
+</tr>
+<tr>
+  <td><code>lwpp</code></td>
+  <td>1- or 2-element array of peak-to-peak linewidths (all in mT).<br>
+  <ul>
+    <li>1 element: <code>GaussianPP</code>.</li>
+    <li>2 elements: <code>[GaussianPP LorentzianPP]</code>.</li>
+  </ul>
+  <code>lwpp</code> takes precedence over <code>lw</code>.
+  </td>
+</tr>
+<tr>
+  <td><code>lw</code></td>
+  <td>1- or 2-element array of FWHM linewidths (all in mT).<br>
+  <ul>
+    <li>1 element: <code>GaussianFWHM</code>.</li>
+    <li>2 elements: <code>[GaussianFWHM LorentzianFWHM]</code>.</li>
+  </ul>
+  <code>lwpp</code> takes precedence over <code>lw</code>.
+  </td>
+</tr>
+<tr>
+  <td><code>lambda</code></td>
+  <td>
+  An array of coefficients for the orienting potential, with up to five elements
+  <p>
+  &nbsp;&nbsp;<code>[lambda20 lambda22 lambda40 lambda42 lambda44]</code>,
+  <p> corresponding to the five
+  coefficients &lambda;<sub>2,0</sub>, &lambda;<sub>2,2</sub>,  &lambda;<sub>4,0</sub>,
+   &lambda;<sub>4,2</sub>, and  &lambda;<sub>4,4</sub> (sometimes, the symbols c or &epsilon;
+   are used instead in the literature).
+   <br>
+   If you give less than five
+  numbers, the omitted ones are assumed to be zero. See the literature for details, esp.
+  Earle/Budil 2006.
+  <br>
+  The frame of the ordering potential is collinear with that of the diffusion tensor.
+  </td>
+</tr>
+<tr>
+  <td><code>Exchange</code></td>
+  <td>
+  Heisenberg spin exchange frequency, in MHz.
+  </td>
+</tr>
+</table>
+
+
+<p>
+<code>Exp</code> contains the following experimental parameters.
+</p>
+
+<table border="1" class="optionlist">
+<tr><td><code>mwFreq</code></td><td>
+Spectrometer frequency, in GHz. E.g. <code>Exp.mwFreq = 9.5;</code> for X band.
+</td></tr>
+
+<tr><td><code>nPoints</code></td><td>Number of points along field axis (default 1024)</td></tr>
+<tr><td><code>CenterSweep</code></td><td><code>[center sweep]</code> with center field <code>center</code> and full field sweep range <code>sweep</code>, both in mT.
+If neither <code>CenterSweep</code> nor <code>Range</code> are specified, the magnetic field range is automatically determined to cover the full spectral range.</td></tr>
+<tr><td><code>Range</code></td><td><code>[minField maxField]</code> with lower and upper limit
+of field scan range in mT.
+<code>Range</code> is only used if <code>CenterSweep</code> is not given.
+If neither <code>CenterSweep</code> nor <code>Range</code> are specified, the magnetic field range is automatically determined to cover the full spectral range.
+</td></tr>
+
+<tr><td><code>Harmonic</code></td><td>
+Detection harmonic (0, 1 or 2), default is 1.
+</td></tr>
+
+<tr><td><code>Temperature</code></td><td>
+Gives the temperature of the spin system in the EPR experiment, in Kelvin. If given, Boltzmann
+populations are computed and included in the EPR line intensities. E.g., <code>Temperature = 298</code>
+corresponds to room temperature. If not given (or set to <code>inf</code>), all transitions are
+assumed to have equal polarizations.
+</td></tr>
+
+<tr><td><code>ModAmp</code></td><td>
+Modulation amplitude (peak-to-peak), in mT.
+</td></tr>
+
+<tr><td><code>mwPhase</code></td><td>
+The reference microwave phase, in radians. 0 is pure absorption (default value), and <code>pi/2</code> is pure dispersion. <code>mwPhase</code> is used only if the convolutional broadening given in <code>Sys.lwpp</code> or <code>Sys.lw</code> has a Lorentzian component.
+<p><code>mwPhase</code> allows you to include absorption/dispersion admixture in the simulation.
+</td></tr>
+
+<tr><td>
+<code>MOMD</code></td><td>
+1 or 0, depending on whether the MOMD model should be used.
+<p>
+If <code>MOMD=1</code>, spectra for a number of orientations are computed and added up.
+This is only needed if an orienting potential is present. The number of orientations is
+taken from <code>Opt.nKnots</code>.
+<p>
+If <code>MOMD=0</code>, or if <code>MOMD</code> is not given, only one single orientation
+is computed. The orientation is given by <code>Exp.psi</code>.
+</td></tr>
+<tr><td>
+<code>psi</code></td><td>
+angle between magnetic field and director axis, in radians.
+<p>
+If given, it specifies the angle between the external magnetic field and the director
+axis (ie the principal axis of the orienting potential). This angle is often called the
+"director tilt".
+<p>
+If not given, zero is assumed.
+<p>
+If the MOMD model is used (<code>MOMD=1</code>), <code>psi</code> is neglected.
+</td></tr>
+</table>
+
+<p>
+<code>Opt</code>, the options structure, collects all settings relating to
+the algorithm used and the behaviour of the function. The following fields
+are available:
+</p>
+
+<table border="1" class="optionlist">
+<tr>
+  <td><code>Verbosity</code></td>
+  <td>0 (default), 1<br>
+    Determines how much information <code>chili</code> prints to the screen. If
+    <code>Opt.Verbosity=0</code>, is is completely silent. 1 prints details about
+    the progress of the computation.
+  </td>
+</tr>
+<tr>
+  <td><code>LLKM</code></td>
+  <td>4-element vector <code>[evenLmax oddLmax Kmax Mmax]</code><br>
+  Specifies the rotational basis size by giving the maximum values for, in that order,
+  even L, odd L, M and K. M and K must be less than or equal to the maximum
+  value of L.<br>
+  If this field is not specified, <code>chili</code> automatically picks a medium-sized basis.
+  This is adequate for many, but not all, cases.
+  </td>
+</tr>
+<tr>
+  <td><code>nKnots</code></td>
+  <td>Number of orientations used in a MOMD simulation (see <code>Exp.MOMD</code>).
+   Default is 5. Increase this value if the orienting potential coefficients
+   <code>Sys.lambda</code> are large.
+  </td>
+</tr>
+<tr>
+  <td><code>Output</code></td><td>
+  <code>'summed'</code> (default) or <code>'separate'</code><br>
+Determines in what form the spectrum is returned. If set to <code>'separate'</code>,
+one spectrum per transition is returned in a matrix <code>spec</code>.
+The transition spectra are along the rows. <code>spec(k,:)</code> is the spectrum of transition k.
+If <code>'summed'</code> is specified, the total spectrum is
+returned in <code>spec</code> as a vector.
+</td></tr>
+
+</table>
+
+
+<!-- =================================================================== -->
+<div class="subtitle">Example</div>
+
+<p>
+The cw EPR spectrum of a slow tumbling nitroxide radical can be
+simulated with the following lines.
+</p>
+
+<pre class="mlexample">
+Sys = struct('g',[2.008 2.0061 2.0027],'Nucs','14N','A',[16 16 86]);
+Sys.tcorr = 1e-9;  % 1 ns
+Exp = struct('mwFreq',9.5);
+chili(Sys,Exp);
+</pre>
+
+
+<!-- =================================================================== -->
+<div class="subtitle">Algorithm</div>
+
+<p>
+<code>chili</code> solves the Stochastic Liouville equation (SLE) in the eigenframe
+of the diffusion tensor and in an eigenbasis of the diffusion operator. The
+eigenfunctions are normalized Wigner rotation functions D<sup>L</sup><sub>K,M</sub>(&Omega;) with -L&le;K,M&le;L. The number of basis functions is determined by maximum
+values of even L, odd L, K and M. The larger these values, the larger the basis
+and the more accurate the spectrum.
+</p>
+
+<p>
+<code>chili</code> computes EPR line positions to first order, which is appropriate for
+most organic radicals. It is inaccurate for transition metal complexes, e.g. Cu<sup>2+</sup>
+or VO<sup>2+</sup>. For the diffusion,
+both secular and nonsecular terms are included.
+</p>
+
+<p>
+If the spin system contains more than one nucleus, only the first nucleus is
+included in the full SLE simulation. The effect of all the others is added
+by post-convolution: The isotropic stick spectrum due to all other nuclei
+is simulated and then used to convolve the SLE-simulated spectrum of the first
+nucleus.
+</p>
+
+<p>
+For full details of the algorithm see
+</p>
+
+<ul>
+<li>K. A. Earle, D. E. Budil, in: S. Schlick, Advanced ESR Methods in Polymer Research, Wiley, 2006, chapter 3.
+<li>D. J. Schneider, J. H. Freed, Biol. Magn. Reson. 8, 1-76 (1989).
+</ul>
+
+<!-- =================================================================== -->
+<div class="subtitle">See also</div>
+<p>
+<a class="esf" href="esfit.html">esfit</a>,
+<a class="esf" href="fastmotion.html">fastmotion</a>,
+<a class="esf" href="garlic.html">garlic</a>
+</p>
+
+<hr>
+</body>
+</html>

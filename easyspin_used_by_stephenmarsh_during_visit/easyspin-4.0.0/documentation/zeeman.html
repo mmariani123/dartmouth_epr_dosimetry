@@ -1,0 +1,148 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: zeeman</title>
+</head>
+
+<body>
+
+<div class="functitle">zeeman</div>
+
+<!-- ============================================================= -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+Zeeman interaction Hamiltonian components.
+</p>
+
+<pre class="mlsyntax">
+[Zx, Zy, Zz] = zeeman(SpinSystem)
+[Zx, Zy, Zz] = zeeman(SpinSystem, Spins)
+</pre>
+
+<!-- ============================================================= -->
+<div class="subtitle">Description</div>
+
+<p>
+<code>zeeman</code> returns the three operators involved in constructing the
+Zeeman interaction Hamiltonian
+</p>
+
+<pre class="eqn">
+<img src="eqn/zeeman1.png" alt="[eqn]"><!--MATH
+\begin{equation*}
+\Op{H}_\mr{ZI} =
+\frac{1}{h}\vc{B}^\trp
+\left(
+\sum_k \mu_\mr{B}\mx{g}_k\opvc{S}_k -
+\sum_l \mu_\mr{N}g_{\mr{n},l}\opvc{I}_l
+\right)
+\end{equation*}
+-->
+</pre>
+
+<p>
+These three operators <code>Zx</code>, <code>Zy</code> and <code>Zz</code> are the cartesian
+components of the vector derivative
+<img src="eqn/zeeman2.png" alt="[eqn]"><!--MATH$\opvc{Z} = \partial\Op{H}/\partial{\vc{B}}$-->,
+i.e.
+</p>
+
+<pre class="eqn">
+<img src="eqn/zeeman3.png" alt="[eqn]"><!--MATH
+\begin{equation*}
+\Op{Z}_q
+=
+\frac{\partial\Op{H}_\mr{ZI}}{\partial B_q}
+=
+\frac{1}{h}\left(
+\sum_k \mu_\mr{B} \mx{g}_k \Op{S}_{k,q}-
+\sum_l \mu_\mr{N} g_{n,l}  \Op{I}_{l,q}
+\right)
+\qquad
+q = \mr{x, y, z}
+\end{equation*}
+-->
+</pre>
+
+<p>
+and have to be multiplied by the respective B field
+components and summed up to get the complete Zeeman interaction
+Hamiltonian
+</p>
+
+<!-- ============================================================= -->
+<pre class="eqn">
+<img src="eqn/zeeman4.png" alt="[eqn]"><!--MATH
+\begin{equation*}
+\Op{H} =
+\vc{B}^\trp\opvc{Z}
+=
+B_\mr{x}\Op{Z}_\mr{x}+
+B_\mr{y}\Op{Z}_\mr{y}+
+B_\mr{z}\Op{Z}_\mr{z}
+\end{equation*}
+-->
+</pre>
+
+<p>
+All quantities are formulated in the molecular frame, i.e. x refers to
+the x axis of the molecular frame etc. All operators are in units of MHz/mT.
+</p>
+
+<p>
+<code>SpinSystem</code> is a spin system structure, defining spins and g
+values. If <code>Spins</code> is given, only a part of the spins of the system
+is included in the operators. <code>Spins</code> must then be a row vector of
+indices specifying which spins should be included. For a system with n
+electron spins, a number between 1 and n indicates electron spins,
+and n+1 and above specify nuclear spins, if present.
+</p>
+
+<!-- ============================================================= -->
+<div class="subtitle">Examples</div>
+
+<p>
+In a spin system
+</p>
+
+<pre class="mlexample">
+ABC = struct('S',1/2,'g',[2.1 2.1 2],'Nucs','14N','A',[1 1 1]);
+</pre>
+
+<p>
+the Zeeman interaction Hamiltonian's x component of the nucleus is
+</p>
+
+<pre class="mlexample">
+[Zx,Zy,Zz] = zeeman(ABC,2); Zx
+</pre>
+
+<pre class="mloutput">
+Zx =
+         0   -0.0022         0         0         0         0
+   -0.0022         0   -0.0022         0         0         0
+         0   -0.0022         0         0         0         0
+         0         0         0         0   -0.0022         0
+         0         0         0   -0.0022         0   -0.0022
+         0         0         0         0   -0.0022         0
+</pre>
+
+<!-- ============================================================= -->
+<div class="subtitle">See also</div>
+
+<p>
+<a class="esf" href="eeint.html">eeint</a>,
+<a class="esf" href="hfine.html">hfine</a>,
+<a class="esf" href="nquad.html">nquad</a>,
+<a class="esf" href="sham.html">sham</a>,
+<a class="esf" href="zfield.html">zfield</a>
+</p>
+
+<hr>
+</body>
+
+</html>

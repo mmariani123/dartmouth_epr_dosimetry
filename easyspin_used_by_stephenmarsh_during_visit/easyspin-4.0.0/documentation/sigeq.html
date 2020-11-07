@@ -1,0 +1,71 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: sigeq</title>
+</head>
+
+<body>
+
+<div class="functitle">sigeq</div>
+
+<!-- ====================================================== -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+Thermal equilibrium density matrix.
+</p>
+
+<pre class="mlsyntax">
+sigma = sigeq(Ham,Temp)
+sigma = sigeq(Ham,Temp,'pol')
+</pre>
+
+<!-- ====================================================== -->
+<div class="subtitle">Description</div>
+
+<p>
+This function calculates the thermal equilibrium density matrix for
+the system described by the Hamiltonian <code>Ham</code> (in units of MHz) for
+the temperature <code>Temp</code> (in units of K).</p>
+
+<p>
+If <code>'pol'</code> is given as a third argument, only the polarisation
+part of the thermal equilibrium density matrix is returned.
+</p>
+
+<p>
+The returned density matrix <code>sigma</code> is in the same basis as
+<code>Ham</code>.
+</p>
+
+<!-- ====================================================== -->
+<div class="subtitle">Algorithm</div>
+
+<p>
+This is a straightforward implementation of
+</p>
+
+<pre class="eqn">
+<img src="eqn/sigeq1.png" alt="[eqn]"><!--MATH
+\begin{equation*}
+\Op{\sigma} =
+\frac
+{\exp\left(-h\Op{H}/k_\mr{B}T\right)}
+{\mr{tr}\left[\exp\left(-h\Op{H}/k_\mr{B}T\right)\right]}
+\end{equation*}
+-->
+</pre>
+
+<!-- ====================================================== -->
+<div class="subtitle">See also</div>
+
+<p>
+<a class="esf" href="sham.html">sham</a>
+</p>
+
+<hr>
+</body>
+</html>

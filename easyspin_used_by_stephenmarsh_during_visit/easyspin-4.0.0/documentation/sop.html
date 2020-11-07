@@ -1,0 +1,149 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: sop</title>
+</head>
+
+<body>
+
+<div class="functitle">sop</div>
+
+<!-- ============================================================= -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+Matrix representations of spin operators.
+</p>
+
+<pre class="mlsyntax">
+S = sop(SpinSystem,Comps)
+[S1,S2,...] = sop(SpinSystem,Comps1,Comps2,...)
+... = sop(...,'sparse');
+</pre>
+
+<!-- ============================================================= -->
+<div class="subtitle">Description</div>
+
+<!--
+\newcommand{\op}[1]{\hat{#1}}
+\newcommand{\Iop}[1]{\op{I}_\mr{#1}}
+\newcommand{\opelm}[3]{\langle #1\rvert#2\lvert#3\rangle}
+\newcommand{\Ix}{\Iop{x}}
+\newcommand{\Iy}{\Iop{y}}
+\newcommand{\Iz}{\Iop{z}}
+\newcommand{\Ip}{\Iop{+}}
+\renewcommand{\Im}{\Iop{-}}
+\newcommand{\ci}{\mr{i}}
+-->
+<p>
+<code>sop</code>
+returns the matrix representation of <a href="spinoperators.html">spin operators</a>.
+The representation is in the product basis
+|m<sub>I1</sub>,m<sub>I2</sub>,m<sub>I3</sub>,..&gt;.
+with the basis functions in descending m<sub>I</sub> order, left to right.
+E.g. for a system with one electron-1/2 and one nucleus with spin 1
+the states are in the following order: |1/2,+1&gt;, |1/2,0&gt;, |1/2,-1&gt;,
+|-1/2,+1&gt;, |-1/2,0&gt;, |-1/2,-1&gt;.
+</p>
+
+<p>
+<code>SpinSystem</code> is a vector containing the spin
+quantum numbers or, alternatively, a <a href="spinsystem.html">spin system structure</a>. <code>Comps</code> is a string specifying one
+operator component for each spin in <code>SpinSystem</code>.
+Elements of <code>Comps</code> can be <code>'e'</code> (identity),
+<code>'x'</code> (I<sub>x</sub>), <code>'y'</code>
+(I<sub>y</sub>), <code>'z'</code> (I<sub>z</sub>),
+<code>'+'</code> (I<sub>+</sub>) or <code>'-'</code> (I<sub>-</sub>).
+The order in <code>Comps</code> corresponds to the order in 
+<code>SpinSystem</code>.
+E.g. for a 3-spin system <code>Comps = 'ye-'</code> yields
+<img src="eqn/sop1.png" alt="[eqn]"><!--MATH $\Iy^{(1)}\Im^{(3)}$ -->.
+</p>
+
+<p>
+More than one component string can be specified, in which case <code>sop</code>
+computes all operators at once. Of course, there must be a corresponding number of
+output arguments.
+</p>
+
+<p>
+If <code>'sparse'</code> is given as last argument, spin operator
+matrices are returned in sparse instead of full form.
+</p>
+
+<!-- ============================================================= -->
+<div class="subtitle">Examples</div>
+
+<pre class="mlexample">
+Splus = sop(1/2,'+')
+</pre>
+<pre class="mloutput">
+Splus =
+     0     1
+     0     0
+</pre>
+<pre class="mlexample">
+SzIx = sop([1/2 1/2],'zx')
+</pre>
+<pre class="mloutput">
+SzIx =
+         0    0.2500         0         0
+    0.2500         0         0         0
+         0         0         0   -0.2500
+         0         0   -0.2500         0
+</pre>
+
+<p>
+To compute multiple operators with one call, use for example
+</p>
+<pre class="mlexample">
+[Sx,Sy,Sz] = sop(1,'x','y','z');
+</pre>
+<pre class="mloutput">
+Sx =
+         0    0.7071         0
+    0.7071         0    0.7071
+         0    0.7071         0
+Sy =
+        0                  0 - 0.7071i        0
+        0 + 0.7071i        0                  0 - 0.7071i
+        0                  0 + 0.7071i        0
+Sz =
+     1     0     0
+     0     0     0
+     0     0    -1
+</pre>
+
+<p>
+Instead of the spin quantum numbers, a spin system structure can
+be provided.</p>
+
+<pre class="mlexample">
+System.S = 1;
+System.g = 2;
+System.D = [1000 0];
+sop(System,'-')
+</pre>
+<pre class="mloutput">
+ans =
+         0         0         0
+    1.4142         0         0
+         0    1.4142         0
+</pre>
+
+<!-- ============================================================= -->
+<div class="subtitle">See also</div>
+
+<p>
+<a href="spinoperators.html">spin operators</a>,
+<a href="spinsystem.html">spin system</a>,
+<a class="esf" href="spinvec.html">spinvec</a>,
+<a class="esf" href="stev.html">stev</a>
+</p>
+
+<hr>
+</body>
+</html>

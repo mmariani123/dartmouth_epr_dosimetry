@@ -1,0 +1,437 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: salt</title>
+</head>
+
+<body>
+
+<div class="functitle">salt</div>
+
+<div class="subtitle">Synopsis</div>
+
+<p>
+Calculation of powder and single-crystal ENDOR spectra.
+
+<p>
+<pre class="mlsyntax">
+salt(Sys,Exp)
+salt(Sys,Exp,Opt)
+spec = salt(...)
+[rf,spec] = salt(...)
+[rf,spec,trans] = salt(...)
+</pre>
+
+<!-- ====================================================== -->
+<div class="subtitle">Description</div>
+
+<p>
+This function calculates powder and single-crystal ENDOR spectra. Its calling syntax
+is identical to that of <a class="esf" href="pepper.html">pepper</a>, many of its options
+are equal to those of <a class="esf" href="endorfrq.html">endorfrq</a>, which is used by
+<code>salt</code> to compute line positions and amplitudes.
+</p>
+
+<p>
+There are up to three output arguments
+</p>
+
+<ul>
+<li>If no output arguments are requested, <code>salt</code> plots the simulated spectrum.
+<li>
+<code>rf</code> is the vector of radiofrequency values in MHz over which the
+spectrum was calculated.
+<li>
+<code>spec</code> is a vector or a matrix containing
+the ENDOR spectrum or spectra.
+If <code>spec</code> is a matrix, the subspectra (various
+transitions or various orientations) are along rows.
+<li>
+<code>trans</code> is a list of level number
+pairs indicating the transitions which where included in the spectrum
+calculations. Level numbers refer to the energy levels of the
+Hamiltonian in ascending energy order, so level 1 has lowest
+energy and so on.
+</ul>
+
+<p>
+The three input arguments to the function are
+
+<ul>
+<li><code>Sys</code>: spin system (paramagnetic molecule)</li>
+<li><code>Exp</code>: experimental parameters</li>
+<li><code>Opt</code>: simulation options</li>
+</ul>
+
+<p>
+<code>Sys</code> is a <a href="spinsystem.html">spin system structure</a>.
+Fields available in <code>Sys</code> include all needed
+for the construction of a Hamiltonian and the ENDOR <a href="broadenings.html">line width parameter</a>
+<code>lwEndor</code>. If <code>lwEndor</code> is not given, it is assumed to be zero,
+and stick spectra are returned. The field <code>HStrain</code> is included in
+excitation window computations (see <code>Exp.ExciteWidth</code>).
+
+<p>
+For simulating a multi-component mixture, <code>Sys</code> should be a cell array of spin systems,
+e.g. <code>{Sys1,Sys2}</code> for a two-component mixture. Each of the component spin systems should
+have a field <code>weight</code> that specifies the weight of the corresponding component in the final
+spectrum.
+</p>
+
+
+<p>
+<code>Exp</code> contains experimental parameters such as the microwave
+frequency, the magnetic field range and temperature. Here is a full
+list of its fields.
+
+
+<table class="optionlist" border="1">
+
+<tr><td><code>Field</code></td><td>
+Magnetic field (in mT) at which the experiment is performed.
+</td></tr>
+
+<tr><td><code>Range</code></td><td>
+Two-element array with lower and upper limit of the rf frequency
+range <code>[rfmin rfmax]</code>. The values are in MHz. Example:
+<code>Exp.Range = [1 30]</code>.
+<p>If omitted, EasySpin tries
+to determine the frequency range automatically.
+</td></tr>
+
+<tr><td><code>CenterSweep</code></td><td>
+Two-element array with center and sweep width of the rf frequency
+range <code>[rfcenter rfwidth]</code>. The values are in MHz. Example:
+<code>Exp.CenterSweep = [51 10]</code>.
+<p>If omitted, EasySpin tries
+to determine the frequency range automatically.
+</td></tr>
+
+<tr><td><code>nPoints</code></td><td>
+Number of points on the rf frequency axis. If not given, EasySpin sets this to 1024.
+</td></tr>
+
+<tr><td><code>mwFreq</code></td><td>
+EPR spectrometer frequency in GHz. Only needed for orientation selection,
+i.e. when <code>ExciteWidth</code> is given.
+</td></tr>
+
+<tr><td><code>ExciteWidth</code></td><td>
+The excitation width of the microwave in MHz (responsible
+for orientation selection). The excitation profile is assumed to be
+Gaussian, and <code>ExciteWidth</code> is its FWHM. The default is infinity.
+To obtain the full excitation with for a given orientation, <code>ExciteWidth</code>
+is combined with <code>HStrain</code> from the spin system structure.
+</td></tr>
+
+<tr><td><code>Temperature</code></td><td>
+Temperature at which the experiment is performed, in K. If omitted (or set
+to <code>inf</code>), no temperature effects are computed.
+</td></tr>
+
+<tr><td><code>Orientations</code></td><td>
+3xN array of real<br>
+Specifies single-crystal orientations for which the ENDOR spectrum
+should be computed. Each column of <code>Orientation</code>
+contains the three Euler rotation angles <code>[phi;theta;chi]</code> of the
+magnetic field in a molecule fixed frame. If <code>Orientation</code> is empty
+or not specified, the full powder spectrum is computed.
+<pre class="mlexample">
+Exp.Orientations = [0;0;0];              % crystal with z axis aligned with B0
+Exp.Orientations = [0;pi/2;0];           % crystal with z axis perpendicular to B0
+Exp.Orientations = [0 0 0;0 pi/2 0].';   % two orientations
+Exp.Orientations = [];                   % powder
+</pre>
+</td></tr>
+
+
+<tr><td><code>CrystalSymmetry</code></td><td>
+<p>
+Specifies the symmetry of the crystal, if single-crystal spectra to be simulated
+(that is, if <code>Exp.Orientations</code> is specified). The crystal symmetry can
+be either the number of the space group (between 1 and 230), the symbol of the
+space group or the symbol of the associated point group.</p>
+
+<pre class="mlexample">
+Exp.CrystalSymmetry = 11;      % space group number (between 1 and 230)
+Exp.CrystalSymmetry = 'P21/m'; % space group symbol
+Exp.CrystalSymmetry = 'C2h';   % point group, Sch&ouml;nflies notation
+Exp.CrystalSymmetry = '2/m';   % point group, Hermann-Mauguin notation
+</pre>
+
+<p>
+When <code>CrystalSymmetry</code> is given, <code>salt</code> automatically computes
+the spectra of all symmetry-related sites in the crystal. If <code>CrystalSymmetry</code>
+is not given, <code>salt</code> assumes space group 1 (P1, point group C1), which has
+only one site per unit cell.
+</p>
+</td></tr>
+
+<tr><td><code>Ordering</code></td><td>
+<em>scalar</em> (default: zero) or <em>function handle</em><br>
+<p>
+If a number is given in this field, it specifies the orientational distribution
+of the paramagnetic molecules in the sample.
+
+<p>If not given or set to zero,
+the distribution is isotropic, i.e. all orientations occur with the same
+probability. If it is given, the orientational distribution is non-isotropic
+and computed according to the formula P(&theta;) = exp(&lambda;(3 cos<sup>2</sup>&theta; - 1)/2),
+where &theta; is the angle between the molecular z axis and the static magnetic field, and
+&lambda; is the number specified in <code>Exp.Ordering</code>.
+
+<p>
+Typical values for &lambda; are between about -20 and +20. For negative values, the orientational
+distribution function is maximum at &theta; = 90&deg;, for positive values at &theta; = 0&deg; and &theta; = 180&deg;. The larger the magnitude of &lambda;, the sharper the
+distributions.
+
+<p>
+To plot a distribution depending on &lambda;, use
+
+<pre class="mlexample">
+lambda = 5;
+theta = linspace(0,pi,1001);
+p = exp(lambda*plegendre(2,0,cos(theta)));
+plot(theta*180/pi,p);
+</pre>
+
+<p>
+If <code>Exp.Ordering</code> is a function handle, <code>pepper</code> will use the user-supplied
+function to obtain the orientational distribution. It calls the function with two vector arguments, <code>phi</code>
+and <code>theta</code> (in radians). The function must return a vector <code>P</code> containing probabilities for each
+orientation, that is <code>P(k)</code> is the probability of finding the paramagnetic molecules with orientation
+specified by <code>phi(k)</code> and <code>theta(k)</code>. Here is an example with an anonymous function:
+</p>
+
+<pre class="mlexample">
+Exp.Ordering = @(phi,theta) gaussian(theta,0,15/180*pi);
+</pre>
+
+<p>
+Of course, the function can also be written and stored in a separate file, e.g. <code>myori.m</code>. Then use <code>Exp.Ordering = @myori</code>.
+</p>
+
+<p>
+When using a custom orientational distribution, make sure that the symmetry used in the simulation corresponds to the
+symmetry of the distribution. If the distribution is very narrow, increase the number of knots in the options structure.
+</p>
+
+</td></tr>
+
+</table>
+
+<p>
+There are defaults for all fields except <code>Range</code> and
+<code>Field</code>, which have to be specified when invoking <code>salt</code>.
+
+<p>
+The structure <code>Opt</code> collects a number of parameters allowing to
+tune speed and accuracy of the simulation. <code>Opt</code> is optional, if it is
+omitted, pre-set values for the parameters are used. The field names and their
+possible values are
+
+<table class="optionlist" border="1">
+<tr><td><code>Method</code></td><td>
+<code>'matrix'</code> (default) or <code>'perturb1'</code> or <code>'perturb2'</code><br>
+Specifies the algorithm used for the ENDOR simulation. By default, matrix
+diagonalization is used. This is an exact algorithm, but becomes slow when
+many nuclei are present. In such cases, large speed-ups at the cost of small
+losses in accuracy are possible using <code>'perturb1'</code>, first-order
+perturbation theory, or <code>'perturb2'</code>, second-order perturbation theory.
+Perturbation theory does not work for electron spins with S>1/2. It is accurate
+only if the hyperfine coupling is much smaller than the microwave frequency, and
+the nuclear quadrupole interaction is much smaller than both the hyperfine and
+the nuclear Zeeman interaction.
+<pre class="mlexample">
+Opt.Method = 'perturb1';    % first-order perturbation theory
+Opt.Method = 'matrix';      % matrix diagonalization
+</pre>
+</td></tr>
+<tr><td><code>Nuclei</code></td><td>
+List of nuclei to include in the computation. <code>Nuclei</code> is a list
+of indices selecting those nuclei for which ENDOR peaks should be computed. 1
+is the first nucleus, etc. E.g. the following specifies ENDOR of only the protons
+only in a copper complex.
+<pre class="mlexample">
+Sys.Nucs = '63Cu,1H,1H';
+Opt.Nuclei = [2 3];      % only protons
+</pre>
+By default, all nuclei are included in the simulation.
+</td></tr>
+
+<tr><td><code>Verbosity</code></td><td>
+Determines how much information <code>salt</code> prints to the screen.
+If <code>Opt.Verbosity=0</code>, <code>salt</code> is completely silent. 1 logs relevant information,
+2 gives more details.
+</td></tr>
+
+<tr><td><code>nKnots</code></td><td>
+<code>[N1]</code> or <code>[N1 N2]</code>
+<br>
+Determines the number of orientations (knots) in a powder simulation for which
+spectra are calculated.
+
+<ul>
+<li>
+<code>N1</code> gives the number of orientations between &theta;=0° and &theta;=90°
+for which spectra are explicitely calculated using the physical theory.
+Common values for <code>N1</code> are between 10 (10° increments) and 91 (1° increments).
+The larger the anisotropy of the spectrum and the narrower the linewidth, the higher
+<code>N1</code> must be to yield smooth powder spectra.
+
+<li><code>N2</code> is the refinement factor for the interpolation of the orientational
+grid. E.g. if <code>N2=4</code>, then between each pair of computed orientations
+three additional orientations are calculated by spline interpolation. Values higher than 10
+are rarely necessary. If <code>N2</code> is not given, a default value is used.
+</ul>
+
+<pre class="mlexample">
+Opt.nKnots = 91;       % 1° increments, no interpolation
+Opt.nKnots = [46 0];   % 2° increments, no interpolation
+Opt.nKnots = [31 6];   % 3° increments, 6-fold interpolation (giving 0.5° increments)
+</pre>
+</td></tr>
+
+
+
+<tr><td><code>Symmetry</code></td><td>
+<code>'auto'</code> (default), <code>'Dinfh'</code>, <code>'D2h'</code>,
+<code>'C2h'</code> or <code>'Ci'</code>
+<br>
+Determines the symmetry used for the powder simulation. Based on this
+the set of orientations for which spectra are computed is chosen.
+<code>'Dinfh'</code> corresponds to a line from &theta;=0° to &theta=90° (with
+&phi;=0°), <code>'D2h'</code> to one octant, <code>'C2h'</code> to two octants,
+and <code>'Ci'</code> to one hemisphere (four octants).
+<code>auto</code> is the default,
+meaning that <code>pepper</code> determines the correct symmetry
+automatically from the given spin system. With any other setting, <code>pepper</code> is forced into
+using the specified symmetry, even if it is incorrect for the spin system.
+See also <a class="esf" href="symm.html">symm</a>.
+</td></tr>
+
+<tr><td><code>Output</code></td><td>
+<code>'summed'</code> (default) or <code>'separate'</code><br>
+Determines in what form the spectrum is returned. For powder spectra,
+<code>'separate'</code> causes <code>salt</code> to return the spectra
+for different transitions separately in <code>spec(k,:)</code>. For
+single-crystal spectra, <code>'separate'</code> causes
+<code>salt</code> to return the spectra for different orientations
+(see <code>Exp.Orientations</code>)
+separately. <code>'summed'</code> means that only one total
+spectrum is returned.
+</td></tr>
+
+<tr><td><code>ThetaRange</code></td><td>
+<em>2-element vector</em> (default: not given)<br>
+This option allows <code>salt</code> to be used similar to older powder
+ENDOR spectrum computation programs. There it was possible to include
+effects of orientation selection and limited excitation bandwidths by
+manually specifying the range of orientations to be included in the
+"powder" spectrum. <code>ThetaRange</code> specifies the lower and
+upper limit of &theta; (angle between the z axis of the molecular frame
+and the external static magnetic field) for the orientations in the powder
+simulation. So if <code>ThetaRange = [10 20]*180/pi</code>,
+ only orientations in the segment with &theta; between
+10&deg; and 20&deg; are included in the spectrum.
+<br>
+If <code>Opt.Symmetry</code> is not explicitely given, it is set to <code>'Ci'</code>.
+<code>Opt.ThetaRange</code> cannot be used together with <code>Exp.Ordering</code> or 
+<code>Exp.Orientations</code>.
+</td></tr>
+
+</table>
+
+<p>
+The following options are only available for matrix diagonalization (<code>Opt.Method='matrix'</code>),
+but not for perturbation theory (<code>Opt.Method='perturb1'</code> or <code>'perturb2'</code>).
+
+<table class="optionlist"  border="1">
+<tr><td><code>Transitions</code></td><td>
+Determine manually the level pairs (transitions) which are used in
+the spectrum calculation. If given, <code>salt</code> uses them and skips its
+automatic transition selection scheme. Level pairs are specified in
+<code>Transitions(k,:)</code> by the level numbers which start with 1 for the
+lowest-energy level.
+<pre class="mlexample">
+Opt.Transitions = [1 2];      % transition between levels 1 and 2
+Opt.Transitions = [1 2; 5 6]; % 2 transitions, 1<->2 and 5<->6
+</pre>
+</td></tr>
+<tr><td><code>Enhancement</code></td><td>
+<code>'off'</code> (default) or <code>'on'</code><br>
+Switches hyperfine enhancement in the intensity computation on or off.
+See the same option in <a class="esf" href="endorfrq.html">endorfrq</a>.
+</td></tr>
+<tr><td><code>Intensity</code></td><td>
+<code>'on'</code> (default) or <code>'off'</code><br>
+Switches all intensity computations on or off. Intensity computations include
+the quantum-mechanical transition probability, the orientation selectivity and
+the Boltzmann factor.
+</td></tr>
+<tr><td><code>Threshold</code></td><td>
+Specifies the threshold for <code>salt</code>'s transition selection scheme.
+Any transition with a relative average amplitude less that
+<code>Threshold</code> is not included in the calculation. The relative
+average amplitude of the strongest transition is 1.
+</td></tr>
+<tr><td><code>OriPreSelect</code></td><td>
+0 or 1 (default)<br>
+Specifies whether <code>salt</code> uses automatic orientational pre-selection
+to speed-up simulations. This speed-up is most noticeable for large spin
+systems and field/frequency settings that lead to single-crystal like spectra.
+</td></tr>
+</table>
+
+
+
+<div class="subtitle">Algorithms</div>
+
+<p><code>salt</code> computes line positions and intensities for a set of
+orientations using either matrix diagonalization or perturbation theory.
+
+<p>
+The matrix diagonalization approach used in <code>salt</code> is identical to that
+of <code>pepper</code>, with the obvious exception of the calculation of line intensities,
+which is similar to that used in MAGRES (Keijzers et al, J.Chem.Soc. Faraday Trans. 1 83,
+3493-3503, 1984).
+
+<p>
+First- and second-order perturbation theory is based on expressions by Iwasaki (J.Magn.Reson. 16,
+417-423, 1974). It includes pseudosecular contributions. No transition moments are computed,
+that is, the intensities of all resonances are equal. Currently, the perturbation-theory
+algorithm is limited to systems with one electron spin S=1/2 (but an arbitrary number of
+nuclei with arbitrary spins).
+
+<p>
+For powder simulations, <code>salt</code> uses the same methods as <code>pepper</code>,
+orientational interpolation and interpolative projection, to construct the powder spectrum.
+
+<div class="subtitle">Examples</div>
+
+<p>
+A full simulation of the powder ENDOR spectrum of a radical with a proton is
+
+<pre class="mlexample">
+Sys.g = 2;
+Sys.Nucs = '1H';
+Sys.A = [-2 1 4];
+Sys.lwEndor = 0.1;
+Exp.Range = [8 18];
+Exp.Field = 308.46;
+salt(Sys,Exp);
+</pre>
+
+<div class="subtitle">See also</div>
+<p>
+<a class="esf" href="eigfields.html">eigfields</a>,
+<a class="esf" href="endorfrq.html">endorfrq</a>,
+<a class="esf" href="pepper.html">pepper</a>,
+<a class="esf" href="resfields.html">resfields</a>
+
+<hr>
+</body>
+</html>

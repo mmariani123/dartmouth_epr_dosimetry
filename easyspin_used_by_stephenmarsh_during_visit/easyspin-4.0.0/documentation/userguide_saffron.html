@@ -1,0 +1,475 @@
+<!DOCTYPE html public "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: Simulating pulse EPR spectra</title>
+</head>
+
+<body>
+
+<div class="functitle">Simulating pulse ERP spectra</div>
+
+
+<!-- ============================================================= -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+This user guide explains how to simulate solid-state pulse EPR spectra (ESEEM and ENDOR) of powders 
+or single crystals using EasySpin's pulse EPR simulation function <a class="esf" href="saffron.html">saffron</a>.
+You should be familiar with the simulation solid-state cw EPR spectra using <a class="esf" href="pepper.html">pepper</a>
+(see the corresponding <a href="userguide_pepper.html">user guide</a>).
+</p>
+
+<p>
+As you read on, you will learn about the following topics:
+
+<ul>
+<li><a href = "#calling">Invoking the simulation function <code>salt</code></a></li>
+<li><a href = "#spinsys">Spin system</a></li>
+<li><a href = "#broadenings">Broadenings</a></li>
+<li><a href = "#expparams">Experimental settings</a></li>
+<li><a href = "#predefinedsequences">Predefined pulse sequence</a></li>
+<li><a href = "#customsequences">Custom pulse sequence</a></li>
+<li><a href = "#moreexpparams">Orientation selection</a></li>
+<li><a href = "#crystals">Powders and crystals</a></li>
+<li><a href = "#options">Simulation options</a></li>
+<li><a href = "#options">Simulation speed-ups</a></li>
+</ul>
+
+<!-- ============================================================= -->
+<div class="subtitle"><a name="calling">Invoking the simulation function saffron</a></div>
+
+<p>
+Solid-state pulse EPR spectra of powders and single crystals are computed
+by the EasySpin function <a class="esf" href="saffron.html">saffron</a>.
+It can be called with two or three parameters. For example,
+</p>
+
+<pre class="mlexample">
+saffron(Sys,Exp);                       % plots the spectrum
+[frq,spec] = saffron(Sys,Exp);          % returns the frequency axis and the spectrum
+[frq,spec] = salt(Sys,Exp,Opt);      % provide additional simulation options in Opt
+</pre>
+
+<p>
+The first argument <code>Sys</code> tells <code>salt</code> all about the
+<a href="spinsystem.html">spin system</a>, and the second argument <code>Exp</code>
+gives the experimental parameters. The third, optional, argument <code>Opt</code> 
+contains settings for the simulation itself.
+</p>
+
+<p>
+The outputs <code>frq</code> and <code>spec</code> are arrays containing the frequency values (in MHz)
+and the spectrum, respectively. If no output is requested, <code>salt</code> plots the spectrum.
+</p>
+
+<p>
+Setting up a simulation and running it takes only a few lines of code. A simple example is
+</p>
+
+<pre class="mlexample">
+Sys.g = 2; Sys.Nucs = '1H'; Sys.A = [-1 2]*3+1; Sys.lwEndor = 0.1;
+Exp.mwFreq = 9.8; Exp.Field = 350.1; Exp.Range = [0 30];
+salt(Sys,Exp);
+</pre>
+
+<p>
+This simulates and plots the powder <sup>1</sup>H ENDOR spectrum of a system with an unpaired electron and a proton.
+Copy and paste the code above to your MATLAB command window to see the graph.
+</p>
+
+<!-- ============================================================= -->
+<div class="subtitle"><a name="spinsys">The spin system</a></div>
+
+<p>
+The first input argument to <code>salt</code> is a structure specifying
+the <a href="spinsystem.html">spin system</a>.
+It contains fields for the electron spin(s), the nuclear spins,
+and the various interaction matrices like g and hyperfine tensors.
+</p>
+
+<p>
+The fields in this structure are the same as used for cw EPR simulations with
+<code>pepper</code>. See the <a href="tutorial_pepper.html">tutorial</a>
+for <code>pepper</code> for an introduction. Details about all the spin Hamiltonian
+parameters can be found on the <a href="hamiltonian.html">spin Hamiltonian reference page</a>.
+It is also possible to include several electron spins. Refer to the
+page about <a href="spinsystem.html">spin system structures</a> for details.
+</p>
+
+<!-- ============================================================= -->
+<div class="subtitle"><a name="broadenings">Broadenings</a></div>
+
+<p>
+The broadening for the ENDOR spectrum should be given in <code>Sys.lwEndor</code>. It contains
+the convolutional Gaussian and Lorentzian broadenings for the ENDOR spectrum. 
+
+<pre class="mlexample">
+Sys.lwEndor = 0.1;        % Gaussian broadening with FWHM of 0.1 MHz
+Sys.lwEndor = [0 0.2];    % Lorentzian broadening with FWHM of 0.2 MHz
+Sys.lwEndor = [0.1 0.2];  % both broadenings simultaneously
+</pre>
+
+<p>
+The only EPR line broadening used in an ENDOR simulation is <code>HStrain</code>: it co-determines
+the effective excitation width.
+Strain broadenings (<code>gStrain</code>, <code>AStrain</code> and <code>DStrain</code>) as well as
+convolutional broadenings of the EPR spectrum (<code>lw</code> and <code>lwpp</code>) are ignored.
+</p>
+
+<!-- ============================================================= -->
+<div class="subtitle"><a name="expparams">Basic experimental settings</a></div>
+
+<p>
+All experimental settings are given in the second input argument <code>Exp</code>,
+a structure with several fields very similar to those for <code>pepper</code>.
+</p>
+
+<p>
+The most important parameter for an ENDOR simulation is the magnetic field. It is
+given in <code>Exp.Field</code>, in the usual units of mT (millitesla):
+
+<pre class="mlexample">
+Exp.Field = 350;    % ENDOR at a field of 350 mT
+</pre>
+
+<p>
+The spectrometer frequency is given in the field <code>mwFreq</code> in units of GHz (gigahertz). 
+</p>
+
+<pre class="mlexample">
+Exp.mwFreq = 9.612;     % in GHz
+</pre>
+
+<p>
+The sweep range of the radiofrequency, in MHz, is taken from the field <code>Range</code>
+(which is used by <code>pepper</code> for the <em>magnetic field</em> range).
+
+<pre class="mlexample">
+Exp.Range = [0 30];   % rf sweep range, in MHz
+</pre>
+
+<p>
+By default, <code>salt</code> computes a 1024-point spectrum. However, the number of
+points can be changed manually to a different value, e.g.,
+</p>
+
+<pre class="mlexample">
+Exp.nPoints = 5001;
+</pre>
+
+<p>
+By default, <code>salt</code> computes the absorption spectrum. By changing <code>Exp.Harmonic</code>, the first-harmonic
+(first-derivative) or the second-harmonic (second derivative) of it can be requested.
+</p>
+
+<pre class="mlexample">
+Exp.Harmonic = 0; % absorption spectrum (default)
+Exp.Harmonic = 1; % first harmonic
+Exp.Harmonic = 2; % second harmonic
+</pre>
+
+
+<p>
+The polarizing effects of low sample temperatures can also be included in the
+simulation by specifying the temperature:
+</p>
+
+<pre class="mlexample">
+Exp.Temperature = 4.2; % temperature in Kelvin
+</pre>
+
+<p>
+With this setting, <code>pepper</code> will include the relevant polarization
+factors resulting from a thermal equilibrium population of the energy levels.
+However, there are only very few situations where temperature effects are
+visible in ENDOR spectra.
+</p>
+
+<p>
+There is one more experimental parameter for an ENDOR simulation: the excitation
+width, given in <code>Exp.ExciteWidth</code>. It determines the orientational
+selectivity of the ENDOR experiment. It is so important that we dedicate the
+next section to it.
+
+<!-- ============================================================= -->
+<div class="subtitle"><a name="customsequences">Custom pulse sequences</a></div>
+
+<p>
+<code>saffron</code> does not limit you to the few pre-defined pulse sequences. With a few
+simple input lines, you can specify any custom 1D or 2D pulse sequence and simulate the corresponding time traces
+and spectra.
+
+<p>
+For defining a new pulse experiment, several fields have to be given in <code>Exp</code>, and
+several others are optional. The most important fields are
+
+<ul>
+<li><code>Exp.Flip</code>: pulse flip angles, in multiples of 90°
+<li><code>Exp.Inc</code>: incrementation dimension and direction
+<li><code>Exp.t</code>: initial delays, in microseconds
+</ul>
+
+<p>
+More advanced fields are
+<ul>
+<li><code>Exp.Phase</code>: pulse phases, in multiples of 90°
+<li><code>Exp.tp</code>: pulse lengths, in microseconds
+<li><code>Exp.Filter</code>: coherence filter, for phase cycling
+</ul>
+
+Let us look at a simple example, the two-pulse ESEEM experiment. It is defined by
+
+<pre class="mlexample">
+Exp.Flip = [1 2];     % 90°, 180°
+Exp.Inc = [1 1];      % increment both delays along the first dimension
+Exp.t = [1 1]*0.100;  % starting tau value
+</pre>
+
+There are two pulses, so <code>Exp.Flip</code> has two entries, one for each pulse, specifying the flip angle in multiples of 90°.
+The first pulse is a 90° pulse, and the second pulse is a 180° pulse. Next, in <code>Exp.Inc</code> there is one entry for each
+delay between pulses
+
+Another example is HYSCORE, which is simply defined as
+
+<pre class="mlexample">
+tau = 0.100; t0 = 0.080;
+Exp.Flip = [1 1 2 1];     % 90°, 90°, 180°, 90°
+Exp.Inc = [0 1 2 0];      % increment 2nd delay along 1st dimension, and 3rd delay along 2nd dimension
+Exp.t = [tau t0 t0 tau];  % tau value and start times for the incremented delays
+</pre>
+
+All pulses are assumed to have y phase, so that the echo occurs along x or -x, for any pulse sequence. But if needed, you can set the phase
+of each pulse manually in the field <code>Exp.Phase</code>, again in multiples of 90°. x corresponds to 0°, y to 90°, -x to 180° and -y to 270°.
+
+<pre class="mlexample">
+Exp.Phase = [1 1 0]; % pulses with phases y, y, and x
+</pre>
+
+
+<!-- ============================================================= -->
+<div class="subtitle"><a name="oriselect">Orientation selection</a></div>
+
+<p>
+In a pulse EPR experiment of a disordered system, not all paramagnetic centers are excited.
+Only those that resonate at the given magnetic field <em>and</em> microwave frequency
+can give an ENDOR signal. Spins that are slightly off-resonant contribute less, and spins
+far off-resonant cannot give an ENDOR signal at all. If the EPR resonance frequency is orientation
+dependent, this means that only electron spins with certain orientations are excited - hence the
+term "orientation selection". The range of frequencies over which electron spins are excited is
+called the "excitation window". It is centered around the microwave frequency.
+
+<p>
+The bandwidth of excitation, i.e. the width of the excitation window and consequently what fraction
+of all spins participates in the pulse experiment, is determined by the length of the first pulse.
+
+<p>
+There are two ways to include this orientation selection in your simulations, one for ideal pulses and one
+for real pulses.
+
+<p>
+Let's look at the case of ideal pulses first, which is simpler. If you don't specify <code>Exp.tp</code>
+pulses are assumed infinitely short and strong and theoretically excite all spins, no matter how far
+off-resonant they are. To correct for the fact that the pulses are actually finite in length and that
+not all spins are excited, a simple Gaussian excitation window centered around the microwave frequency
+is assumed. You can specify its FWHM width (the excitation bandwidth) in <code>Exp.ExciteWidth</code>,
+in units of MHz. Values between 10 and 250 MHz are common. The smaller this value, the stronger the orientation
+selection, and the sharper the lines in the resulting spectra. The excitation bandwidth can be estimated
+from the length of the first pulse, t<sub>p</sub>, by 2/t<sub>p</sub>. For a 20ns pulse, set <code>Exp.ExciteWidth</code>
+to about 100 MHz.
+
+<pre class="mlexample">
+Exp.ExciteWidth = 100;   % in MHz, approx. corresponds to a 20 ns first pulse
+</pre>
+
+<p>
+If <code>Exp.ExciteWidth</code> is not given, it is assumed infiniite, that is, all the spins are excited.
+This is rather unrealistic, but often useful when exploring spectra resulting from different sets of hyperfine
+and quadrupole parameters.
+
+<p>
+To compute the total effective excitation width for the ENDOR experiment, EasySpin combines the
+width given in <code>Exp.ExciteWidth</code> with the width given in <code>Sys.HStrain</code>,
+which represents the EPR broadening. The larger <code>HStrain</code>, the larger the
+total excitation bandwidth.
+
+<pre class="mlexample">
+Sys.HStrain = [1 1 1]*200;
+Exp.ExciteWidth = 20;    % total excitation width in MHz: sqrt(200^2+20^2) = 201
+Exp.ExciteWidth = 50;    % total excitation width in MHz: sqrt(200^2+50^2) = 206
+Exp.ExciteWidth = 100;   % total excitation width in MHz: sqrt(200^2+100^2) = 224
+</pre>
+
+<p>
+As you can see, the total excitation width is rather insensitive to <code>ExciteWidth</code>,
+if <code>ExciteWidth</code> is much smaller than <code>HStrain</code>.
+
+
+<!-- ============================================================= -->
+<div class="subtitle"><a name="crystals">Powders and crystals</a></div>
+
+<p>
+If not specified otherwise, <code>salt</code> computes a powder spectrum. But
+it is as well straightforward to simulate spectra for a single crystal. The
+orientation (or orientations if more than one) of the single crystal can be provided in the
+experiment structure field <code>Exp.Orientations</code>. This field should
+contain the <a href="eulerangles.html">tilt angles</a> between molecular and laboratory frame 
+(right-handed coordinate system with z along the static
+field and x along the microwave magnetic field), one set of three angles per
+column.
+</p>
+
+<p>
+For a crystal with its molecular frame aligned with the laboratory frame, the setting is 
+</p>
+
+<pre class="mlexample">
+Exp.Orientations = [0;0;0];
+</pre>
+
+<p>
+If you need more than one crystal at the same time, then just specify more than one orientation.
+</p>
+
+<pre class="mlexample">
+Exp.Orientations = [0 0 0;0 pi/4 0].';
+</pre>
+
+<p>
+In many crystals, there are several symmetry-related sites with identical paramagnetic centers
+differing only in their orientation in the crystal. You can tell <code>salt</code> 
+about this by providing the crystal symmetry in the field <code>Exp.CrystalSymmetry</code>, e.g.
+</p>
+
+<pre class="mlexample">
+Exp.CrystalSymmetry = 'P21/m'; % space group symbol
+Exp.CrystalSymmetry = 11;      % space group number (between 1 and 230)
+Exp.CrystalSymmetry = 'C2h';   % point group, Sch&ouml;nflies notation
+Exp.CrystalSymmetry = '2/m';   % point group, Hermann-Mauguin notation
+</pre>
+
+<p>
+With the crystal symmetry given, <code>salt</code> not only computes the spectrum for the orientation
+given in <code>Exp.Orientations</code>, but also for all symmetry-related sites.
+</p>
+
+<!-- ============================================================= -->
+<div class="subtitle"><a name="options">Simulation options</a></div>
+
+<p>
+The third input argument to <code>salt</code> contains simulation options.
+All of them have reasonable default values, but occasionally it might be necessary
+to change one of them.
+</p>
+
+<p>
+If you want <code>salt</code> to print information about the simulation to
+the command window during the computation, use
+</p>
+
+<pre class="mlexample">
+Options = struct('Verbosity',1);
+</pre>
+
+<p>
+<code>'Verbosity'</code> specifies the logging level. 0 (the default)
+suppresses all output, 1 is normal logging, and 2 prints more information,
+relevant only for debugging.
+</p>
+
+<p>
+Another useful option is <code>nKnots</code>, which determines how many
+orientations <code>salt</code> will include in the simulation of a powder
+spectrum. If this value is too low, the spectrum shape contains ripples.
+<code>nKnots</code> is the number of orientations between the z axis and
+the x axis (between &theta; = 0 and &theta; = 90 degrees).
+</p>
+
+<pre class="mlexample">
+Options.nKnots = 31; % corresponds to 3-degree increments
+</pre>
+
+<p>
+The higher <code>nKnots</code>, the finer the orientational grid.
+The default value of 19 (5-degree increments) is appropriate for most systems.
+A value larger than 181 (0.5-degree increments) is rarely needed.
+</p>
+
+<p>
+After having computed the spectrum for a number of orientations specified
+by <code>nKnots</code>, the simulation function interpolates these spectra for
+additional orientations before summing up all spectra. This interpolative
+refinement can be configured with a second number in <code>nKnots</code>.
+<code>nKnots = [19 4]</code> means that <code>pepper</code> interpolates
+additional 4 spectra between two adjacent orientations evaluated.
+</p>
+
+<pre class="mlexample">
+Options.nKnots = [19 10];  % massive interpolation
+Options.nKnots = [19 0];   % no interpolation
+</pre>
+
+<p>
+The option <code>Output</code> can be used to determine the form in which
+<code>salt</code> returns the spectral data.
+</p>
+
+<pre class="mlexample">
+% single crystal: orientations separately
+% powders: transitions separately
+Options.Output = 'separate';
+
+% sum over all orientations and transitions
+Options.Output = 'summed';
+</pre>
+
+<p>
+There are more option fields available. For details, see the reference page
+on <a class="esf" href="salt.html">salt</a>.
+</p>
+
+<!-- ============================================================= -->
+<div class="subtitle"><a name="speedups">Simulation speed-ups</a></div>
+
+<p>
+By default, EasySpin uses matrix diagonalization for computing ENDOR spectra.
+Even though this is by far the most accurate way, it is also the slowest. This
+can be felt painfully when simulating ENDOR spectra of spin systems with a lot
+of nuclei. EasySpin offers several speed-up options to trade a little accuracy for a lot
+in performance gain.
+
+<p>
+One way to speed up an ENDOR simulation is to switch to first-order perturbation theory.
+
+<pre class="mlexample">
+Options.Method = 'perturb';   % first-order perturbation theory
+Options.Method = 'matrix';    % matrix diagonalization
+</pre>
+
+<p>
+If you have a few protons in an 1H ENDOR spectrum, perturbation theory is orders of
+magnitude faster than matrix diagonalization. Under most circumstances, the errors
+introduced are minimal. Perturbation theory does not work for all spin systems: it
+is limited to S=1/2 and spin-1/2 nuclei.
+
+<p>
+Another way to speed up simulations is useful when there is strong orientation selection,
+and only nuclei with small hyperfine couplings are observed in the ENDOR spectrum. <code>salt</code>
+can be told to pre-compute the orientation selection instead of computing it on the fly, using
+
+<pre class="mlexample">
+Options.OriPreSelect = 1; % use orientation pre-selection
+</pre>
+
+<p>
+This tells EasySpin to classify nuclei into whether they contribute to orientation selection (N1)
+or not (N2), then pre-compute orientation selection data only for those in group N1. Any orientation
+that is not noticeably excited is then skipped in the subsequent ENDOR simulation. This pre-selection
+is advantageous only if there are several nuclei that do <code>not</code> contribute to orientational
+selectivity.
+
+</body>
+
+</html>

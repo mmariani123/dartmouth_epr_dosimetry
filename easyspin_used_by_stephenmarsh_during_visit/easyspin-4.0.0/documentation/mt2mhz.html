@@ -1,0 +1,85 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: mt2mhz</title>
+</head>
+
+<body>
+
+<div class="functitle">mt2mhz</div>
+
+<!-- ============================================================= -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+Conversion from mT (Millitesla) to MHz (Megahertz).
+</p>
+
+<pre class="mlsyntax">
+nu = mt2mhz(B)
+nu = mt2mhz(B,g)
+</pre>
+
+<!-- ============================================================= -->
+<div class="subtitle">Description</div>
+
+<p>
+<code>mt2mhz</code> takes the magnetic field value of <code>B</code>,
+assumes that it is in units of mT (Millitesla), converts it to frequency
+in units of MHz (Megahertz) and returns the result in <code>nu</code>.
+</p>
+
+<p>
+<code>g</code> gives the g factor for the conversion. If it is omitted, the
+g factor of the free electron 2.0023... is used
+(see <a class="esf" href="gfree.html">gfree</a>).
+</p>
+
+<p>
+<code>B</code> can be a vector of values. In this case, <code>g</code>
+can be a scalar or a vector of the same size as <code>B</code>.
+</p>
+
+<!-- ============================================================= -->
+<div class="subtitle">Algorithm</div>
+
+<p>
+The conversion is based on the formula
+</p>
+
+<img src="eqn/mt2mhz1.png" alt="[eqn]"><!--MATH
+\begin{equation}
+\nu/\mr{MHz} =
+10^{-9} \frac{g\mu_\mr{B}}{h} B/\mr{mT}
+\end{equation}
+-->
+
+<!-- ============================================================= -->
+<div class="subtitle">Examples</div>
+
+<p>
+An electron spin with a g factor of 2.1 in a magnetic field of 350 mT
+has a resonance frequency of about 10.3 GHz.
+</p>
+
+<pre class="mlexample">
+nu = mt2mhz(350,2.1)/1e3
+</pre>
+<pre class="mloutput">
+nu =
+   10.2872
+</pre>
+
+<!-- ============================================================= -->
+<div class="subtitle">See also</div>
+
+<p>
+<a class="esf" href="mhz2mt.html">mhz2mt</a>
+</p>
+
+<hr>
+</body>
+</html>

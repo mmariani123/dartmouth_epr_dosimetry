@@ -1,0 +1,209 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: Line shapes</title>
+</head>
+
+<body>
+
+<h1>Line shapes</h1>
+
+<p>
+The most common line shapes in EPR are Gaussian and Lorentzian. In addition,
+Dysonians and Voigtians are used.
+</p>
+
+<div class="subtitle">Gaussian</div>
+
+<p>
+The formula for a Gaussian absorption lineshape normalized so that
+its integral is 1 is
+</p>
+
+<pre class="eqn">
+<img src="eqn/lineshapes1.png" alt="[eqn]"><!--MATH
+$$
+f_\mr{G}(x) =
+\sqrt{\frac{2}{\uppi}}
+\frac{1}{\varGamma}
+\exp
+\left[
+  -2\left(\frac{x-x_0}{\varGamma}\right)^2
+\right]
+$$
+-->
+</pre>
+
+<p>
+where x<sub>0</sub> is the line centre and
+<img src="eqn/lineshapes2.png" alt="[eqn]"><!--MATH $\varGamma$ --> is
+the distance between the inflection points. It
+is related to the FWHM (full width at half height) via
+</p>
+
+<pre class="eqn">
+<img src="eqn/lineshapes3.png" alt="[eqn]"><!--MATH
+$$
+\varGamma = \mr{FWHM}/\sqrt{2\mr{ln}2}
+$$
+-->
+</pre>
+
+<p>
+At the center x<sub>0</sub> the value of the Gaussian is
+</p>
+
+<pre class="eqn">
+<img src="eqn/lineshapes4.png" alt="[eqn]"><!--MATH
+$$
+f_\mr{G}(x_0) =
+\sqrt{\frac{2}{\uppi}}
+\frac{1}{\varGamma}
+$$
+-->
+</pre>
+
+<p>
+The first derivative has a peak-to-peak distance of <img src="eqn/lineshapes5.png" alt="[eqn]"><!--MATH $\varGamma$ -->.
+</p>
+
+<pre class="eqn">
+<img src="eqn/lineshapes6.png" alt="[eqn]"><!--MATH
+$$
+-4
+\sqrt{\frac{2}{\uppi}}
+\frac{1}{\varGamma^2}
+\frac{x-x_0}{\varGamma}
+\exp
+\left[
+  -2\left(\frac{x-x_0}{\varGamma}\right)^2
+\right]
+$$
+-->
+</pre>
+
+The integral of the Gaussian lineshape function is
+
+<pre class="eqn">
+<img src="eqn/lineshapes7.png" alt="[eqn]"><!--MATH
+$$
+\int_{-\infty}^{x}f_\mr{L}(\xi)\mr{d}\xi =
+\frac{1}{2}
++
+\frac{1}{2}
+\mr{erf}
+\left(
+  \sqrt{2}
+  \frac{x-x_0}{\varGamma}
+\right)
+$$
+-->
+</pre>
+
+
+<div class="subtitle">Lorentzian</div>
+
+
+<p>
+The formula for a Lorentzian absorption lineshape normalized so that
+its integral is 1 is
+</p>
+
+<pre class="eqn">
+<img src="eqn/lineshapes8.png" alt="[eqn]"><!--MATH
+$$
+f_\mr{L}(x) =
+\frac{2}{\uppi\sqrt{3}}
+\frac{1}{\varGamma}
+\left[
+  1+\frac{4}{3}\left(\frac{x-x_0}{\varGamma}\right)^2
+\right]^{-1}
+$$
+-->
+</pre>
+
+<p>
+where x<sub>0</sub> is the center and
+<img src="eqn/lineshapes9.png" alt="[eqn]"><!--MATH $\varGamma$ --> is
+the distance between the inflection points. It
+is related to the FWHM (full width at half height) via
+</p>
+
+<pre class="eqn">
+<img src="eqn/lineshapes10.png" alt="[eqn]"><!--MATH
+$$
+\varGamma = \mr{FWHM}/\sqrt{3}
+$$
+-->
+</pre>
+
+<p>
+At the center x<sub>0</sub> the value of the Lorentzian is
+</p>
+
+<pre class="eqn">
+<img src="eqn/lineshapes11.png" alt="[eqn]"><!--MATH
+$$
+f_\mr{L}(x_0) =
+\frac{2}{\uppi\sqrt{3}}
+\frac{1}{\varGamma}
+$$
+-->
+</pre>
+
+<p>
+The first derivative has a peak-to-peak distance of <img src="eqn/lineshapes12.png" alt="[eqn]"><!--MATH $\varGamma$ -->.
+</p>
+
+<pre class="eqn">
+<img src="eqn/lineshapes13.png" alt="[eqn]"><!--MATH
+$$
+\frac{\mr{d}f_\mr{L}}{\mr{d}x} =
+\frac{2}{\uppi\sqrt{3}}
+\frac{1}{\varGamma}
+\frac{x-x_0}{\varGamma}
+\left[
+  1+\frac{4}{3}\left(\frac{x-x_0}{\varGamma}\right)^2
+\right]^{-2}
+$$
+-->
+</pre>
+
+The integral of the Lorentzian lineshape function is
+
+<pre class="eqn">
+<img src="eqn/lineshapes14.png" alt="[eqn]"><!--MATH
+$$
+\int_{-\infty}^{x}f_\mr{L}(\xi)\mr{d}\xi =
+\frac{1}{2}
++
+\frac{1}{\uppi}
+\mr{arctan}
+\left(
+  \frac{2}{\sqrt{3}}
+  \frac{x-x_0}{\varGamma}
+\right)
+$$
+-->
+</pre>
+
+
+<div class="subtitle">Voigtian and Pseudovoigtian</div>
+
+<p>
+The Voigt line shape is the convolution of Lorentzian and a Gaussian
+line shape.
+It cannot be expresed in closed analytical form. It can be approximated
+by a linear combination of a Lorentzian and a Gaussian, a so-called
+pseudo-Voigt function.
+</p>
+
+<div class="subtitle"></div>
+
+<hr>
+</body>
+
+</html>

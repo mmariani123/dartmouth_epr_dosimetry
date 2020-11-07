@@ -1,0 +1,68 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: plegendre</title>
+</head>
+
+<body>
+
+<div class="functitle">plegendre</div>
+
+<!-- ============================================================= -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+Legendre polynomials and Associated Legendre polynomials.
+</p>
+
+<pre class="mlsyntax">
+v = plegendre(L,x)
+v = plegendre(L,M,x)
+</pre>
+
+<!-- ============================================================= -->
+<div class="subtitle">Description</div>
+
+<p>
+With two input arguments,
+<code>plegendre</code> returns the value(s) of the Legendre
+polynomal of degree L (with L &ge; 0).
+With three input arguments,
+the value(s) of the associated Legendre
+polynomal of degree L (with L &ge; 0) and order M (with |M| &le; L)
+are returned.
+</p>
+
+<p>
+<code>x</code> must satisfy -1&le; x &le; +1 and can be a scalar or an array.
+</p>
+
+<!-- ============================================================= -->
+<div class="subtitle">Algorithm</div>
+
+<p>
+<code>plegendre</code> is using recurrence relations to compute the
+values, as described in Press et al, Numerical Recipes in C++ (2002).
+
+Note that contrary to that reference, but in line with most others,
+the Condon-Shortley phase factor (-1)<sup>M</sup> is not included in <code>plegendre</code>.
+It is included in the spherical harmonics computed by
+<a class="esf" href="spherharm.html">spherharm</a>.
+<p>
+
+<!-- ============================================================= -->
+<div class="subtitle">See also</div>
+
+<p>
+<a class="esf" href="clebschgordan.html">clebschgordan</a>,
+<a class="esf" href="spherharm.html">spherharm</a>,
+<a class="esf" href="wigner3j.html">wigner3j</a>,
+<a class="esf" href="wigner6j.html">wigner6j</a>
+</p>
+
+<hr>
+</body>
+</html>

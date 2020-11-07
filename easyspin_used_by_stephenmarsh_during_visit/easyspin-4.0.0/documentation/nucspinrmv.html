@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: nucspinrmv</title>
+</head>
+
+<body>
+
+<div class="functitle">nucspinrmv</div>
+
+<!-- ====================================================== -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+Removes a nuclear spin from a spin system.
+</p>
+
+<pre class="mlsyntax">
+NewSys = nucspinrmv(Sys,idx)
+</pre>
+
+
+<!-- ====================================================== -->
+<div class="subtitle">Description</div>
+
+<p>
+This function removes one ro more nuclear spins from the spin
+system <code>Sys</code> and returns the resulting spin system
+in <code>NewSys</code>.
+</p>
+
+<p>
+<code>idx</code> specifies the indices of the nuclei to remove.
+E.g., <code>idx=1</code> indicates the first nucleus, <code>idx=[2 4]</code>
+indicates the second and the fourth nuclei.
+</p>
+
+<!-- ====================================================== -->
+<div class="subtitle">Examples</div>
+
+<p>
+First we define a spin system with 2 nuclei
+</p>
+
+<pre class="mlexample">
+Sys = struct('S',1/2,'g',[2 2 2.2]);
+Sys = nucspinadd(Sys,'63Cu',[50 50 520]);
+Sys = nucspinadd(Sys,'14N',[3 3 9],[],[-1 -1 2])
+</pre>
+
+<p>
+The following removes the nitrogen nucleus
+</p>
+
+<pre class="mlexample">
+Sys = nucspinrmv(Sys,2)
+</pre>
+
+<!-- ====================================================== -->
+<div class="subtitle">See also</div>
+
+<p>
+<a href="spinsystem.html">spin system structures</a>,
+<a class="esf" href="nucspinadd.html">nucspinadd</a>
+<!--
+<a class="esf" href="nucdata.html">nucdata</a>,
+<a class="esf" href="nucgval.html">nucgval</a>,
+<a class="esf" href="nucqmom.html">nucqmom</a>
+-->
+</p>
+
+<hr>
+</body>
+</html>

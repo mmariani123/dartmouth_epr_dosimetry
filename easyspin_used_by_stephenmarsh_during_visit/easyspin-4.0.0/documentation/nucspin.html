@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: nucspin</title>
+</head>
+
+<body>
+
+<div class="functitle">nucspin</div>
+
+<!-- ====================================================== -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+Nuclear spin quantum numbers.
+</p>
+
+<pre class="mlsyntax">
+Spin = nucspin(Isotopes)
+</pre>
+
+
+<!-- ====================================================== -->
+<div class="subtitle">Description</div>
+
+<p>
+This function returns the nuclear spin quantum number of the isotope specified
+in <code>Isotopes</code>.
+
+<code>Isotopes</code> is a string giving the mass number and the
+chemical symbol of the element, e.g. <code>'14N'</code> or <code>'63Cu'</code>.
+If <code>Isotopes</code> is a comma-separated list of isotope labels,
+the function returns a list of all spins in vector form.
+</p>
+
+<p>
+The data are taken from an internal database through
+<a href="nucdata.html" class="esf">nucdata</a>.
+</p>
+
+<!-- ====================================================== -->
+<div class="subtitle">Examples</div>
+
+<pre class="mlexample">
+I = nucspin('17O')
+</pre>
+<pre class="mloutput">
+I =
+    2.5000
+</pre>
+<pre class="mlexample">
+I = nucspin('47Ti,49Ti')
+</pre>
+<pre class="mloutput">
+I =
+    2.5000    3.5000
+</pre>
+
+<!-- ====================================================== -->
+<div class="subtitle">See also</div>
+
+<p>
+<a class="esf" href="nucabund.html">nucabund</a>,
+<a class="esf" href="nucdata.html">nucdata</a>,
+<a class="esf" href="nucgval.html">nucgval</a>,
+<a class="esf" href="nucqmom.html">nucqmom</a>
+</p>
+
+<hr>
+</body>
+</html>

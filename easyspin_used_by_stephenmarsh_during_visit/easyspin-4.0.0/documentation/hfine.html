@@ -1,0 +1,107 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: hfine</title>
+</head>
+
+<body>
+
+<div class="functitle">hfine</div>
+
+<!-- ====================================================== -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+Hyperfine interaction Hamiltonian.
+</p>
+
+<pre class="mlsyntax">
+F = hfine(System)
+F = hfine(System,Spins)
+</pre>
+
+<!-- ====================================================== -->
+<div class="subtitle">Description</div>
+
+<p>
+<code>hfine</code> constructs the hyperfine interaction part of the spin
+Hamiltonian of spin system <code>System</code>, that is
+</p>
+
+<pre class="eqn">
+<img src="eqn/hfine1.png" alt="[eqn]"><!--MATH
+\begin{equation*}
+\Op{H}_\mr{HF}
+=
+\sum_k
+\sum_q
+\opvc{S}_k^\trp \mx{A}_{kq}\opvc{I}_q
+\quad.
+\end{equation*}
+-->
+</pre>
+
+<p>
+The operator matrix <code>F</code> is in units of MHz. If <code>Spins</code> is
+specified, it is used as an index into <code>System</code> for selecting
+spins. <code>Spins = 1</code> is the first electron, follow by the other electrons,
+if present, and the nuclei. E.g. for a system with 3 electrons and 2 nuclei,
+<code>[2 4 5]</code> indicates the hyperfine interactions of the electron 2 with both nuclei.
+</p>
+
+<!-- ====================================================== -->
+<div class="subtitle">Examples</div>
+
+<p>
+For a two-spin system <code>AB</code>
+</p>
+
+<pre class="mlexample">
+AB = struct('S',1/2,'Nucs','23Na','g',[2 2 2],'A',[230 210 200]);
+AB.Apa = [23 45 67]*pi/180;
+</pre>
+
+<p>
+with a hyperfine coupling matrix tilted with respect to the standard
+molecular frame, the eigenvalues of the hyperfine Hamiltonian are
+</p>
+
+<pre class="mlexample">
+E = eig(hfine(AB))
+</pre>
+
+<pre class="mloutput">
+E =
+ -270.1785
+ -267.8967
+ -262.5431
+  146.7712
+  150.1785
+  157.8967
+  172.5431
+  173.2288
+</pre>
+
+<p>
+Obviously the slight anisotropy in A causes the states of the combined
+spin S+I to split in zero field.
+</p>
+
+<!-- ====================================================== -->
+<div class="subtitle">See also</div>
+
+<p>
+<a class="esf" href="eeint.html">eeint</a>,
+<a class="esf" href="nquad.html">nquad</a>,
+<a class="esf" href="sham.html">sham</a>,
+<a class="esf" href="zeeman.html">zeeman</a>,
+<a class="esf" href="zfield.html">zfield</a>
+</p>
+
+<hr>
+</body>
+
+</html>

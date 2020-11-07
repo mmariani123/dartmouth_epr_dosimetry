@@ -1,0 +1,84 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: stev</title>
+</head>
+
+<body>
+
+<div class="functitle">stev</div>
+
+<!-- ====================================================== -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+Extended Stevens operators for spins S > 1/2.
+</p>
+
+<pre class="mlsyntax">
+Op = stev(S,k,q)
+</pre>
+
+<!-- ====================================================== -->
+<div class="subtitle">Description</div>
+
+<p>
+This function computes the
+<a href="stevensoperators.html">extended Stevens operators</a>
+
+for a spin with spin quantum number <code>S</code>.
+The parameters <code>k</code>
+and <code>q</code> specify the operator <img src="eqn/stev1.png" alt="[eqn]"><!--MATH$O_k^q$-->. Allowed
+values are <code>0&lt;=k &lt;= 2S</code> and <code>q = -k,...,k</code>.
+The maximum <code>k</code> supported is 12, the most common values are 2, 4 and 6.
+For explicit expressions of the operators see the
+page on <a href="stevensoperators.html">high-order operators</a>.
+</p>
+
+<div class="subtitle">Examples</div>
+
+<p>
+<img src="eqn/stev2.png" alt="[eqn]"><!--MATH $O_4^2$ --> for a spin S=2 is
+</p>
+
+<pre class="mlexample">
+stev(2,4,2)
+</pre>
+
+<pre class="mloutput">
+ans =
+         0         0    7.3485         0         0
+         0         0         0  -12.0000         0
+    7.3485         0         0         0    7.3485
+         0  -12.0000         0         0         0
+         0         0    7.3485         0         0
+</pre>
+
+<p>
+The value 7.3485 corresponds to <img src="eqn/stev3.png" alt="[eqn]"><!--MATH $\sqrt{54}$ -->.
+</p>
+
+<!-- ====================================================== -->
+<div class="subtitle">Algorithm</div>
+
+<p>
+The
+<a href="stevensoperators.html">extended Stevens operators</a>
+are computed using Racah's commutator rule for the components
+of spherical tensor operators and Ryabov's general formula for
+extended Stevens operators (I.D.Ryabov, J.Magn.Reson.140,141-145, 1999).
+</p>
+
+<!-- ====================================================== -->
+<div class="subtitle">See also</div>
+
+<p>
+<a class="esf" href="sop.html">sop</a>
+</p>
+
+<hr>
+</body>
+</html>

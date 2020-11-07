@@ -1,0 +1,71 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: addnoise</title>
+</head>
+
+<body>
+
+<div class="functitle">addnoise</div>
+
+<!-- =========================================================== -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+Adds noise to a signal.
+</p>
+
+<pre class="mlsyntax">
+yn = addnoise(y,SNR)
+yn = addnoise(y,SNR,NoiseModel)
+</pre>
+
+<!-- =========================================================== -->
+<div class="subtitle">Description</div>
+
+<p>
+This functions adds noise to a given signal <code>y</code> to give the
+noisy signal <code>yn</code>. The target signal-to-noise ratio is specified
+in <code>SNR</code>.
+</p>
+
+<p>
+The signal amplitude is estimated from the difference of the maximum and
+the minimum value of the signal <code>y</code>, and the noise level is
+chosen based on that and on <code>SNR</code>.
+</p>
+
+<p>
+The model for the noise is given in <code>NoiseModel</code> and is either
+<code>'u'</code> (the default), a uniform distribution between -0.5 and
++0.5 times the noise level, or 'n', a normal (Gaussian) distribution with
+a standard deviation equal to the noise level.
+</p>
+
+<!-- =========================================================== -->
+<div class="subtitle">Examples</div>
+
+<p>
+Here is how to add noise to a Gaussian line:
+</p>
+
+<pre class="mlexample">
+x = linspace(-1,1,1001);
+y = gaussian(x,0,0.3);
+yn = addnoise(y,10);
+</pre>
+
+
+<!-- =========================================================== -->
+<div class="subtitle">See also</div>
+
+<p>
+<a class="esf" href="smooth.html">smooth</a>
+</p>
+
+<hr>
+</body>
+</html>

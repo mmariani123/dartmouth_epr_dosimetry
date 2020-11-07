@@ -1,0 +1,144 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: fastmotion</title>
+</head>
+
+<body>
+
+<div class="functitle">fastmotion</div>
+
+<!-- =================================================================== -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+Linewidths in the fast-motional regime
+</p>
+
+<pre class="mlsyntax">
+lw = fastmotion(Sys,B0,tcorr)
+[lw,mI] = fastmotion(...)
+</pre>
+
+<!-- =================================================================== -->
+<div class="subtitle">Description</div>
+
+<p>
+Given the g, A and Q tensors in <code>Sys</code>, the magnetic field (mT) in
+<code>B0</code> and a rotation correlation time (seconds) in <code>tcorr</code>,
+<code>fastmotion</code> computes the EPR line widths resulting from rotational
+motion of the paramagnetic molecules. The widths depends on the anisotropies
+of g, A and Q. The widths are returned in <code>lw</code>,
+and the associated lines are identified by sets of m<sub>I</sub> numbers
+in <code>mI</code>. One row corresponds to one EPR resonance line.
+</p>
+
+<p>
+The three input parameters are
+</p>
+
+<table border="1" class="optionlist">
+<tr>
+  <td><code>Sys</code></td>
+  <td>Spin system structure containing the list of nuclei <code>Nucs</code>, the g, A and Q tensors <code>g</code>, <code>A</code>, <code>Q</code>, and, optionally, the tensor orientations in
+  <code>gpa</code> and <code>Apa</code>. The field <code>Qpa</code> is not used.<br>
+  For a description of all fields, see <a class="esf" href="garlic.html">garlic</a>.
+  </td>
+</tr>
+<tr>
+  <td><code>B0</code></td>
+  <td>External magnetic field, in mT.<br>
+  To compute line widhts for a field-swept EPR spectrum,
+  take the center field, as long as the spectrum is not too wide.
+  </td>
+</tr>
+<tr>
+  <td><code>tcorr</code></td>
+  <td>
+  Rotational correlation time for isotropic Brownian rotational diffusion, in seconds.<br>
+  The correlation time <code>tcorr</code> and the diffusion rate <code>D</code> are
+  related by <code>tcorr = 1/(6*D)</code>.<br>
+  </td>
+</tr>
+</table>
+
+<p>
+The two output parameters are
+</p>
+
+<table border="1" class="optionlist">
+<tr>
+  <td><code>lw</code></td>
+  <td>
+  All line widths (FWHM for Lorentzians), in mT.
+  </td>
+</tr>
+<tr>
+  <td><code>mI</code></td>
+  <td>
+  The m<sub>I</sub> values for the lines, one line per row.
+  </td>
+</tr>
+</table>
+
+
+<!-- =================================================================== -->
+<div class="subtitle">Algorithm</div>
+
+<p>
+<code>fastmotion</code> uses the Kivelson formula to compute line widths.
+Outside the fast-motion regime (Redfield limit, motional narrowing),
+the formulas are not valid.
+</p>
+
+<p>
+The formulas used in <code>fastmotion</code> are from Neil Atherton, Principles
+of Electron Spin Resonance, 1993. The relevant expressions are on pages 331
+(9.2.48-51) and 348 (9.5.2).
+</p>
+
+<p>
+The original theory can be found in Freed/Fraenkel, J. Chem. Phys. 69 (1963), 326-348.
+</p>
+
+<!-- =================================================================== -->
+<div class="subtitle">Example</div>
+
+<p>
+The X-band spectrum of a nitroxide radical in the fast motional regime
+features three lines with different widths. The widths and the mI values
+for the associated lines are
+</p>
+
+<pre class="mlexample">
+Nitroxide = struct('g',[2.0088 2.0064 2.0027],'Nucs','14N');
+Nitroxide.A = mt2mhz([7.59 5.95 31.76]/10);
+
+Field = 350;
+tcorr = 1e-10;
+[lw,mI] = fastmotion(Nitroxide,Field,tcorr)
+</pre>
+
+<pre class="mloutput">
+lw =
+    0.0070
+    0.0029
+    0.0027
+mI =
+    -1
+     0
+     1
+</pre>
+
+<!-- =================================================================== -->
+<div class="subtitle">See also</div>
+<p>
+<a class="esf" href="garlic.html">garlic</a>
+</p>
+
+<hr>
+</body>
+</html>

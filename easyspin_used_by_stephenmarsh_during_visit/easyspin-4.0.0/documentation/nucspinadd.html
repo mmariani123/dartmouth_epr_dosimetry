@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: nucspinadd</title>
+</head>
+
+<body>
+
+<div class="functitle">nucspinadd</div>
+
+<!-- ====================================================== -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+Adds a nuclear spin to a spin system.
+</p>
+
+<pre class="mlsyntax">
+NewSys = nucspinadd(Sys,Nuc,A)
+NewSys = nucspinadd(Sys,Nuc,A,Apa)
+NewSys = nucspinadd(Sys,Nuc,A,Apa,Q)
+NewSys = nucspinadd(Sys,Nuc,A,Apa,Q,Qpa)
+
+NewSys = nucspinadd(Sys,Nuc,Afull)
+NewSys = nucspinadd(Sys,Nuc,Afull,Qfull)
+</pre>
+
+
+<!-- ====================================================== -->
+<div class="subtitle">Description</div>
+
+<p>
+This function adds the isotope specified in <code>Nuc</code> to the
+spin system structure given in <code>Sys</code>. <code>A</code> is
+a vector containing the hyperfine principal values, <code>Q</code>
+contains the quadrupole principal values. <code>Apa</code> and <code>Qpa</code>
+contain the Euler tilt angles for the respective tensors. See the page on
+<a href="spinsystem.html">spin system structures</a>.
+</p>
+
+<p>
+If any of <code>Apa</code>, <code>Q</code> or <code>Qpa</code> is missing or set to <code>[]</code>, it is set to <code>[0 0 0]</code>.
+</p>
+
+<p>
+Alternatively, full 3x3 hyperfine and quadrupole matrices can be given
+in <code>Afull</code> and <code>Qfull</code>, respectively.
+</p>
+
+<!-- ====================================================== -->
+<div class="subtitle">Examples</div>
+
+<p>
+The following two lines defines a system of an
+electron spin coupled to a Cu and a N nucleus.
+</p>
+
+<pre class="mlexample">
+Sys = struct('S',1/2,'g',[2 2 2.2]);
+Sys = nucspinadd(Sys,'63Cu',[50 50 520]);
+Sys = nucspinadd(Sys,'14N',[3 3 9],[],[-1 -1 2]);
+</pre>
+
+<p>
+Note that the above is more convenient than the manual construction
+</p>
+
+<pre class="mlexample">
+Sys = struct('S',1/2,'g',[2 2 2.2],'Nucs','63Cu,14N');
+Sys.A = [50 50 520; 3 3 9]);
+Sys.Q = [0 0 0; -1 -1 2]);
+</pre>
+
+<p>
+since a nucleus can be included and excluded just by adding or removing
+a line.
+</p>
+
+<p>
+To add a full hyperfine matrix, use
+</p>
+
+<pre class="mlexample">
+A = [10 0 0; 0 15 0; 0 0 30];
+Sys = nucspinadd('14N',A);
+</pre>
+
+<p>
+To add a full hyperfine matrix and a full quadrupole matrix, use
+</p>
+
+<pre class="mlexample">
+A = [10 0 0; 0 15 0; 0 0 30];
+Q = [-1 0 0; 0 -1 0; 0 0 2];
+Sys = nucspinadd('14N',A,Q);
+</pre>
+
+<!-- ====================================================== -->
+<div class="subtitle">See also</div>
+
+<p>
+<a href="spinsystem.html">spin system structures</a>,
+<a class="esf" href="nucspinrmv.html">nucspinrmv</a>
+<!--
+<a class="esf" href="nucdata.html">nucdata</a>,
+<a class="esf" href="nucgval.html">nucgval</a>,
+<a class="esf" href="nucqmom.html">nucqmom</a>
+-->
+</p>
+
+<hr>
+</body>
+</html>

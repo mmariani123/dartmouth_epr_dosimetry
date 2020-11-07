@@ -1,0 +1,122 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: sham</title>
+</head>
+
+<body>
+
+<div class="functitle">sham</div>
+
+
+<!-- ====================================================== -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+Constructs spin Hamiltonian operators.
+</p>
+
+<pre class="mlsyntax">
+[F,Gx,Gy,Gz] = sham(Sys)
+[F,G] = sham(Sys,B)
+H = sham(Sys,B)
+</pre>
+
+<!-- ====================================================== -->
+<div class="subtitle">Description</div>
+
+<p>
+This function returns the
+<a href="hamiltonian.html">spin Hamiltonian</a> or its components. <code>Sys</code>
+is the structure defining the spin system, the optional <code>B</code> is the
+3-element external magnetic field vector (in mT) in the molecular
+frame of the spin system.
+</p>
+
+<p>
+If no magnetic field is given, <code>sham</code> returns the four Hamiltonian
+components
+<code>F</code>, <code>Gx</code>, <code>Gy</code> and <code>Gz</code>.
+<code>F</code> is the Hamiltonian
+containing all field-independent interactions, and the other three
+matrices are the components of the Zeeman interaction Hamiltonian for the
+three principal directions of the molecular frame of the spin system (see
+<a class="esf" href="zeeman.html">zeeman</a>).
+</p>
+
+<p>
+If a magnetic field <code>B</code> is given, <code>sham</code> returns either the overall
+Hamiltonian <code>H</code> or its two components <code>F</code> (field-independent
+interactions) and <code>G</code> (Zeeman interactions along the direction of <code>B</code>).
+</p>
+
+<p>
+<code>F</code> and <code>H</code> are in MHz, the components
+<code>G</code>, <code>Gx</code>, <code>Gy</code> and
+<code>Gz</code> are in MHz/mT.
+</p>
+
+<p>
+The general form of the spin Hamiltonian and the terms contained in it
+are explained in the section about the
+<a class="esf" href="spinsystem.html">spin system structure</a>.
+</p>
+
+<!-- ====================================================== -->
+<div class="subtitle">Examples</div>
+
+<p>
+The Hamiltonian of a simple S=I=1/2 system is
+</p>
+
+<pre class="mlexample">
+g = [2 2 2]; A = [1 1 2]*100; B = [0 0 340];
+Sy = struct('S',.5,'g',g,'Nucs','1H','A',A);
+H = sham(Sy,B)
+</pre>
+<pre class="mloutput">
+H =
+   1.0e+03 *
+    4.8015         0         0         0
+         0    4.7160    0.0500         0
+         0    0.0500   -4.8160         0
+         0         0         0   -4.7015
+</pre>
+
+<p>
+To get its eigenvalues in GHz and their associated
+eigenvectors, use
+</p>
+
+<pre class="mlexample">
+[V,E] = eig(H); E = diag(E).'/1e3, V
+</pre>
+
+<pre class="mloutput">
+E =
+   -4.8162   -4.7015    4.7162    4.8015
+
+V =
+         0         0         0    1.0000
+   -0.0052         0   -1.0000         0
+    1.0000         0   -0.0052         0
+         0    1.0000         0         0
+</pre>
+
+<!-- ====================================================== -->
+<div class="subtitle">See also</div>
+
+<p>
+<a class="esf" href="eeint.html">eeint</a>,
+<a class="esf" href="hfine.html">hfine</a>,
+<a class="esf" href="nquad.html">nquad</a>,
+<a class="esf" href="zeeman.html">zeeman</a>,
+<a class="esf" href="zfield.html">zfield</a>
+</p>
+
+<hr>
+</body>
+</html>

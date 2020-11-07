@@ -1,0 +1,104 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: rotaxi2mat</title>
+</head>
+
+<body>
+
+<div class="functitle">rotaxi2mat</div>
+
+<!-- ============================================================= -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+Get rotation matrix from rotation axis and angle.
+</p>
+
+<pre class="mlsyntax">
+R = rotaxi2mat(n,phi);
+</pre>
+
+<!-- ============================================================= -->
+<div class="subtitle">Description</div>
+
+<p>
+A given rotation can be represented either by a 3x3 <a href="eulerangles.html">rotation matrix</a>
+<code>R</code> or by a rotation axis <code>n</code>
+(3-element column vector) plus a rotation angle <code>phi</code>
+around <code>n</code>.
+</p>
+
+<p>
+<code>rotaxi2mat</code> converts <code>R</code> to <code>n</code> and
+<code>phi</code> decribing the same rotation.
+</p>
+
+
+
+<p>
+<code>n</code> must be a 3-element vector, not necessarily normalized.
+<code>phi</code> is a number giving the angle in radians, not degrees.
+</p>
+
+
+<!-- ============================================================= -->
+<div class="subtitle">Examples</div>
+
+<p>
+A rotation by 2&pi;/3 (120 degrees) around the axis <code>[1;1;1]</code>
+amounts to the interchange of the three coordinate axes. Therefore,
+the associated rotation matrix only contains zeros and ones.
+</p>
+
+<pre class="mlexample">
+rotangle = 2*pi/3;
+rotaxis = [1; 1; 1];
+R = rotaxi2mat(rotaxis,rotangle)
+</pre>
+
+<p>
+
+<pre class="mloutput">
+R =
+     0     1     0
+     0     0     1
+     1     0     0
+</pre>
+
+<p>
+The associated Euler angles are
+</p>
+
+<pre class="mlexample">
+Angles = eulang(R);
+Angles*180/pi
+</pre>
+
+<pre class="mloutput">
+ans =
+     0    90    90
+</pre>
+
+<p>
+The rotation can thus be obtained by first rotating by 90 degrees
+around the y axis, followed by a rotation by 90 degrees around the
+resulting z axis.
+</p>
+
+<!-- ============================================================= -->
+<div class="subtitle">See also</div>
+
+<p>
+<a class="esf" href="ang2vec.html">ang2vec</a>,
+<a class="esf" href="erot.html">erot</a>,
+<a class="esf" href="rotmat2axi.html">rotmat2axi</a>,
+<a class="esf" href="vec2ang.html">vec2ang</a>
+</p>
+
+<hr>
+</body>
+</html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: endorfrq</title>
+</head>
+
+<body>
+
+<div class="functitle">endorfrq</div>
+
+<div class="subtitle">Synopsis</div>
+
+<p>
+Computes ENDOR frequencies and transition amplitudes.
+</p>
+
+<p>
+<pre class="mlsyntax">
+Pos = endorfrq(Sys,Par)
+Pos = endorfrq(Sys,Par,Opt)
+[Pos,Int] = endorfrq(...)
+[Pos,Int,Tra] = endorfrq(...)
+</pre>
+</p>
+
+<!-- ====================================================== -->
+<div class="subtitle">Description</div>
+
+<p>
+<code>endorfrq</code> computes ENDOR
+frequencies and intensities, which can be used to build single-crystal
+spectra or crystal rotation patterns. <code>endorfrq</code> is used by
+<a class="esf" href="salt.html">salt</a>, the solid-state ENDOR spectrum simulation function, to obtain
+ENDOR positions and intensities. The calling syntax of <code>endorfrq</code>
+is very similar to that of <a class="esf" href="resfields.html">resfields</a>, its EPR analogue.
+</p>
+
+<p>
+The two mandatory input parameters characterise the spin system
+(<code>Sys</code>), and the experiment parameters (<code>Par</code>) containing the spin system's
+orientations in the external field. A third parameter
+<code>Opt</code> can be used to modify and tune <code>endorfrq</code>'s computations.
+</p>
+
+<p>
+<code>Sys</code> is a <a href="spinsystem.html">spin system structure</a>. In addition to
+all the fields necessary to construct a spin Hamiltonian, <code>endorfrq</code> only
+uses the EPR line width field <code>HStrain</code>.
+</p>
+
+<p>
+<code>Par</code> is a structure containing information related to the ENDOR
+experiment.
+</p>
+
+<table class="optionlist" border="1">
+<tr>
+<td><code>
+mwFreq
+</code></td>
+<td>
+Microwave frequency used in the ENDOR experiment, in GHz.
+</td></tr>
+
+<tr>
+<td><code>
+Field
+</code></td>
+<td>
+Magnetic field at which the ENDOR spectrum is to be computed, in mT.
+</td></tr>
+
+<tr>
+<td><code>Orientations</code>
+</td>
+<td>
+<p>
+A list of orientations for which resonance fields
+should be computed. It can be either a 2xn or a 3xn array, containing
+the orientations along columns. Either two (&phi;, &theta;) or three
+(&phi;, &theta;, &chi;)
+<a href="eulerangles.html">Euler angles</a>
+(in radians) characterise
+each orientation.
+</p>
+
+<p>
+&phi;, in the first row, is the angle between the x axis and the xy
+plan projection of the orientation of the external field in the reference
+frame of the spin system. &theta;, in the second row, is the
+angle at which the external field is off the z axis of the reference
+frame. The optional &chi;, in the third row, specifies the third
+Euler angle and fixes the x axis of the laboratory in the reference
+frame of the spin system.
+</p>
+
+<p>
+Altogether, these three angles define the relative orientation between
+the molecular reference frame and the laboratory coordinate system.
+Resonance fields depend only on the first two
+angles, intensities also on the third.
+</p>
+
+<p>
+If the third angle is not given, EPR intensities are integrated over
+all possible values of &chi;.
+</p>
+</td>
+</tr>
+
+<tr><td><code>Temperature</code></td><td>
+Temperature at which the experiment is performed, in K. If omitted (or set
+to <code>inf</code>), no temperature effects are computed.
+</td></tr>
+
+<tr>
+<td><code>
+ExciteWidth
+</code></td>
+<td>
+The excitation width of the microwave in MHz (responsible
+for orientation selection). The excitation profile is assumed to be
+Gaussian, and <code>ExciteWidth</code> is its FWHM. The default is
+<code>inf</code>.
+</td></tr>
+
+<tr><td><code>CrystalSymmetry</code></td><td>
+<p>
+Specifies the symmetry of the crystal. The crystal symmetry can
+be either the number of the space group (between 1 and 230), the symbol of the
+space group (e.g. <code>'P21212'</code> or the symbol for the point group
+(e.g. <code>'C2h'</code> or <code>'2/m'</code>).
+</p>
+
+<pre class="mlexample">
+Exp.CrystalSymmetry = 'P21/m'; % space group symbol
+Exp.CrystalSymmetry = 11;      % space group number (between 1 and 230)
+Exp.CrystalSymmetry = 'C2h';   % point group, Sch&ouml;nflies notation
+Exp.CrystalSymmetry = '2/m';   % point group, Hermann-Mauguin notation
+</pre>
+
+
+<p>
+When <code>CrystalSymmetry</code> is given, <code>endorfrq</code> automatically computes
+the spectra of all symmetry-related sites in the crystal. If <code>CrystalSymmetry</code>
+is not given, <code>endorfrq</code> assumes space group 1 (P1, point group C1), which has
+only one site per unit cell.
+</p>
+
+</td></tr>
+
+
+</table>
+
+
+
+<p>
+<code>Opt</code> contains a set of optional parameters used to adjust the
+computation to one's needs. If a field or the entire structure is
+omitted, default values are used. One part of the fields concerns the
+automatic or manual selection of transitions to include in the ENDOR
+computation, the other one allows to modify the ENDOR intensity
+calculation.
+</p>
+
+<table class="optionlist" border="1">
+<tr>
+<td><code>
+Verbosity
+</code></td>
+<td>
+Level of display. <code>Opt.Verbosity=0</code> (default) means that <code>endorfrq</code>
+does not print to the command window. <code>Opt.Verbosity=1</code> prints some 
+log messages, higher values are given ever more details.
+</td></tr>
+
+<tr>
+<td><code>
+Transitions
+</code></td>
+<td>
+<em>mx2 vector of integer</em><br>
+Determines manually the level pairs which are used in the spectrum
+calculation. If given, <code>endorfrq</code> uses them and skips its automatic
+transition selection scheme. Level pairs are specified in
+<code>Transitions(k,:)</code> by the level numbers, starting with 1 for the
+lowest-energy state.
+</td></tr>
+
+<tr>
+<td><code>
+Threshold
+</code></td>
+<td>
+Specifies the relative threshold for <code>endorfrq</code>'s
+automatic transition selection
+scheme. Any transition with a relative average amplitude less than
+this number is not included in the calculation. The relative average
+amplitude of the strongest ENDOR transition found is 1. If levl pairs
+are manually specified in <code>Transitions</code>, the threshold setting
+is ignored.
+</td></tr>
+
+<tr>
+<td><code>
+Nuclei
+</code></td>
+<td>
+<em>vector</em> <br>
+Determines which nuclear Zeeman terms should be included in the
+automatic transition selection procedure. If a system contains two
+different types of nuclei, this allows the user to tune <code>endorfrq</code>
+to select only transitions belonging to a certain type of nuclei. 1 is
+the first nucleus in the spin system, 2 the second, and so on. If this
+field is absent, all nuclei are included by default. E.g. <code>Opt.Nuclei=2</code>
+for a spin system with <code>Sys.Nucs='63Cu,1H'</code> will only include <sup>1</sup>H
+ENDOR transitions.
+</td></tr>
+
+<tr>
+<td><code>
+Intensity
+</code></td>
+<td>
+<code>'on'</code> (default) or <code>'off'</code><br>
+By default, ENDOR intensities are computed from ENDOR and EPR
+transition amplitudes between states and the EPR excitation width. If
+<code>Intensity</code> is set to <code>off</code>, no intensities are computed. If the
+<code>endorfrq</code> output parameter <code>Int</code> is given, it is set to empty.
+You can also switch off intensity computations by not giving the
+corresponding output parameter.
+</td></tr>
+
+<tr>
+<td><code>
+Enhancement
+</code></td>
+<td>
+<code>'off'</code> (default) or <code>'on'</code><br>
+
+If <code>on</code>, <code>endorfrq</code> includes the hyperfine enhancement effect in
+the computation of the transition matrix elemenets by using the full Zeeman part of the
+spin Hamiltonian (elecron plus nuclear part). Otherwise only the nuclear Zeeman
+terms are used. The hyperfine enhancement effect causes intensity asymmetries of ENDOR
+lines at low fields, but it is often compensated by the characteristics of the RF coils
+used in ENDOR experiments.
+
+</td></tr>
+</table>
+
+<p>
+There are three output parameters to <code>endorfrq</code>, only the first one
+is mandatory.
+</p>
+
+<p>
+<code>Pos</code> contains the positions of the ENDOR lines (in Megahertz). One
+column in the output corresponds to one orientation.
+</p>
+
+<p>
+<code>Int</code> returns the ENDOR intensities, in an array the same size as
+<code>Pos</code>. If intensity computations have been switched off, this array
+is empty. If <code>Int</code> is omitted, intensities are not computed at all.
+</p>
+
+<p>
+<code>Tra</code> is a list of the transitions included in the computation. It
+is a nx2 array containing pairs of level numbers along rows. Levels
+numbers relate to their energy: the lowest state in energy has number
+1, the second lowest is 2, etc. See also the <code>Transitions</code> field
+in <code>Opt</code>.
+</p>
+
+<div class="subtitle">Algorithm</div>
+
+<p>
+<code>endorfrq</code> uses full matrix diagonalization to compute frequencies and amplitudes.
+
+<div class="subtitle">Examples</div>
+
+<p>
+The following code produces a plot of ENDOR frequencies and amplitudes
+as a function of the Q tensor axial parameter eeQq. First we define the
+three input structures to <code>endorfrq</code> and the range of eeQq values.
+</p>
+
+<pre class="mlexample">
+Sys = struct('S',1/2,'g',2,'Nucs','14N','A',[8 9 10]);
+Exp.Field = 350;
+Exp.Orientations = [10;40]*pi/180;
+Opt.Threshold = 0;
+Opt.Enhancement = 'on';
+
+eeQq = 0.0:.1:4;
+</pre>
+
+<p>
+Next we loop over all <code>eeQq</code> values and compute the associated ENDOR
+positions and amplitudes for an arbitrary orientation. The results are
+stored along columns in the array <code>p</code> and <code>w</code>.
+</p>
+
+<pre class="mlexample">
+for i = 1:numel(eeQq)
+  Sys.Q = eeQq(i);
+  [p(:,i), w(:,i)] = endorfrq(Sys,Exp,Opt);
+end
+</pre>
+
+<p>
+At the end, we plot the results. The ENDOR frequencies are scaled with
+the Larmor frequency of the nucleus.
+</p>
+
+<pre class="mlexample">
+NZ = larmorfrq('14N',Exp.Field);
+subplot(1,2,1); plot(eeQq/NZ,sort(p/NZ).','k');
+axis tight, xlabel('eeQq/wnuc'); ylabel('frequency/wnuc');
+subplot(1,2,2); plot(eeQq/NZ,sort(w).','k');
+axis tight, ylabel('amplitude'); xlabel('eeQq/wnuc');
+</pre>
+
+<div class="subtitle">See also</div>
+
+<p>
+<a class="esf" href="garlic.html">garlic</a>,
+<a class="esf" href="levels.html">levels</a>,
+<a class="esf" href="pepper.html">pepper</a>,
+<a class="esf" href="resfields.html">resfields</a>,
+<a class="esf" href="salt.html">salt</a>
+</p>
+
+<hr>
+</body>
+</html>

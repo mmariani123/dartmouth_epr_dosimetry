@@ -1,0 +1,70 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: wigner6j</title>
+</head>
+
+<body>
+
+<div class="functitle">wigner6j</div>
+
+<!-- ============================================================= -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+Wigner 6-j symbols.
+</p>
+
+<pre class="mlsyntax">
+v = wigner6j(j1,j2,j3,J1,J2,J3)
+v = wigner6j(jJ1,jJ2,jJ3)
+v = wigner6j(j,J)
+v = wigner6j(jJ)
+</pre>
+
+<!-- ============================================================= -->
+<div class="subtitle">Description</div>
+
+<p>
+<code>wigner6j</code> returns the value of the 6-j symbol
+</p>
+<div class="eqn">
+<img src="eqn/wigner6j1.png" alt="[eqn]"><!--MATH
+\begin{equation*}
+\begin{Bmatrix}
+j_1 & j_2 & j_3\\
+J_1 & J_2 & J_3
+\end{Bmatrix}
+\end{equation*}
+-->
+</div>
+
+<p>
+The six parameters can be specified separately or in groups.
+In the three-argument form, <code>wigner6j</code> takes <code>jJ1 = [j1 J1]</code>
+etc., if two arguments are given, it takes <code>j = [j1 j2 j3]</code> and
+<code>J = [J1 J2 J3]</code>, if one argument is given, <code>jJ = [j1 j2 j3 J1 J2 J3]</code>.
+</p>
+
+<!-- ============================================================= -->
+<div class="subtitle">Algorithm</div>
+
+<p>
+<code>wigner6j</code> uses a formula based on a binomial
+series representation. See Tuzun et al, Comput.Phys.Commun. 112, 112-148 (1998).
+</p>
+
+<!-- ============================================================= -->
+<div class="subtitle">See also</div>
+
+<p>
+<a class="esf" href="clebschgordan.html">clebschgordan</a>,
+<a class="esf" href="wigner3j.html">wigner3j</a>
+</p>
+
+<hr>
+</body>
+</html>

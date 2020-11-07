@@ -1,0 +1,113 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: rcfilt</title>
+</head>
+
+<body>
+
+<div class="functitle">rcfilt</div>
+
+<!-- ====================================================== -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+Filters a spectrum using an RC filter.
+</p>
+
+<pre class="mlsyntax">
+yFilt = rcfilt(y,SampTime,TimeConst)
+yFilt = rcfilt(y,SampTime,TimeConst,'up')
+yFilt = rcfilt(y,SampTime,TimeConst,'down')
+</pre>
+
+<!-- ====================================================== -->
+<div class="subtitle">Description</div>
+
+<p>
+<code>rcfilt</code> pipes the input signal <code>y</code>, usually an EPR spectrum,
+through a low-pass RC filter hard-wired into all cw EPR spectrometers.
+<code>SampTime</code> is the time used to obtain one point in the signal
+(usually called <em>conversion time</em> or <em>sampling time</em>),
+<code>TimeConst</code> gives the time constant of the RC filter.
+These two parameters must have the same time units (e.g. milliseconds).
+</p>
+
+<p>
+<code>rcfilt</code> returns the filtered signal, which actually depends only
+on the <em>ratio</em> of <code>SampTime</code> and <code>TimeConst</code>.
+Be careful to assure that the first few points of the spectrum (usually baseline)
+are zero, otherwise an unwanted fade-in effect will appear.
+</p>
+
+<p>
+The sweep direction of the field can be specified by an additional parameter,
+either <code>'up'</code> or <code>'down'</code>. If this is not specified,
+<code>'up'</code> is assumed by default.
+</p>
+
+<p>
+If <code>y</code> is a matrix, <code>rcfilt</code> operates on each column
+in turn.
+</p>
+
+<p>
+If <code>TimeConst</code> is zero, no RC filtering is performed.
+</p>
+
+<!-- ====================================================== -->
+<div class="subtitle">Examples</div>
+
+<p>
+When recording CW EPR spectra, an RC filter is usually used to remove
+high frequency noise, thereby increasing the signal-to-noise ratio.
+Let's look at the effect of the RC filter on a noisy EPR spectrum.
+First we construct a dummy EPR spectrum <code>spec</code> with noise.
+</p>
+
+<pre class="mlexample">
+field = linspace(340,350,1e3);
+noise = 0.5*randn(size(field));
+width = 1;
+spec = gaussian(field,345,width,1) + noise;
+</pre>
+
+<p>
+Next we apply the RC filter and plot the result.
+</p>
+
+<pre class="mlexample">
+spec_smooth = rcfilt(spec,1,20);
+plot(field,spec,'r',field,spec_smooth,'k')
+</pre>
+
+<p>
+Here we have used a time constant of 20 milliseconds for a conversion
+time of 1 millisecond. The noise level decreases significantly, and
+the signal centre shifts slightly to the right. If the field sweep is
+downwards, the centre shifts slightly to the left:
+</p>
+
+<pre class="mlexample">
+spec_smooth_d = rcfilt(spec,1,20,'down');
+plot(field,spec,'r',field,spec_smooth_d,'k')
+</pre>
+
+<!-- ====================================================== -->
+<div class="subtitle">See also</div>
+
+<p>
+<a class="esf" href="gaussian.html">gaussian</a>,
+<a class="esf" href="lorentzian.html">lorentzian</a>,
+<a class="esf" href="lshape.html">lshape</a>,
+<a class="esf" href="fieldmod.html">fieldmod</a>,
+<a class="esf" href="smooth.html">smooth</a>,
+<a class="esf" href="voigtian.html">voigtian</a>
+</p>
+
+<hr>
+</body>
+</html>

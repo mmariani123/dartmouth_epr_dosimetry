@@ -1,0 +1,81 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: hsdim</title>
+</head>
+
+<body>
+
+<div class="functitle">hsdim</div>
+
+<!-- ========================================================== -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+State (Hilbert) space dimension of a spin system.
+</p>
+
+<pre class="mlsyntax">
+N = hsdim(SpinSys)
+</pre>
+
+<!-- ========================================================== -->
+<div class="subtitle">Description</div>
+
+<p>
+<code>hsdim</code> returns the dimension of the state space (which is a
+Hilbert space) of the spin system given in <code>SpinSys</code>.
+<code>SpinSys</code>
+can be either a vector containing the spin quantum numbers of the
+spins constituting the system or a complete spin system structure.
+</p>
+
+<!-- ========================================================== -->
+<div class="subtitle">Examples</div>
+
+<p>
+The state space dimension of a spin system of one spin-1/2
+and four spin-1 is
+
+<pre class="mlexample">
+N = hsdim([1/2 1 1 1 1])
+</pre>
+<pre class="mloutput">
+N =
+   162
+</pre>
+
+<!-- ========================================================== -->
+<div class="subtitle">Algorithm</div>
+
+<p>
+The dimension of the state space is equal to the number of energy
+eigenstates of the system and is 
+</p>
+
+<pre class="eqn">
+<img src="eqn/hsdim1.png" alt="[eqn]"><!--MATH
+$$
+N =
+\prod_{k=1}^{m}
+\left(2I_k+1\right)
+$$
+-->
+</pre>
+
+<!-- ========================================================== -->
+<div class="subtitle">See also</div>
+
+<p>
+<a class="esf" href="spinvec.html">spinvec</a>,
+<a class="esf" href="sop.html">sop</a>,
+<a class="esf" href="stev.html">stev</a>
+</p>
+
+<hr>
+</body>
+
+</html>

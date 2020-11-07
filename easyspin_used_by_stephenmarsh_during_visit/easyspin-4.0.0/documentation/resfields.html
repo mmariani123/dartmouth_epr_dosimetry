@@ -1,0 +1,328 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: resfields</title>
+</head>
+
+<body>
+
+<div class="functitle">resfields</div>
+
+<div class="subtitle">Synopsis</div>
+
+<p>
+Compute cw EPR resonance fields, amplitudes and line widths.
+</p>
+
+<pre class="mlsyntax">
+Pos = resfields(Sys,Param)
+Pos = resfields(Sys,Param,Opt)
+[Pos,Amp] = resfields(...)
+[Pos,Amp,Wid] = resfields(...)
+[Pos,Amp,Wid,Trans] = resfields(...)
+[Pos,Amp,Wid,Trans,Grad] = resfields(...)
+</pre>
+
+<!-- ====================================================== -->
+<div class="subtitle">Description</div>
+
+<p>
+<code>resfields</code> computes resonance fields, line intensities and line widths for
+cw EPR spectra.
+</p>
+
+<p>
+<code>Sys</code> is a
+<a href="spinsystem.html">spin system structure</a>
+containing all parameters of the spin system.
+</p>
+
+<p>
+<code>Params</code> is a 
+structure containing the following experimental parameters.
+</p>
+
+<table class="optionlist" border="1">
+<tr>
+<td><code>CenterSweep</code></td><td>
+Defines the center field and sweep width <code>[center sweep]</code> of the
+field range which is searched for resonances, in units of mT, e.g. <code>Exp.CenterSweep=[310 100]</code>.
+Only resonances within this range are returned by resfields. 
+<br>
+The field search range can be specified either in <code>CenterSweep</code>
+or in <code>Range</code>. If both are given, <code>CenterSweep</code> has precedence.
+</td></tr>
+
+<tr>
+<td><code>
+Range
+</code></td>
+<td>
+Defines the field range <code>[Bmin Bmax]</code> which is searched for resonances,
+in units of mT. Only resonances within this range are returned by <code>resfields</code>.
+<br>
+The field search range can be specified either in <code>CenterSweep</code>
+or in <code>Range</code>. If both are given, <code>CenterSweep</code> has precedence.
+</td></tr>
+
+<tr>
+<td><code>
+mwFreq
+</code></td>
+<td>
+Gives the spectrometer's operating frequency in GHz.
+</td></tr>
+
+<tr>
+<td><code>Orientations</code>
+</td>
+<td>
+<p>
+A list of orientations for which resonance fields
+should be computed. It can be either a 2xn or a 3xn array, containing
+the orientations along columns. Either two (&phi;, &theta;) or three
+(&phi;, &theta;, &chi;)
+<a href="eulerangles.html">Euler angles</a>
+(in radians) characterise
+each orientation.
+</p>
+
+<p>
+&phi;, in the first row, is the angle between the x axis and the xy
+plan projection of the orientation of the external field in the reference
+frame of the spin system. &theta;, in the second row, is the
+angle at which the external field is off the z axis of the reference
+frame. The optional &chi;, in the third row, specifies the third
+Euler angle and fixes the x axis of the laboratory in the reference
+frame of the spin system.
+</p>
+
+<p>
+Altogether, these three angles define the relative orientation between
+the molecular reference frame and the laboratory coordinate system.
+Resonance fields depend only on the first two
+angles, intensities also on the third.
+</p>
+
+<p>
+If the third angle is not given, EPR intensities are integrated over
+all possible values of &chi;.
+</p>
+</td>
+</tr>
+
+<tr>
+<td><code>
+Temperature
+</code></td>
+<td>
+<em>scalar</em> (default <code>inf</code>) or <em>vector</em>
+<p>
+This field specifies populations
+for the states of the spin system, either directly or via a temperature.
+<p>
+<em>Thermal equilibium:</em><br>
+<code>Temperature</code> is the temperature of the spin system in the
+EPR experiment, in Kelvin. If given, Boltzmann populations are computed
+and included in the EPR line intensities. E.g., <code>Temperature = 298</code>
+corresponds to room temperature. If not given (or set to <code>inf<code>), all
+transitions are assumed to be equal polarizations.
+<p>
+<em>Non-equilibrium populations:</em><br>
+<code>Temperature</code> can also be used to specify non-equilibrium populations.
+For a spin system with <code>N</code> electron states (e.g. 4 for a biradical),
+it must be a vector with <code>N</code> elements giving the
+populations of the zero-field electron states, from lowest to highest in energy.
+<br>
+E.g., if <code>Temperature = [0.85 0.95 1.2]</code> for an S=1 system, the
+population of the lowest-energy zero-field state is 0.85, and the highest-energy
+zero-field state has a population of 1.2. The populations of all nuclear
+sublevels within an electron spin manifold are assumed to be equal.
+</td></tr>
+
+<tr>
+<td><code>
+Mode
+</code></td>
+<td>
+<code>'perpendicular'</code> (default) or <code>'parallel'</code><br>
+
+Determines the cw EPR mode. In the perpendicular mode, the microwave field B<sub>1</sub> is along the laboratory x axis, in the parallel mode it is along the z axis, parallel to the external static field B<sub>0</sub>. The perpendicular detection mode is by far the more common.
+</td></tr>
+
+<tr><td><code>CrystalSymmetry</code></td><td>
+<p>
+Specifies the symmetry of the crystal. The crystal symmetry can
+be either the number of the space group (between 1 and 230), the symbol of the
+space group (e.g. <code>'P21212'</code> or the symbol for the point group
+(e.g. <code>'C2h'</code> or <code>'2/m'</code>).
+</p>
+
+<pre class="mlexample">
+Exp.CrystalSymmetry = 'P21/m'; % space group symbol
+Exp.CrystalSymmetry = 11;      % space group number (between 1 and 230)
+Exp.CrystalSymmetry = 'C2h';   % point group, Sch&ouml;nflies notation
+Exp.CrystalSymmetry = '2/m';   % point group, Hermann-Mauguin notation
+</pre>
+
+
+<p>
+When <code>CrystalSymmetry</code> is given, <code>resfields</code> automatically computes
+the spectra of all symmetry-related sites in the crystal. If <code>CrystalSymmetry</code>
+is not given, <code>resfields</code> assumes space group 1 (P1, point group C1), which has
+only one site per unit cell.
+</p>
+
+</td></tr>
+
+
+</table>
+
+
+<p>
+The structure <code>Opt</code> contains computational options. The separate fields as
+well as the structure as a whole are optional. If a field or the structure are
+missing, the function defaults to standard settings.
+</p>
+
+<table class="optionlist" border="1">
+<tr>
+<td><code>
+Transitions
+</code></td>
+<td>
+<em>mx2 vector of integer</em><br>
+
+Determines the transitions (state pairs) which are used in the resonance field
+calculation. If given, <code>resfields</code> uses them and skips its
+automatic transition selection scheme. State pairs are specified in
+<code>Transitions(k,:)</code> by the level numbers which start with 1 for the
+lowest-energy level. E.g., <code>Opt.Transitions=[1 3; 2 6; 4 6];</code> specifies
+three transitions, where the third is between levels 4 and 6.
+</td></tr>
+
+<tr>
+<td><code>
+Threshold
+</code></td>
+<td>
+Specifies the threshold for <code>resfields</code>'s transition pre-selection. Any
+transition with an estimated relative average amplitude less than this number is
+not included in the calculation. The relative average amplitude of the
+strongest transition is 1, the default is <code>1e-4</code>. The pre-selection is
+an approximate procedure, and it might miss transitions for complicated spin systems.
+In these cases, setting it to zero will include all transitions in the computation.
+</td></tr>
+
+
+<!--
+<tr>
+<td><code>
+Freq2Field
+</code></td>
+<td>
+Determines the order of the frequency-to-field conversion. 0 is off. 1 indicates linear
+conversion with the generalised 1/g factor
+
+-->
+<img src="eqn/resfields1.png" alt="[eqn]"><!--MATH $(\partial(E_v-E_u)/\partial B)^{-1}$ -->
+<!--.
+<code>Freq2Field</code> should never be changed from its default 1.
+</td></tr>
+-->
+<tr>
+
+</table>
+
+<p>
+There are five outputs from <code>resfields</code>. Line positions are returned
+in matrix <code>Pos</code>, in units of mT. The various transitions are along columns,
+each column corresponding to a separate orientation. The <code>Int</code> output
+contains the intensities, with the same layout as <code>Pos</code>. Line widths are in
+<code>Wid</code>, again in mT. <code>Trans</code> is the list of computed transitions. This list
+has the same format as the <code>Transitions</code> option in <code>Opt</code>. <code>Grad</code> contains
+the magnitudes of the orientational gradient.
+of all the resonance fields 
+</p>
+<img src="eqn/resfields2.png" alt="[eqn]"><!--MATH $B_\mr{res}$ -->
+<div class="eqn">
+<img src="eqn/resfields3.png" alt="[eqn]"><!--MATH
+\begin{equation*}
+B_\mr{res}
+\frac{\partial B_\mr{res}}{\partial\varDelta_{uv}}
+\sqrt{
+(\partial\varDelta_{uv}/\partial\vc{x}_\mr{Lab})^2
++
+(\partial\varDelta_{uv}/\partial\vc{y}_\mr{Lab})^2
+}
+\end{equation*}
+-->
+</div>
+
+where
+<img src="eqn/resfields4.png" alt="[eqn]"><!--MATH $\varDelta_{uv} = E_v-E_u$ -->.
+
+
+<div class="subtitle">Examples</div>
+
+<p>
+A comparison between the resonance field position obtained from <code>resfields</code>
+(spline modelling approach) and <code>eigfields</code> (exact solution) shows that
+differences are negligible.
+</p>
+
+<p>
+First we compute the resonance fields for an axial spin system with
+two equivalent protons.
+</p>
+
+<pre class="mlexample">
+Sys = struct('S',.5,'g',[2.3,2.3,2],...
+'Nucs','1H,1H','A',[10 10 500; 10 10 500]);
+Exp = struct('mwFreq',9.5,'Range',[200 400]);
+[p,t] = sphgrid('Dinfh',201);
+Exp.Orientations = [p;t];
+x = resfields(Sys,Exp);
+</pre>
+
+<p>
+Next we compute line positions using <code>eigfields</code>, which is much slower.
+</p>
+<pre class="mlexample">
+xr = [];
+for i=1:length(p)
+  Exp.Orientations = [p(i);t(i)];
+  xr(:,i) = eigfields(Sys,Exp);
+end
+</pre>
+
+<p>
+After plotting the result
+</p>
+<pre class="mlexample">
+h = plot(t*180/pi,xr,'k.',t*180/pi,x,'r');
+ylim([290 360]);
+xlabel('theta [deg]'); ylabel('field [mT]');
+</pre>
+
+<p>
+we see that the resonances obtained by the two methods are practically identical.
+</p>
+
+
+<div class="subtitle">See also</div>
+
+<p>
+<a class="esf" href="eigfields.html">eigfields</a>,
+<a class="esf" href="garlic.html">garlic</a>,
+<a class="esf" href="levels.html">levels</a>,
+<a class="esf" href="levelsplot.html">levelsplot</a>,
+<a class="esf" href="pepper.html">pepper</a>
+</p>
+
+<hr>
+</body>
+</html>

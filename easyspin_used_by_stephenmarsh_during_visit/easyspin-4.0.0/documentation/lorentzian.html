@@ -1,0 +1,91 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: lorentzian</title>
+</head>
+
+<body>
+
+<div class="functitle">lorentzian</div>
+
+<!-- ============================================================= -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+Lorentzian line shape (absorption and dispersion).
+</p>
+
+<pre class="mlsyntax">
+ya = lorentzian(x,x0,fwhm)
+ya = lorentzian(x,x0,fwhm,diff)
+ya = lorentzian(x,x0,fwhm,diff)
+[ya,yd] = ...
+</pre>
+
+<!-- ============================================================= -->
+<div class="subtitle">Description</div>
+
+<p>
+This function returns a <a href="lineshapes.html">Lorentzian lineshape</a> with center <code>x0</code> and full width
+at half height <code>fwhm</code> over the abscissa values defined in the
+vector <code>x</code>.
+</p>
+
+<p>
+It returns the absorption Lorentzian in <code>ya</code> and the dispersion Lorentzian in <code>yd</code>.
+</p>
+
+<p>
+<code>diff</code> determines the derivative to compute. 0 stands for no
+derivative, 1 is the first one, 2 the second one, -1 indicates the integral
+with <img src="eqn/lorentzian1.png" alt="[eqn]"><!--MATH $-\infty$ --> as lower limit. If <code>diff</code> is not
+given, it is set to 0 by default.
+</p>
+
+<!-- ============================================================= -->
+<div class="subtitle">Examples</div>
+
+<p>
+To obtain the first derivative of a Lorentzian with centre at 2 and
+FWHM of 18, use
+</p>
+
+<pre class="mlexample">
+x = linspace(-300,300,1e3); x0 = 2; w = 18;
+y = lorentzian(x,x0,w,1);
+plot(x,y);
+</pre>
+
+<p>
+The Lorentzian absorption shape is normalised, so the double integral of
+<code>y</code> should give one. However, since its wings extend much beyond
+the borders of the above defined abscissa <code>x</code>, the value 1 is
+not reached.
+</p>
+
+<pre class="mlexample">
+trapz(x,cumtrapz(x,y))
+</pre>
+
+<pre class="mloutput">
+ans =
+    0.9621
+</pre>
+
+<!-- ============================================================= -->
+<div class="subtitle">See also</div>
+
+<p>
+<a class="esf" href="convspec.html">convspec</a>,
+<a class="esf" href="gaussian.html">gaussian</a>,
+<a class="esf" href="lshape.html">lshape</a>,
+<a class="esf" href="voigtian.html">voigtian</a>
+</p>
+
+<hr>
+</body>
+
+</html>

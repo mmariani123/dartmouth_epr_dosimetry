@@ -1,0 +1,74 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: ctafft</title>
+</head>
+
+<body>
+
+<div class="functitle">ctafft</div>
+
+<!-- ====================================================== -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+Cross-term averaged FFT.
+</p>
+
+<pre class="mlsyntax">
+FD = ctafft(TD,Averages)
+FD = ctafft(TD,Averages,N)
+</pre>
+
+<!-- ====================================================== -->
+<div class="subtitle">Description</div>
+
+<p>
+<code>ctafft</code> takes a time-domain signal <code>TD</code> as input and computes
+the cross-term averaged FFT. For this, <code>ctafft</code> computes the FFTs
+of <code>TD(Averages(i):end)</code> for all <code>i</code> and sums up their magnitudes.
+If <code>Averages</code> is a number, it is a shortcut for <code>1:Averages</code>.
+</p>
+
+<p>
+<code>ctafft</code> helps to get rid of dead-time artifacts in simple FFTs
+of ESEEM spectral data. The quality of the result can be very sensitive
+to <code>Averages</code>, so it is worthwhile to experiment a bit.
+</p>
+
+<p>
+If <code>N</code> is given, all signals are zero-filled to length <code>N</code>
+before the FFT. If not given, <code>N</code> is set to the length of <code>TD</code>.
+</p>
+
+<p>
+<code>TD</code> can be either a vector or a matrix. In the latter case,
+<code>ctafft</code> works along columns.
+</p>
+
+<!-- ====================================================== -->
+<div class="subtitle">Algorithm</div>
+
+<p>
+<code>ctafft</code> implements a procedure introduced in
+</p>
+
+<ul>
+<li>
+S. Van Doorslaer, G. A. Sierra, A. Schweiger,
+J. Magn. Reson. 136, 152 (1999).
+</ul>
+
+<!-- ====================================================== -->
+<div class="subtitle">See also</div>
+
+<p>
+<a class="esf" href="fdaxis.html">fdaxis</a>
+</p>
+
+<hr>
+</body>
+</html>

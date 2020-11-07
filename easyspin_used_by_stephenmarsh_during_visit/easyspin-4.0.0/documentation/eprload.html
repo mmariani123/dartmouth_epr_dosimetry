@@ -1,0 +1,126 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: eprload</title>
+</head>
+
+<body>
+
+<div class="functitle">eprload</div>
+
+<!-- ================================================================ -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+Load spectral data from files in common EPR data formats.
+</p>
+
+<pre class="mlsyntax">
+eprload(FileName)
+y = eprload(FileName)
+[x,y] = eprload(FileName)
+[x,y,Params] = eprload(FileName)
+[x,y,Params,FileN] = eprload(FileName)
+eprload
+... = eprload
+... = eprload(FileName,Scaling)
+</pre>
+
+<!-- ================================================================ -->
+<div class="subtitle">Description</div>
+
+<p>
+This function loads real or complex spectral data from files in common data formats of EPR spectrometers. <code>FileName</code> is the filename to be loaded. If <code>FileName</code> is a directory, a file selection dialog box is displayed. If no <code>FileName</code> is given, the current directory is used as default.
+</p>
+
+<p>
+<code>x</code> contains the x axis data (the magnetic field, time, frequency axis), <code>y</code> contains the spectral data, <code>Params</code> is a structure containing the entries from the associated parameter file (if it exists), and <code>FileN</code> is the name of the loaded file including the full path. If no output parameter is given, the loaded data are plotted.
+</p>
+
+<p>
+If the spectrum is twodimensional, then <code>x</code> contains both axes. <code>x{1}</code> is the first axis, and <code>x{2}</code> is the second axis.
+</p>
+
+<p>
+All string fields in <code>Params</code> containing numbers are converted to numbers. E.g., <code>Params.XPTS='1024'</code> is converted to <code>Params.XPTS=1024</code>. In addition, <code>'True'</code> is converted to 1, and <code>'False'</code> is converted to 0.
+</p>
+
+<p>
+Formats are identified by the extension of the file name specified in <code>FileName</code>, which can be either the data file or the
+parameter file extension. If no extension is given, <code>eprload</code> tried several extensions. Supported formats are listed in the next table.
+</p>
+
+<table>
+<tr><td>Format</td><td>Data file extension</td><td>Parameter file extension</td></tr>
+<tr><td>Bruker BES<sup>3</sup>T</td><td><code>DTA</code></td><td><code>DSC</code></td></tr>
+<tr><td>Bruker ESP, WinEPR</td><td><code>spc</code></td><td><code>par</code></td></tr>
+<tr><td>SpecMan</td><td><code>d01</code></td><td><code>exp</code></td></tr>
+<tr><td>Varian</td><td><code>spk,res</code></td><td>-</td></tr>
+<tr><td>qese, tryscore</td><td><code>ECO</code></td><td>-</td></tr>
+<tr><td>MAGRES</td><td><code>PLT</code></td><td>-</td></tr>
+<tr><td>ESE WIS/ETH</td><td><code>d00</code></td><td><code>exp</code></td></tr>
+</table>
+
+<p>
+Depending on the nature of the data, a real or complex 1D, 2D or 3D array is returned in <code>y</code>.
+</p>
+
+<p>
+Note that BES<sup>3</sup>T files stored in ASCII format cannot be read by <code>eprload</code>. In this case and for any other plain ASCII formats use MATLAB's <code>textread</code> function.
+</p>
+
+<p>
+<code>Scaling</code> is a string of one-letter codes that instructs <code>eprload</code> to scale the spectral data. The codes are:
+
+<ul>
+<li><code>'n'</code>: divide by the number of scans
+<li><code>'G'</code>: divide by the receiver gain
+<li><code>'P'</code>: divide by the square root of the microwave power (in milliwatts)
+<li><code>'T'</code>: multiply by the temperature (in kelvin)
+<li><code>'c'</code>: divide by the conversion/sampling time (in milliseconds)
+</ul>
+
+<p>
+For example, <code>'nGP'</code> would scale the spectrum by the number of scans, the receiver gain, and the square root of the microwave power.
+
+<p>
+If <code>Scaling</code> is omitted, no scaling is performed. Currently, <code>Scaling</code> is only supported for Bruker par/spc files.
+</p>
+
+<!-- ================================================================ -->
+<div class="subtitle">Examples</div>
+
+<p>
+To load and display a cw EPR spectrum stored in BES<sup>3</sup>T format in the files
+<code>myspec.DTA</code> and <code>myspec.DSC</code>, type
+</p>
+
+<pre class="mlexample">
+[B,spec,pars] = eprload('myspec.DTA');
+plot(B,spec);
+</pre>
+
+<p>
+If you want to display the data only without retrieving the data, use
+</p>
+
+<pre class="mlexample">
+eprload('myspec.DTA');
+</pre>
+
+<p>
+If you want to select the file in a dialog box, but then obtain the
+filename in addition to the data, use
+</p>
+
+<pre class="mlexample">
+[x,y,p,fn] = eprload;
+</pre>
+
+<hr>
+</body>
+
+</html>

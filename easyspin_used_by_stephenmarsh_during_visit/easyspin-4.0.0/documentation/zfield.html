@@ -1,0 +1,84 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: zfield</title>
+</head>
+
+<body>
+
+<div class="functitle">zfield</div>
+
+<!-- ====================================================== -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+Electronic zero-field interaction Hamiltonian.
+</p>
+
+<pre class="mlsyntax">
+F = zfield(SpinSystem)
+</pre>
+
+<!-- ====================================================== -->
+<div class="subtitle">Description</div>
+
+<p>
+This function computes the Hamiltonian of all electronic zero-field
+interactions in the spin system described by the structure
+<code>SpinSystem</code>. For formulas see <code>internal</code>.
+</p>
+
+<!-- ====================================================== -->
+<div class="subtitle">Examples</div>
+
+<p>
+The zero-field term <img src="eqn/zfield1.png" alt="[eqn]"><!--MATH $\boldsymbol{S}^\mr{T}D\boldsymbol{S}$ --> of a
+simple spin system
+</p>
+
+<pre class="mlexample">
+Sy = struct('S',1,'g',2,'D',[1680 110]);
+</pre>
+
+<p>
+in GHz is
+</p>
+
+<pre class="mlexample">
+zfield(Sy)/1e3
+</pre>
+<pre class="mloutput">
+ans =
+    0.5600         0    0.1100
+         0   -1.1200         0
+    0.1100         0    0.5600
+</pre>
+
+<p>
+The same result is obtained by using 3 values instead of 2 in the <code>D</code> field.
+
+<pre class="mlexample">
+D = 1680; E = 110;
+Dvalues = [-1,-1,+2]/3*D + [+1,-1,0]*E;
+Sy = struct('S',1,'g',2,'D',Dvalues);
+</pre>
+
+
+<!-- ====================================================== -->
+<div class="subtitle">See also</div>
+
+<p>
+<a class="esf" href="eeint.html">eeint</a>,
+<a class="esf" href="hfine.html">hfine</a>,
+<a class="esf" href="nquad.html">nquad</a>,
+<a class="esf" href="sham.html">sham</a>,
+<a class="esf" href="zeeman.html">zeeman</a>,
+<a class="esf" href="zfsframes.html">zfsframes</a>
+</p>
+
+<hr>
+</body>
+</html>

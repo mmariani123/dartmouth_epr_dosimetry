@@ -1,0 +1,65 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: spinvec</title>
+</head>
+
+<body>
+
+<div class="functitle">spinvec</div>
+
+<!-- ======================================================== -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+Spin quantum number vector.
+</p>
+
+<pre class="mlsyntax">
+vec = spinvec(System)
+</pre>
+
+<!-- ======================================================== -->
+<div class="subtitle">Description</div>
+
+<p>
+This function extracts the quantum numbers of the spins constituting
+the spin system described by the structure <code>System</code>. It is a row
+vector of spin quantum numbers.
+</p>
+
+<!-- ======================================================== -->
+<div class="subtitle">Examples</div>
+
+<p>
+If we define a spin system <code>ABC</code> with
+</p>
+
+<pre class="mlexample">
+ABC = struct('S',1/2,'g',[2 2 2.3],'Nucs','63Cu,14N','A',[10 10 200;5 5 5]);
+</pre>
+
+we can extract the spin quantum numbers with
+
+<pre class="mlexample">
+spinvec(ABC)
+</pre>
+<pre class="mloutput">
+ans =
+    0.5000    1.5000    1.0000
+</pre>
+
+<!-- ======================================================== -->
+<div class="subtitle">See also</div>
+
+<p>
+<a class="esf" href="hsdim.html">hsdim</a>,
+<a class="esf" href="sop.html">sop</a>
+</p>
+
+<hr>
+</body>
+</html>

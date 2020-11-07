@@ -1,0 +1,101 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: clebschgordan</title>
+</head>
+
+<body>
+
+<div class="functitle">clebschgordan</div>
+
+<!-- ============================================================= -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+Clebsch-Gordan vector-coupling coefficients
+</p>
+
+<pre class="mlsyntax">
+v = clebschgordan(j1,j2,j,m1,m2,m)
+v = clebschgordan(jm1,jm2,jm)
+v = clebschgordan(j,m)
+</pre>
+
+<!-- ============================================================= -->
+<div class="subtitle">Description</div>
+
+<p>
+<code>clebschgordan</code> returns the value of a Clebsch-Gordan coefficient
+(also called vector addition or vector coupling coefficient), usually written
+in one of the forms
+</p>
+
+<div class="eqn">
+<img src="eqn/clebschgordan1.png" alt="[eqn]"><!--MATH
+$
+C_{m_1m_2}^{j}
+\qquad
+C_{m_1m_2m}^{j_1j_2j}
+\qquad
+(j_1m_1j_2m_2|jm)
+\qquad
+(j_1m_1j_2m_2|j_1j_2jm)
+$
+-->
+</div>
+
+<p>
+The six parameters can be specified separately or in groups.
+In the three-argument form, <code>clebschgordan</code> takes
+<code>jm1 = [j1 m1]</code> etc., if two arguments are given,
+it takes <code>j = [j1 j2 j]</code> and <code>m = [m1 m2 m]</code>. 
+</p>
+
+<!-- ============================================================= -->
+<div class="subtitle">Examples</div>
+
+<pre class="mlexample">
+clebschgordan([1 1 2],[0 0 0])
+</pre>
+<pre class="mloutput">
+ans =
+    0.8165
+</pre>
+
+<!-- ============================================================= -->
+<div class="subtitle">Algorithm</div>
+
+<p>
+<code>clebschgordan</code> computes the Clebsch-Gordan coefficients
+via Wigner 3-j symbols
+</p>
+
+<div class="eqn">
+<img src="eqn/clebschgordan2.png" alt="[eqn]"><!--MATH
+$
+(j_1m_1j_2m_2|j_1j_2jm)
+=
+(-1)^{j_1-j_2+m}\sqrt{2j+1}
+\begin{pmatrix}j_1&j_2&j\\m_1&m_2&-m\end{pmatrix}
+$
+-->
+</div>
+
+<p>
+using the function <a class="esf" href="wigner3j.html">wigner3j</a>.
+</p>
+
+<!-- ============================================================= -->
+<div class="subtitle">See also</div>
+
+<p>
+<a class="esf" href="wigner3j.html">wigner3j</a>,
+<a class="esf" href="wigner6j.html">wigner6j</a>
+</p>
+
+<hr>
+</body>
+</html>

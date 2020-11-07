@@ -1,0 +1,439 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: chili user guide</title>
+</head>
+
+<body>
+
+<div class="functitle">Simulating slow-motion cw EPR spectra</div>
+
+<!-- ============================================================= -->
+
+<p>
+This user guide explains how to simulate slow-motion cw EPR spectra of
+S=1/2 systems using EasySpin's function <a class="esf" href="chili.html">chili</a>.
+For full information, see the reference page on <a class="esf" href="chili.html">chili</a>.
+</p>
+
+This user guide contains the following topics:
+
+<ul>
+<li><a href = "#calling">Invoking the simulation function <code>chili</code></a></li>
+<li><a href = "#spinsys">Specifying the static parameters</a></li>
+<li><a href = "#dynamics">Dynamic parameters</a></li>
+<li><a href = "#potential">The orienting potential</a></li>
+<li><a href = "#expparams">Experimental settings</a></li>
+<li><a href = "#momd">MOMD vs single orientation</a></li>
+<li><a href = "#algorithm">Simulation parameters</a></li>
+</ul>
+
+There are the following advanced topics:
+
+<ul>
+<li><a href = "#multinuc">Systems with more than one nucleus</a></li>
+</ul>
+
+<!-- ============================================================= -->
+<div class="subtitle"><a name="calling">Invoking the simulation function chili</a></div>
+
+<p>
+Slow-motion cw EPR spectra of S=1/2 systems are computed
+by the EasySpin function <a class="esf" href="chili.html">chili</a>.
+</p>
+
+<pre class="mlexample">
+chili(Sys,Exp)
+</pre>
+
+<p>
+It is called with two arguments. The first argument <code>Sys</code> tells <code>chili</code>
+all about the static and dynamic parameters of the spin system.
+The second argument <code>Exp</code> gives the experimental parameters.
+</p>
+
+<p>
+If no output argument is given, <code>chili</code>
+plots the computed spectrum. But it can also return one or two outputs.
+(Don't forget the semicolon at the end of the line to suppress
+output to the command window.)
+</p>
+
+<pre class="mlexample">
+Spec = chili(Sys,Exp);
+[Field,Spec] = chili(Sys,Exp);
+</pre>
+
+<p>
+The outputs <code>Field</code> and <code>Spec</code> are
+vectors containing the magnetic field axis and the spectrum, respectively.
+If these are requested, <code>chili</code> does not plot the spectrum.
+</p>
+
+<p>
+Doing a simulation only requires a few lines of code. A simple example is
+</p>
+
+<pre class="mlexample">
+Sys = struct('g',[2.008,2.006,2.003],'Nucs','14N','A',[20,20,85]);
+Sys.tcorr = 4e-8;
+Exp = struct('mwFreq',9.5);
+chili(Sys,Exp);
+</pre>
+
+<p>
+The first line defines the spin system, a nitroxide radical with anisotropic
+g and A tensors. The second line gives the rotational correlation time of the
+radical. The third line
+specifies experimental parameters, here only the microwave frequency (The
+magnetic field range is chosen automatically).
+The fourth line calls the simulation function, which plots the result.
+Copy and paste the code above to your MATLAB command window to see the graph.
+</p>
+
+<p>
+Of course, the names of the input and output variables don't have
+to be <code>Sys</code>, </code><code>Exp</code>, <code>Field</code> and <code>Spec</code>.
+You can give them any name you like, as long as it is a valid MATLAB
+variable name, e.g., <code>FremySaltSolution</code> or <code>QbandExperiment</code>.
+For convenience, thoughout this tutorial, we will use short names like <code>Sys</code> and <code>Exp</code>.
+</p>
+
+<!-- ============================================================= -->
+<div class="subtitle"><a name="spinsys">Specifying the static parameters</a></div>
+
+<p>
+The first input argument specifies the static parameters of the paramagnetic molecule.
+It is a MATLAB structure with various fields giving values for the spin system parameters.
+</p>
+
+<pre class="mlexample">
+Sys.g = [2.008,2.006,2.003];
+Sys.Nucs = '14N';
+Sys.A = [20,20,80];  % MHz
+</pre>
+
+<p>
+The first line defined the g tensor of the spin system via its three
+principal values. <code>chili</code> always assumes a single unpaired electron spin S=1/2.
+</p>
+
+<p>
+The field <code>Sys.Nucs</code> contains a string giving all the
+magnetic nuclei in the spin system, a nitrogen-14 in the above example.
+Use a comma-separated list of isotope labels to give more than one
+nucleus. E.g., <code>Sys.Nucs = '14N,1H,1H'</code> specifies one nitrogen and
+two different protons. See the <a href="#multinuc">section on multinuclear systems</a>
+about details of the slow-motion simulation in that case.
+</p>
+
+<p>
+<code>Sys.A</code> gives the hyperfine couplings in MHz (Megahertz),
+with three principal values on a row for each of the nuclei listed in <code>Sys.Nucs</code>.
+The following defines a hydrogen atom with a 10 MHz coupling to the unpaired electron and
+a <sup>13</sup>C atom with a 12 MHz coupling.
+
+<pre class="mlexample">
+Sys.Nucs = '1H,13C';
+Sys.A = [10 12]; % MHz
+</pre>
+
+<p>
+Remember that <code>chili</code> (and other EasySpin functions, too),
+take the hyperfine coupling values to be in <b>MHz</b>.
+Often, values for hyperfine couplings are given in G (Gauss) or mT
+(Milltesla), so you have to convert these values.
+For g = 2.00232, 1 G corresponds to 2.8025 MHz, and 1 mT corresponds to 28.025 MHz.
+The simplest way to convert coupling constants from magnetic field units to MHz is to use the EasySpin
+function <a class="esf" href="mt2mhz.html">mt2mhz</a>:
+</p>
+
+<pre class="mlexample">
+A_MHz = mt2mhz(A_mT);    % mT -> MHz conversion
+A_MHz = mt2mhz(A_G/10);  %  G -> MHz conversion (1 G = 0.1 mT)
+</pre>
+
+<p>
+The orientations of the tensors relative to the molecular frame are defined
+in terms of Euler angles in 3-element array (see the function
+<a class="esf" href="erot.html">erot</a>).
+</p>
+
+<pre class="mlexample">
+Sys.gpa = [0 0 0];    % Euler angles for g tensor
+Sys.Apa = [0 pi/4 0]; % Euler angles for A tensor
+</pre>
+
+<p>
+For more details on these static parameters, see the documentation on <a href="spinsystem.html">spin systems</a>.
+</p>
+
+<!-- ============================================================= -->
+<div class="subtitle"><a name="dynamics">Dynamic parameters</a></div>
+
+<p>
+The spin system structure also collects parameters relating to the dynamics of the paramagnetic molecules.
+</p>
+
+<p>
+There are several alternative ways to specify the rate of isotropic rotational diffusion:
+either by specifying <code>tcorr</code>, the rotational correlation time in seconds
+</p>
+
+<pre class="mlexample">
+Sys.tcorr = 1e-7;   % 10^-7 s = 100 ns
+</pre>
+
+<p>
+or by givings its base-10 logarithm
+</p>
+
+<pre class="mlexample">
+Sys.logtcorr = -7;   % 10^-7 s = 100 ns
+</pre>
+
+<p>
+or by specifying the principal value of the rotational diffusion tensor (in s<sup>-1</sup>)
+</p>
+
+<pre class="mlexample">
+Sys.Diff = 1e9;  % 1e9 s^-1 = 1 ns^-1
+</pre>
+
+<p>
+or by givings its base-10 logarithm
+</p>
+
+<pre class="mlexample">
+Sys.logDiff = 9;   % 1e9 s^-1 = 1 ns^-1
+</pre>
+
+<code>Diff</code> and <code>tcorr</code> are related by
+
+<pre class="mlexample">
+Diff = 1/6/tcorr;
+</pre>
+
+The input field <code>Diff</code> can be used to specify an axial rotational diffusion
+tensor, by giving a 2-element vector with first the perpendicular and the the parallel
+principal value:
+
+<pre class="mlexample">
+Sys.Diff = [1 2]*1e8;  % in Hertz
+</pre>
+
+<p>
+The <code>lw</code> field has the same meaning 
+As for the other simulation functions
+<a class="esf" href="garlic.html">garlic</a> and
+<a class="esf" href="pepper.html">pepper</a>,
+the field <code>Sys.lw</code> can be used to specify
+a Gaussian and a Lorentzian broadening (FWHM, in mT)
+</p>
+
+<pre class="mlexample">
+Sys.lw = [0.05 0.01];   % [GaussianFWHM, LorentzianFWHM] in mT
+</pre>
+
+<p>
+For the reliability of the simulation algorithm we recommend to always
+use a small residual Lorentzian line width in <code>Sys.lw</code>
+</p>
+
+<code>chili</code> is also capable of simulating spectra including Heisenberg spin exchange. The effective exchange frequency (in Hertz) is specified in <code>Sys.Exchange</code>, e.g.
+
+<pre class="mlexample">
+Sys.Exchange = 1e8;     % 100 MHz
+</pre>
+
+<p>
+A short example of a nitroxide radical EPR spectrum with exchange narrowing is
+</p>
+
+<pre class="mlexample">
+Nx = struct('g',[2.0088, 2.0061, 2.0027],'Nucs','14N','A',[16 16 86]);
+Nx.tcorr = 1e-7; Nx.lw = [0 0.1]; Nx.Exchange = 1e8;
+Exp = struct('mwFreq',9.5,'CenterSweep',[338, 10]);
+chili(Nx,Exp);
+</pre>
+
+
+<!-- ============================================================= -->
+<div class="subtitle"><a name="potential">The orienting potential</a></div>
+
+<p>
+<code>chili</code> can also include an orienting potential in the simulation.
+It is specified in the field <code>lambda</code> in the spin system structure.
+Up to five coefficients can be given, &lambda;<sub>2,0</sub>, &lambda;<sub>2,2</sub>,  &lambda;<sub>4,0</sub>,
+   &lambda;<sub>4,2</sub>, and  &lambda;<sub>4,4</sub>, in that order.  For example,
+</p>
+
+<pre class="mlexample">
+Nx.lambda = [0.3, -0.2];
+</pre>
+
+<p>
+indicates &lambda;<sub>2,0</sub> = 0.3 and  &lambda;<sub>2,2</sub> = -0.2.
+
+<!-- ============================================================= -->
+<div class="subtitle"><a name="expparams">Experimental settings</a></div>
+
+<p>
+All experimental settings are given in the second input argument
+<code>Exp</code>, again a MATLAB structure.
+There are five possible fields:
+</p>
+
+<pre class="mlexample">
+Exp.mwFreq = 9.5;              % GHz, mandatory
+
+Exp.CenterSweep = [330 20];    % mT, optional, default: automatic
+Exp.Range = [320 340];         % mT, optional, default: automatic
+
+Exp.Harmonic = 1;              % optional, default: 1
+Exp.nPoints = 1024;            % optional, default: 1024
+</pre>
+
+<p>
+<code>Exp.mwFreq</code> gives the spectrometer frequency in GHz. It
+is the only field that has to be specified, all others are optional.
+</p>
+
+<p>
+There are two ways to specify the magnetic field sweep range.
+Either the
+center and the sweep width (in mT) are given in <code>Exp.CenterSweep</code>,
+or the lower and upper limit of the sweep range (again in mT) are given in
+<code>Exp.Range</code>.
+In many cw EPR spectrometers, the field range is
+specified using a center field and a sweep width, so <code>Exp.CenterSweep</code>
+is usually the more natural choice. </p>
+
+<p>
+<code>Exp.CenterSweep</code> and <code>Exp.Range</code> are only optional.
+If both are omitted, <code>chili</code> automatically
+chooses a field range large enough to accomodate the full spectrum.
+If both are given, <code>chili</code> takes
+the values given in <code>Exp.CenterSweep</code> and ignores those
+in <code>Exp.Range</code>.
+</p>
+
+<p>
+The optional field <code>Exp.Harmonic</code> specifies the detection harmonic. It has three
+possible settings:
+</p>
+
+<pre class="mlexample">
+Exp.Harmonic = 0;  % absorption spectrum
+Exp.Harmonic = 1;  % first derivative of the absorption spectrum (default)
+Exp.Harmonic = 2;  % second derivative of the absorption spectrum
+</pre>
+
+<p>
+The default value for <code>Exp.Harmonic</code> is 1. Note that <code>Exp.Harmonic>0</code>
+only computes the appropriate <em>derivative</em> of the absorption spectrum. Broadening effects due to strong field modulation have to be added separately, see <a href="#modulation">below</a>.
+</p>
+
+<p>
+Yet another optional field is <code>Exp.nPoints</code>, giving the number of points in the simulated
+spectrum. If it is not given, the default 1024 is assumed. You can
+set any value, unlike in many EPR spectrometers, where usually only powers of
+2 are available (1024, 2048, 4096, 8192).
+</p>
+
+<!-- ============================================================= -->
+<div class="subtitle"><a name="algorithm">MOMD vs single orientation</a></div>
+
+<p>
+In a frozen solution of spin-labelled protein, the protein  molecules assume all
+possible orientations. For slow-motion spectra, this orientational distribution
+has to be taken into account if a orienting potential is present. If not, it is
+sufficient to compute only one orientation, as the spectra from all orientations
+are identical.
+
+<p>
+The summation of slow-motion spectra over all possible protein ("director") orientations
+is called the <em>MOMD</em> (microscopic order macroscopic disorder) model. In <code>chili</code>,
+MOMD can be activated by setting <code>Exp.MOMD=1<code>.
+
+<p>
+When <code>chili</code> uses the MOMD model for the simulation, it takes the number of
+orientations to include from <code>Opt.nKnots</code>. Often, <code>Opt.nKnots</code> does
+not have to be changed from its default setting, but if the spectrum does not appear to
+be smooth, <code>Opt.nKnots</code> can be increased. Of course, this also increases the
+simulation time. For quick simulations, <code>Opt.nKnots</code> should be minimized.
+
+<p>
+With the setting <code>Exp.MOMD=0</code>, only a single orientation is computed, even
+when an orienting potential is given. The orientation is taken from <code>Exp.psi</code>,
+which is the director tilt angle in radians, i.e. the angle between the magnetic field
+and the main axis of the orienting potential (which is fixed to the protein).
+
+<!-- ============================================================= -->
+<div class="subtitle"><a name="algorithm">Simulation parameters</a></div>
+
+<p>
+The third input structure, <code>Opt</code>, collects parameters related
+to the simulation algorithm.
+</p>
+
+<p>
+The field <code>Verbosity</code> specifies whether <code>chili</code>
+should print information about its computation into the MATLAB command window.
+By default, its value is set to 0, so that <code>chili</code> is silent.
+It can be switched on by giving
+</p>
+
+<pre class="mlexample">
+Opt.Verbosity = 1;     % log information
+</pre>
+
+<p>
+Another important option is <code>LLKM</code>. It specifies the number of
+orientational basis functions used in the simulation. For spectra in the
+fast and intermediate motion regime, the preset values don't have to be
+changed. However, close to the rigid limit, the default settings of <code>LLKM</code>
+might be too small. In that case, <code>LLKM</code> has to be increased, e.g.
+</p>
+
+<pre class="mlexample">
+Opt.LLKM  = [24 20 10 10];
+</pre>
+
+<p>
+To see the values of <code>LLKM</code> that <code>chili</code> is using,
+set <code>Opt.Verbosity=1</code>, as described above.
+</p>
+
+<!-- ============================================================= -->
+<div class="subtitle"><a name="multinuc">Systems with more than one nucleus</a></div>
+
+<p>
+<code>chili</code> is not capable of simulating a slow-motional cw EPR spectrum of
+systems with more than one nucleus by solving the Stochastic Liouville equation. 
+</p>
+
+<p>
+However, if the hyperfine coupling of one nucleus is significantly larger than those of the other nuclei, <code>chili</code> uses an approximate procedure: The slow-motional spectrum simulated using only the electron spin and the nucleus with the dominant hyperfine coupling is convoluted with the isotropic splitting pattern due to all other nuclei. This post-convolution technique gives resonable results.
+</p>
+
+<p>
+A simple example is
+</p>
+
+<pre class="mlexample">
+CuPc = struct('g',[2.0525 2.0525 2.1994],'Nucs','63Cu,14N','n',[1 4]);
+CuPc.A = [-54 -54 -608; 52.4 41.2 41.8];
+CuPc.logtcorr = -7.35;
+Exp = struct('mwFreq',9.878,'CenterSweep',[330 120],'nPoints',5e3);
+Opt.LLKM = [36 30 8 8];
+chili(CuPc,Exp,Opt);
+</pre>
+
+<hr>
+
+</body>
+</html>

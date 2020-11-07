@@ -1,0 +1,102 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: eeint</title>
+</head>
+
+<body>
+
+<div class="functitle">eeint</div>
+
+<!-- ====================================================== -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+Electron-electron interaction Hamiltonian.
+</p>
+
+<pre class="mlsyntax">
+F = eeint(SpinSys)
+F = eeint(SpinSys,eSpins)
+</pre>
+
+<!-- ====================================================== -->
+<div class="subtitle">Description</div>
+
+<p>
+<code>eeint</code> returns the electron-electron interaction
+part of the <a href="hamiltonian.html">spin Hamiltonian</a> of the <a href="spinsystem.html">spin system</a>
+given in <code>SpinSys</code>, in units of MHz.
+</p>
+
+<p>
+If the vector <code>eSpins</code> is specified, only the interactions between the
+electrons listed in <code>eSpins</code> is computed. For example, if <code>eSpins = [1 3]</code>
+and the spin system contains 3 electrons, only the interaction between
+electron 1 and electron 3 is returned.
+</p>
+
+<p>
+In the <a href="spinsystem.html">spin system structure</a>, the
+fields <code>ee</code> and <code>eepa</code> parameterize the electron-electron
+interaction.
+</p>
+
+
+<!-- ====================================================== -->
+<div class="subtitle">Examples</div>
+
+
+<p>
+For a two-electron system <code>AB</code>
+</p>
+
+<pre class="mlexample">
+AB = struct('S',[1/2 1/2],'g',[2 2.2]);
+AB.ee = [1 1 -2]*40;
+</pre>
+
+<p>
+the electron-electron interaction Hamiltonian (in MHz) is
+</p>
+
+<pre class="mlexample">
+eeHam = eeint(AB)
+</pre>
+<pre class="mloutput">
+eeHam =
+    20     0     0     0
+     0   -20   -20     0
+     0   -20   -20     0
+     0     0     0    20
+</pre>
+with the energies
+<pre class="mlexample">
+E = eig(eeInt)
+</pre>
+<pre class="mloutput">
+E =
+   -40
+     0
+    20
+    20
+</pre>
+
+<!-- ====================================================== -->
+<div class="subtitle">See also</div>
+
+<p>
+<a class="esf" href="hfine.html">hfine</a>,
+<a class="esf" href="nquad.html">nquad</a>,
+<a class="esf" href="sham.html">sham</a>,
+<a class="esf" href="zeeman.html">zeeman</a>,
+<a class="esf" href="zfield.html">zfield</a>
+</p>
+
+<hr>
+</body>
+
+</html>

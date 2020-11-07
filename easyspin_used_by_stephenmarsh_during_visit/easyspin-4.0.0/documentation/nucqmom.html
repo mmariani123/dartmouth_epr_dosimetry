@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: nucgval</title>
+</head>
+
+<body>
+
+<div class="functitle">nucqmom</div>
+
+<!-- ====================================================== -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+Nuclear electric quadrupole moments.
+</p>
+
+<pre class="mlsyntax">
+Q = nucqmom(Isotopes)
+</pre>
+
+<!-- ====================================================== -->
+<div class="subtitle">Description</div>
+
+<p>
+This function returns the nuclear electric quadrupole moment of the nuclei
+specified in <code>Isotopes</code>, in units of barn (1 barn = 10<sup>-28</sup>
+m<sup>2</sup>, see <a href="barn.html" class="esf">barn</a>).
+
+<code>Isotopes</code> is a string giving the mass number and the
+chemical symbol of the element, e.g. <code>'14N'</code> or <code>'63Cu'</code>.
+If <code>Isotopes</code> is a comma-separated list of isotope labels,
+the function returns a list of all quadrupole moments in vector form.
+</p>
+
+<p>
+The data are taken from an internal database through
+<a href="nucdata.html" class="esf">nucdata</a>.
+</p>
+
+<!-- ====================================================== -->
+<div class="subtitle">Examples</div>
+
+<pre class="mlexample">
+Q = nucqmom('2H,14N')
+</pre>
+<pre class="mloutput">
+Q =
+    0.0029    0.0193
+</pre>
+<pre class="mlexample">
+Q = nucqmom('63Cu,65Cu')
+</pre>
+<pre class="mloutput">
+Q =
+   -0.2110   -0.1950
+</pre>
+
+<!-- ====================================================== -->
+<div class="subtitle">See also</div>
+
+<p>
+<a class="esf" href="barn.html">barn</a>,
+<a class="esf" href="nucabund.html">nucabund</a>,
+<a class="esf" href="nucdata.html">nucdata</a>,
+<a class="esf" href="nucgval.html">nucgval</a>,
+<a class="esf" href="nucspin.html">nucspin</a>
+</p>
+
+<hr>
+</body>
+</html>

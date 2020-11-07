@@ -1,0 +1,72 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: commute</title>
+</head>
+
+<body>
+
+<div class="functitle">commute</div>
+
+<!-- ====================================================== -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+Matrix commutator.
+</p>
+
+<pre class="mlsyntax">
+C = commute(A,B)
+</pre>
+
+<!-- ====================================================== -->
+<div class="subtitle">Description</div>
+
+<p>
+This function returns the commutator of its two matrix arguments
+<code>A</code> and <code>B</code>
+</p>
+
+<p>
+C = [A,B] = AB - BA.
+</p>
+
+<!-- ====================================================== -->
+<div class="subtitle">Examples</div>
+
+<p>
+The commutator [S<sub>x</sub>,S<sub>y</sub>] of a
+spin-1/2 is returned by the following code
+</p>
+
+<pre class="mlexample">
+Sx = sop(1/2,'x'); Sy = sop(1/2,'y');
+C = commute(Sx,Sy)
+</pre>
+
+<pre class="mloutput">
+C =
+        0 + 0.5000i        0
+        0                  0 - 0.5000i
+</pre>
+
+<p>
+This is obviously equal to iS<sub>z</sub>.
+</p>
+
+<!-- ====================================================== -->
+<div class="subtitle">See also</div>
+
+<p>
+<a class="esf" href="sham.html">sham</a>,
+<a class="esf" href="sop.html">sop</a>,
+<a class="esf" href="stev.html">stev</a>
+</p>
+
+<hr>
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: eprsave</title>
+</head>
+
+<body>
+
+<div class="functitle">eprsave</div>
+
+<!-- ================================================================ -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+Save spectral data in Bruker BES<sup>3</sup>T format.
+</p>
+
+<pre class="mlsyntax">
+eprsave(FileName,x,y)
+eprsave(FileName,x,y,TitleString)
+</pre>
+
+<!-- ================================================================ -->
+<div class="subtitle">Description</div>
+
+<p>
+This function saves the data set given by <code>x</code> (abscissa values) and <code>y</code> (spectra intensity values) in a set of .DTA and .DSC files
+using the base filename <code>FileName</code>. E.g. <code>FileName = 'peter'</code> would result in files <code>peter.DTA</code> and <code>peter.DSC</code>.
+The .DTA data file contains the data in binary format, and the .DSC description file contains information about the dataset in a readable text format.
+</p>
+
+<p>
+Any text in the optional <code>TitleString</code> will be stored along the data and read by the Bruker software as the <em>title</em> if the dataset.
+</p>
+
+<p>
+<code>eprsave</code> stores the data in BES<sup>3</sup>T format version 1.2.
+</p>
+
+
+<!-- ================================================================ -->
+<div class="subtitle">Examples</div>
+
+<p>
+To generate a simple Gaussian line and save it in Bruker BES<sup>3</sup>T format
+</p>
+
+<pre class="mlexample">
+B = linspace(300,400,1001);
+spc = gaussian(x,340,20,1);
+eprsave('mygauss',B,spc);
+</pre>
+
+<hr>
+</body>
+
+</html>

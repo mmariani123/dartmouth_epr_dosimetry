@@ -1,0 +1,144 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: spherharm</title>
+</head>
+
+<body>
+
+<div class="functitle">spherharm</div>
+
+<!-- ============================================================= -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+Spherical harmonics, tesseral harmonics.
+</p>
+
+<pre class="mlsyntax">
+v = spherharm(L,M,theta,phi)
+v = spherharm(L,M,theta,phi,'c')
+v = spherharm(L,M,theta,phi,'s')
+</pre>
+
+<!-- ============================================================= -->
+<div class="subtitle">Description</div>
+
+<p>
+<code>spherharm</code> returns the value of the normalised spherical harmonic
+<img src="eqn/spherharm1.png" alt="[eqn]"><!--MATH
+\begin{equation*}
+Y_{L,M}(\theta,\phi)
+\end{equation*}
+-->
+with non-negative integer L and |M| &le; L. The Condon-Shortley phase convention
+is used.
+</p>
+
+<p>
+<code>theta</code> and <code>phi</code> are scalars or alternatively
+array of the same size.
+</p>
+
+<p>
+If <code>'c'</code> or <code>'s'</code> are given, real linear combinations
+of the spherical harmonics (so-called tesseral harmonics) are returned. For
+the expressions, see below.
+</p>
+
+<!-- ============================================================= -->
+<div class="subtitle">Examples</div>
+
+<p>
+The following code plots the dependence on <code>theta</code> of
+the axial spherical harmonics with L = 7 and M = 0.
+</p>
+
+<pre class="mlexample">
+theta = linspace(0,pi);
+phi = zeros(size(theta));
+v = spherharm(7,0,theta,phi);
+plot(theta,v);
+</pre>
+
+<!-- ============================================================= -->
+<div class="subtitle">Algorithm</div>
+
+<p>
+<code>spherharm</code> follows the Condon-Shortley phase convention
+and implements the expression
+</p>
+
+<div class="eqn">
+<img src="eqn/spherharm2.png" alt="[eqn]"><!--MATH
+\begin{equation*}
+Y_{L,M}(\theta,\phi) =
+(-1)^M
+\sqrt{\frac{(2L+1)}{4\pi}\frac{(L-M)!}{(L+M)!}}
+P_L^M(\cos\theta)
+\mr{e}^{\ii M\phi}
+\end{equation*}
+-->
+</div>
+
+<p>
+with the associated Legendre polynomial <img src="eqn/spherharm3.png" alt="[eqn]"><!--MATH $P_L^M(z)$--> computed
+by <a class="esf" href="plegendre.html">plegendre</a>.
+</p>
+
+<p>
+If <code>'c'</code> is specified, the function
+</p>
+<div class="eqn">
+<img src="eqn/spherharm4.png" alt="[eqn]"><!--MATH
+\begin{equation*}
+Y^\mr{c}_{L,M}(\theta,\phi) =
+\sqrt{2}
+\sqrt{\frac{(2L+1)}{4\pi}\frac{(L-M)!}{(L+M)!}}
+P_L^M(\cos\theta)
+\cos(M\phi)
+\end{equation*}
+-->
+</div>
+
+<p>
+is returned. If <code>'s'</code> is given, the function
+</p>
+
+<div class="eqn">
+<img src="eqn/spherharm5.png" alt="[eqn]"><!--MATH
+\begin{equation*}
+Y^\mr{s}_{L,M}(\theta,\phi) =
+\sqrt{2}
+\sqrt{\frac{(2L+1)}{4\pi}\frac{(L-M)!}{(L+M)!}}
+P_L^M(\cos\theta)
+\sin(|M|\phi)
+\end{equation*}
+-->
+</div>
+
+<p>
+is returned. Note that for the tesseral harmonics, the Condon-Shortley phase is
+not included.
+</p>
+
+<p>
+The spherical and tesseral harmonics defined by the above expression are orthonormal.
+</p>
+
+<!-- ============================================================= -->
+<div class="subtitle">See also</div>
+
+<p>
+<a class="esf" href="clebschgordan.html">clebschgordan</a>,
+<a class="esf" href="plegendre.html">plegendre</a>,
+<a class="esf" href="wigner3j.html">wigner3j</a>,
+<a class="esf" href="wigner6j.html">wigner6j</a>
+</p>
+
+<hr>
+</body>
+</html>

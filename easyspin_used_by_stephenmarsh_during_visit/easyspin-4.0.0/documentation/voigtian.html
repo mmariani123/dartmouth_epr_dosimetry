@@ -1,0 +1,88 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: voigtian</title>
+</head>
+
+<body>
+
+<div class="functitle">voigtian</div>
+
+<!-- ====================================================== -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+Voigtian line shape.
+</p>
+
+<pre class="mlsyntax">
+y = voigtian(x,x0,fwhm)
+y = voigtian(x,x0,fwhm,deriv)
+</pre>
+
+<!-- ====================================================== -->
+<div class="subtitle">Description</div>
+
+<p>
+This function returns a <a href="lineshapes.html">Voigtian line shape</a> with centre <code>x0</code> and full width at
+half height <code>fwhm</code> over the abscissa values defined in the vector
+<code>x</code>. A Voigtian line shape is the convolution of a Gaussian and Lorentzian.
+<code>fwhm</code> specifies the full width at half height for both convolution components
+<code>fwhm = [fwhmGauss fwhmLorentz]</code>. 
+</p>
+
+<p>
+<code>deriv</code> determines the derivative to compute. 0 stands for 0th derivative,
+1 is the first one, 2 the second one, -1 indicates the integral with <img src="eqn/voigtian1.png" alt="[eqn]"><!--MATH $-\infty$ --> as
+lower limit. If <code>deriv</code> is not given, it defaults to 0.
+</p>
+
+<p>
+For long <code>x</code> vectors, the convolution takes time. If the performance is
+critical, pseudo-Voigt line shapes (linear combination of Gaussian and Lorentzian) can be
+computed with the function
+<a class="esf" href="lshape.html">lshape</a>.
+</p>
+
+<!-- ====================================================== -->
+<div class="subtitle">Examples</div>
+
+<p>
+To obtain a Voigtian with centre at 350 mT and FWHM of 20 mT for
+both Gaussian and Lorentzian, use
+</p>
+
+<pre class="mlexample">
+x0 = 350; x = x0+100*linspace(-1,1,1e3);
+y = voigtian(x,x0,[20 20]);
+plot(x,y);
+</pre>
+
+<p>
+The Voigtian is normalised, its integral is one.
+</p>
+
+<pre class="mlexample">
+sum(y)*(x(2)-x(1))
+</pre>
+<pre class="mloutput">
+ans =
+    1.0000
+</pre>
+
+<!-- ====================================================== -->
+<div class="subtitle">See also</div>
+
+<p>
+<a class="esf" href="convspec.html">convspec</a>,
+<a class="esf" href="gaussian.html">gaussian</a>,
+<a class="esf" href="lorentzian.html">lorentzian</a>,
+<a class="esf" href="lshape.html">lshape</a>
+</p>
+
+<hr>
+</body>
+</html>

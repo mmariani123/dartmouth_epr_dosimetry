@@ -1,0 +1,70 @@
+<!DOCTYPE html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: nquad</title>
+</head>
+
+<body>
+
+<div class="functitle">nquad</div>
+
+<!-- ====================================================== -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+Construct Hamiltonian of nuclear quadrupole interactions.
+</p>
+
+<pre class="mlsyntax">
+F = nquad(SpinSystem)
+F = nquad(SpinSystem,Nuclei)
+</pre>
+
+<!-- ====================================================== -->
+<div class="subtitle">Description</div>
+
+<p>
+<code>nquad</code> calculates the Hamiltonian of
+<a href="hamiltonian.html#nqi">nuclear quadrupole interactions</a>
+(NQI) in the spin system <code>SpinSystem</code>. If only one
+argument is given, the NQI of all nuclei of the system are added. If
+the vector <code>Nuclei</code> is given, only nuclei specified in the vector
+are included in the calculation. In <code>Nuclei</code>, 1 determines the
+first nucleus, 2 the second and so on.
+</p>
+
+<p>
+See the section about
+<a href="spinsystem.html">spin system structures</a> on how to
+specify NQI parameters. See the section on
+and <a href="hamiltonian.html#nqi">nuclear quadrupole interaction</a>
+for more details about the Hamiltonian.
+
+<!-- ====================================================== -->
+<div class="subtitle">Examples</div>
+
+<p>
+For a system <code>AB</code> with one electron and three nuclei,
+<code>nquad(AB,2)</code> returns the NQI Hamiltonian of the second nucleus
+only, whereas <code>nquad(AB)</code> gives the sum of the NQI of all three
+nuclei.
+</p>
+
+<!-- ====================================================== -->
+<div class="subtitle">See also</div>
+
+<p>
+<a class="esf" href="eeint.html">eeint</a>,
+<a class="esf" href="hfine.html">hfine</a>,
+<a class="esf" href="sham.html">sham</a>,
+<a class="esf" href="zeeman.html">zeeman</a>,
+<a class="esf" href="zfield.html">zfield</a>
+</p>
+
+<hr>
+</body>
+
+</html>

@@ -1,0 +1,971 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: Spin system</title>
+</head>
+
+<body>
+
+<h1>Defining a spin system</h1>
+
+<p>
+EasySpin uses mainly two data types that are available in
+MATLAB: <em>arrays</em> and <em>structures</em>. In
+EasySpin, a spin system is represented by a MATLAB structure
+(the <em>spin system structure</em>) containing certain fields.
+</p>
+
+<p>
+The spin system structure contains all information about the spin system and its
+<a href="hamiltonian.html">spin Hamiltonian</a>. Its fields
+specify spin quantum numbers, interaction parameters,
+matrices and tensors, relative orientation angles for these matrices
+and tensors as well as details about broadenings.
+</p>
+
+<p>
+The
+<a href="hamiltonian.html">spin Hamiltonian</a> is set up in frequency units (MHz, not angular
+frequencies), so all the energy parameters of the Hamiltonian have to
+be given in MHz as well. Hence, for example, the field
+<code>A</code> represents in fact the diagonal of the hyperfine coupling
+tensor divided by the Planck constant, A/h, and not of A.
+Remember that all angles are in <em>radians</em>, not in degrees.
+</p>
+
+<p>
+Spin system structures are used by many EasySpin functions, among them the simulation functions
+<a class="esf" href="chili.html">chili</a> (slow-motion EPR),
+<a class="esf" href="garlic.html">garlic</a> (isotropic EPR),
+<a class="esf" href="pepper.html">pepper</a> (solid-state EPR),
+<a class="esf" href="salt.html">salt</a> (ENDOR), and
+<a class="esf" href="saffron.html">saffron</a> (pulse EPR).
+</p>
+
+
+<div class="subtitle">A few examples</div>
+
+<p>
+Before we give a full list of possible fields, here are a couple of examples of spin system definitions.
+There are two equivalent ways.</p>
+
+<pre class="mlexample">
+Sys.S = 1/2;
+Sys.g = [1.9 2.0 2.1];
+Sys.lw = 0.7;  % mT
+</pre>
+
+<pre class="mlexample">
+Sys = struct('S',1/2,'g',[1.9 2.0 2.1],'lw',0.7);
+</pre>
+
+<p>
+Nuclei can be added to a spin system either using a set of fields (<code>Nucs</code>, <code>A</code>)
+or using the function <a class="esf" href="nucspinadd.html">nucspinadd</a>, which is more convenient
+in many situations.
+</p>
+
+<pre class="mlexample">
+Sys.S = 1/2;
+Sys.g = [2 2.1 2.2];
+Sys.Nucs = '63Cu';
+Sys.A = [50 50 460];
+</pre>
+
+<pre class="mlexample">
+Sys = struct('S',1/2,'g',[2 2.1 2.2]);
+Sys = nucspinadd(Sys,'63Cu',[50 50 460]);
+</pre>
+
+<p>
+A high-spin Mn<sup>2+</sup> system with zero-field splitting is
+</p>
+
+<pre class="mlexample">
+Sys = struct('S',5/2,'g',2,'Nucs','55Mn');
+Sys.A = -240; 
+Sys.D = 120;
+</pre>
+
+<div class="subtitle">Parameter reference</div>
+
+<p>
+The following groups of parameters can be specified in the spin system structure:
+</p>
+
+<ul>
+<li><a href = "#S">Spins</a></li>
+<li><a href = "#g">g values</a></li>
+<li><a href = "#A">Hyperfine couplings</a></li>
+<li><a href = "#Q">Nuclear quadrupole couplings</a></li>
+<li><a href = "#D">Zero-field splittings</a></li>
+<li><a href = "#B">Higher-order operators</a></li>
+<li><a href = "#ee">Electron-electron couplings</a></li>
+<li><a href = "#lw">Broadenings</a></li>
+</ul>
+
+<p>
+All interaction
+matrices and tensors can have arbitrary orientations with respect
+to a molecule-fixed frame of reference (the so-called molecular frame).
+</p>
+
+<p>
+Below we list and describe all possible spin system structure fields containing
+<a href="hamiltonian.html">spin Hamiltonian</a>
+parameters.
+</p>
+
+<div class="subtitle"><a name="S">The spins</a></div>
+
+<p>
+The two fields <code>S</code> and <code>Nucs</code>
+are used to specify the electron and nuclear spins constituting the
+spin system. Both are optional. If <code>S</code> is not given,
+<code>S=1/2</code> is assumed. If <code>Nucs</code> is not specified,
+<code>Nucs=''</code> is used.
+</p>
+
+<table border="1" class="optionlist">
+
+<tr>
+<td><code>
+S
+</code></td>
+<td>
+<p>
+Gives the electron spin quantum number(s). An arbitrary number of electron
+spins can be specified. Examples:
+<pre class="mlexample">
+Sys.S = 1/2;            % one electron spin with S=1/2
+Sys.S = 5/2;            % an S=5/2 spin
+Sys.S = [1/2, 1/2];     % two S=1/2 spins
+Sys.S = [1, 1, 1/2];    % two S=1 spins and one S=1/2 spin
+</pre>
+
+<p>
+If <code>S</code> is not given, it is automatically
+set to 1/2.
+
+<p></p>
+
+</td>
+</tr>
+
+<tr>
+<td><code>
+Nucs
+</code></td>
+<td>
+<p>
+A string containing a comma-separated list of nuclear isotopes specifying the nuclear spins in 
+the spin system. An arbitrary number of nuclei can be specified.
+
+<pre class="mlexample">
+Sys.Nucs = '1H';              % one hydrogen
+Sys.Nucs = '63Cu';            % a 63Cu nucleus
+Sys.Nucs = '59Co,14N,14N';    % a 59Co and two 14N nuclei
+</pre>
+
+<p>
+If there are no nuclear spins in the system, don't specify this field or set it
+to <code>''</code> (an empty string). Nuclei can be added and removed one at a
+time using <a class="esf" href="nucspinadd.html">nucspinadd</a> and <a class="esf" href="nucspinrmv.html">nucspinrmv</a>.</p>
+
+<p>
+If not a single isotope, but a natural-abundance mixture of isotopes is needed, just omit
+the mass number. You can also freely mix single isotopes and natural-abundance mixtures in one spin system.
+
+<pre class="mlexample">
+Sys.Nucs = 'Cu';          % natural-abundance mixture of 69% 63Cu and 31% 65Cu
+Sys.Nucs = 'Cu,14N';      % same as above, plus a pure 14N
+Sys.Nucs = 'F,C';         % 100% 19F, plus a mixture of 99% 12C and 1% 13C
+</pre>
+
+<p>
+EasySpin will automatically simulate the spectra of all possible isotopologues
+(isotopes combinations) and combine them with the appropriate weights. Hyperfine constants and quadrupole couplings
+are automatically converted between isotopes. The values given by you in the spin system are
+taken to apply for the most abundant isotope with an appropriate spin (e.g. 63Cu in the case of Cu,
+1H for H, 14N of N, 119Sn for Sn).
+
+<p>
+It is also possible to give custom/enriched isotope mixtures by explicitly giving a list of
+the mass numbers of all isotopes in parentheses in <code>Nucs</code>. Additionally, the
+abundances should be given in <code>Abund</code>.
+In the simplest case of one atom, this would be
+
+<pre class="mlexample">
+Sys.Nucs = '(12,13)C';     % for a mixture of 12C and 13C
+Sys.Abund = [0.3 0.7];     % 30% of 12C, the rest 13C
+
+Sys.Nucs = '(1,2)H';       % for a mixture of protons and deuterons
+Sys.Abund = [0.05 0.95];   % 95% deuterium
+</pre>
+
+<p>In the case of multiple atoms, <code>Abund</code> should be a cell array with a list of
+abundances for each atom. For example
+</p>
+
+<pre class="mlexample">
+Sys.Nucs = '63Cu,(32,33)S';    % 63Cu with enriched 33S
+Sys.Abund = {1,[0.1,0.9]];     % 100% 63Cu, 10% 32S and 90% 33S
+</pre>
+
+<p>
+Custom and natural abundance mixtures and single isotopes can be all used at the same time.
+Any entry for a natural-abundance atom or for a single isotope in <code>Abund</code> is ignored.
+</p>
+
+<pre class="mlexample">
+Sys.Nucs = 'Cu,(32,33)S,1H'; % natural Cu with enriched 33S and a pure 1H
+Sys.Abund = {1,[0.1,0.9],1}; % one way
+Sys.Abund = {[],[0.1,0.9],[]}; % another way, yieldig the same result
+</pre>
+
+
+</td>
+</tr>
+
+<tr>
+<td><code>
+Abund
+</code></td>
+<td>
+Specify abundances for custom isotope mixtures. See <code>Nucs</code> above.
+</td>
+</tr>
+
+<tr>
+<td><code>
+n
+</code></td>
+<td>
+Vector of number of equivalent nuclei, e.g.
+<pre class="mlexample">
+Sys.Nucs = '1H,13C';  % one class of 1H and one class of 13C
+Sys.n = [2 3];        % 2 protons and 3 carbon-13 spins
+</pre>
+<code>Sys.n</code> can be omitted if all nuclei in <code>Sys.Nucs</code> occur only once.
+
+</td>
+</tr>
+
+
+</table>
+
+<div class="subtitle"><a name="g">The g values</a></div>
+
+<p>
+The g matrices/tensors for all electron spins in the system
+are supplied in two fields:
+
+<ul>
+<li>
+<code>g</code>, for the principal values of the g tensors.
+<li>
+<code>gpa</code>, for the Euler angles specifying the orientations of the g tensors relative to the molecular frame.
+</ul>
+
+<p>See also the reference page on the
+<a href="hamiltonian.html#ezi">Electron Zeeman interaction</a>.
+</p>
+
+<table border="1" class="optionlist">
+
+<tr>
+<td><code>
+g
+</code></td>
+<td>
+
+<p>
+Depending on whether the g tensors are rhombic, axial or isotropic, different
+ways of input are possible:
+</p>
+
+<ul>
+<li>
+<p>
+Rhombic: Each row contains the three principal values of the g tensor of one electron spin. 
+</p>
+
+<pre class="mlexample">
+Sys.g = [2 2.05 2.3];                % rhombic g, for one electron spin
+Sys.g = [2 2.1 2.3; 1.9 1.95 2.01];  % rhombic g, for two electron spins
+</pre>
+
+<li>
+<p>
+Axial: For axial g tensors, only two values are needed. The first value is the one perpendicular
+to the easy axis, and the second is the one parallel to it.
+</p>
+
+<pre class="mlexample">
+Sys.g = [2.25 2.03];                % axial g, for one electron spin
+                                    % = [2.25 2.25 2.03]
+Sys.g = [2.25 2.03; 1.99 1.98];     % axial g, for two electron spins
+                                    % = [2.25 2.25 2.03; 1.99 1.99 1.98]
+</pre>
+
+<li>
+<p>
+Isotropic: If g is isotropic, it is sufficient to give its isotropic
+value once.
+</p>
+
+<pre class="mlexample">
+Sys.g = 2.005;                      % isotropic g, for one electron spin
+Sys.g = [2.0023; 2.0025];           % isotropic g, for two electron spins
+</pre>
+
+<li>
+<p>
+No value: If no values are given, EasySpin assumes isotropic g values
+of 2.0023... (see <a href="gfree.html">gfree</a>) for all
+electron spins.
+</p>
+</ul>
+
+<p>When the principal values of g are given in <code>g</code>, the orientation
+of the g tensor can be specified by Euler angles in <code>gpa</code>, see below.
+</p>
+
+<p>
+As an alternative, it is also possible to give the full g tensor in <code>g</code>,
+e.g.
+</p>
+
+<pre class="mlexample">
+Sys.g =[ 2.0033971   -0.0004307   -0.0000036;...
+        -0.0004145    2.0030324   -0.0000063;...
+        -0.0000144    0.0000129    2.0022372];
+</pre>
+<p>
+In this case, the Euler angles in <code>gpa</code> are ignored.
+</p>
+
+</td>
+</tr>
+
+<tr>
+<td><code>
+gpa
+</code></td>
+<td>
+
+<p>
+Each row of this array contains the three
+<a href="eulerangles.html">Euler angles</a> (in radians)
+for the passive rotation which transforms the <code>g</code> matrix of the
+associated electron spin from its eigenframe to the molecular
+frame (see also the function
+<a class="esf" href="erot.html">erot</a>). If not specified, <code>gpa</code> is assumed to be all-zero,
+that is, all tensors are aligned with the molecular frame.
+
+<pre class="mlexample">
+Sys.gpa = [0 10 0]*pi/180;                % one electron spin
+Sys.gpa = [0 0 0; 0 pi/4 0; 0 -pi/4 0];   % three electron spins
+</pre>
+
+<p>
+With these angles, EasySpin can transform a g tensor from its diagonal eigenframe representation
+to the molecular frame representation. Here is an explicit example how this is done internally:
+
+<pre class="mlexample">
+gpa = [10 34 -2]*pi/180;  % Euler angles, in radians
+g = [2.1 1.97 2.04];      % principal values
+
+R = erot(gpa);        % rotation matrix
+gdiag = diag(g)       % g in eigenframe
+gM = R*gdiag*R.'      % g in molecular frame
+</pre>
+
+<p>
+which gives the following output
+
+<pre class="mloutput">
+gdiag =
+    2.1000         0         0
+         0    1.9700         0
+         0         0    2.0400
+gM =
+    2.0797   -0.0147    0.0264
+   -0.0147    1.9728   -0.0115
+    0.0264   -0.0115    2.0575
+</pre>
+
+</td>
+</tr>
+</table>
+&nbsp;<br>
+
+<div class="subtitle"><a name="A">Hyperfine couplings</a></div>
+
+
+<p>
+For each electron-nucleus pair, a hyperfine coupling tensor
+can be specified. The following fields are used.
+</p>
+
+<table border="1" class="optionlist">
+<tr>
+<td><code>
+A
+</code></td>
+<td>
+<p>
+Principal values of the
+<a href="hamiltonian.html#hfi">hyperfine interaction</a> matrices A/h,
+in MHz. Each row contains the principal values of the A tensors of one
+nucleus. <code>A(k,:)</code> refers to nuclear spin <code>k</code>.
+Orientations of the A matrices are given in <code>Apa</code>.
+
+<pre class="mlexample">
+Sys.A = [-6 12 23];            % 1 electron and 1 nucleus
+Sys.A = [10 10 -20; 30 40 50]; % 1 electron and 2 nuclei
+</pre>
+
+<p>For axial and isotropic hyperfine tensors, the notation can be shortened,
+just as in the case of the g tensor.
+
+<pre class="mlexample">
+Sys.A = [4 10];       % = [4 4 10]  (axial, 1 electron and 1 nucleus)
+Sys.A = 34;           % = [34 34 34] (isotropic, 1 electron and 1 nucleus)
+Sys.A = [4 10; 1 2];  % = [4 4 10; 1 1 2]  (axial, 1 electron and 2 nucleui)
+Sys.A = [7; 3];        % = [7 7 7; 3 3 3] (isotropic, 1 electron and 2 nuclei)
+</pre>
+
+<p>
+If the system contains more than one electron spin, each row
+contains the principal values of the hyperfine couplings to
+all electron spins, listed one after the other.
+</p>
+
+<pre class="mlexample">
+Sys.A = [10 10 -20 30 40 50];                % 2 electrons and 1 nucleus
+Sys.A = [10 10 -20 30 40 50; 1 1 -2 3 4 5];  % 2 electrons and 2 nuclei
+</pre>
+
+
+
+<p>
+It is possible to specify full A matrices in <code>A</code>. The 3x3 matrices
+have to be combined like the 1x3 vectors used when only principal values are
+defined: For different electrons, put the 3x3 matrices side by side,
+for different nuclei, on top of each other. If full matrices are given in <code>A</code>,
+<code>Apa</code> is ignored.
+
+<pre class="mlexample">
+Sys.A = [5 0 0; 0 5 0; 0 0 5]                          % 1 electron and 1 nucleus
+Sys.A = [[5 0 0; 0 5 0; 0 0 5]; [10 0 0; 0 10 0; 0 0 10]]     % 1 electron and 2 nuclei
+Sys.A = [[5 0 0; 0 5 0; 0 0 5], [10 0 0; 0 10 0; 0 0 10]]     % 2 electrons and 1 nucleus
+</pre>
+
+</td>
+</tr>
+
+<tr>
+<td><code>
+A_
+</code></td>
+<td>
+<p>
+Spherical form of the hyperfine matrix, in terms of its isotropic, axial and rhombic components.
+The units are MHz. <code>A</code> and <code>A_</code> cannot be used at the same time.
+
+<pre class="mlexample">
+Sys.A_ = 2;         % isotropic component only
+Sys.A_ = [2 3]      % isotropic and axial component
+Sys.A_ = [2 3 0.4]  % isotropic, axial and rhombic component
+</pre>
+
+The cartesian form (as used in <code>A</code>) and the spherical form
+(as used in <code>A_</code>) are related by
+
+<pre class="mlexample">
+A = A_(1) + [-1,-1,2]*A_(2) + [-1,+1,0]*A_(3);
+</pre>
+
+For more than one nucleus and more than one electron spin, the array structure
+is analagous to <code>A</code>.
+
+
+</td>
+</tr>
+
+<tr>
+<td><code>
+Apa
+</code></td>
+<td>
+<p>
+Array of <a href="eulerangles.html">Euler angles</a>
+giving the orientations of the various
+A matrices in the molecular frame, as described above for <code>gpa</code>.
+If <code>Apa</code> is not specified, it is
+assumed to be all-zero, that is, all tensors are aligned with the
+molecular frame. See also
+<a class="esf" href="erot.html">erot</a>.
+
+<code>Apa</code> has a layout analogous to <code>A</code>.
+Each row contains the three Euler angles for one nucleus.
+<pre class="mlexample">
+Sys.Apa = [0 20 0]*pi/180;  % one electron spin, one nucleus
+Sys.Apa = [0 0 0; 0 10 90; 12 -30 34]*pi/180 % one electron spin, three nuclei
+</pre>
+
+If there are two or more electron spins, each nucleus has two or more hyperfine tensors, and
+consequently each row should contain two or more sets of Euler angles.
+<pre class="mlexample">
+Sys.Apa = [0 20 0, 13 -30 80]*pi/180;               % 2 electrons, 1 nucleus
+Sys.Apa = [0 20 0, 0 0 0; 0 10 0, 0 30 50]*pi/180;  % 2 electrons, 2 nuclei
+</pre>
+</td>
+</tr>
+
+</table>
+&nbsp;<br>
+
+<div class="subtitle"><a name="Q">Nuclear quadrupole couplings</a></div>
+
+
+<p>
+For each nucleus spin, a <a href="hamiltonian.html#nqi">nuclear quadrupole</a> coupling tensor Q can be given,
+using the fields <code>Q</code> (for e2qQ/h and eta, the principal values, or the full matrix) and <code>Qpa</code> (for the orientation).
+</p>
+
+<table border="1" class="optionlist">
+
+<tr>
+<td><code>
+Q
+</code></td>
+<td>
+<p>
+Array containing the quadrupole tensors Q/h for all nuclei, in MHz.
+There are several possible ways to specify the tensors.
+
+<ul>
+<li>
+For axial Q tensors: Specify e<sup>2</sup>Qq/h for each nucleus
+
+<pre class="mlexample">
+Sys.Q = 0.7            % one nucleus, eeQq/h = 0.7 MHz
+Sys.Q = [0.7, 1.2]     % same for two nuclei
+</pre>
+
+<li>
+For rhombic Q tensors: Specify e<sup>2</sup>Qq/h and eta for each nucleus, two numbers
+per row.
+
+<pre class="mlexample">
+Sys.Q = [1.2 0.29]         % one nucleus, eeQq/h = 1.2 MHz and eta = 0.29
+Sys.Q = [1.2 0.29; 0.1 0]  % same with a second nucleus
+</pre>
+
+<li>
+For all Q tensors: specify three principal values of the Q tensor, for one nucleus per row.
+<pre class="mlexample">
+Sys.Q = [-1 -1 2]                % one nucleus, Qxx = -1, Qyy = -1, Qzz = +2 MHz
+Sys.Q = [-1 -1 2; 0.2 0.3 -0.5]  % same for two nuclei
+</pre>
+
+<li>
+You can also give the full 3x3 Q tensor for each nucleus.
+<pre class="mlexample">
+Sys.Q = [-1 0 0; 0 -1 0; 0 0 2]*0.1;   % for one nucleus, diagonal
+Sys.Q = [0.125 -0.6495 -1.299; -0.6495 -0.625 0.75; -1.299 0.75 0.5]; % general, one nucleus
+Q1 = [-0.9 0 0; 0 -1.1 0; 0 0 2]*0.15;
+Q2 = [-0.7 0 0; 0 -1.3 0; 0 0 2]*0.31;
+Sys.Q = [Q1; Q2]; % for two nuclei
+</pre>
+</ul>
+
+Here is an example of how to convert from e<sup>2</sup>Qq/h and eta to the three principal Q values:
+
+<pre class="mlexample">
+eeQq = 1; eta = 0.2;
+I = 1;         % nuclear spin must be known!
+Q = eeQq/(4*I*(2*I-1)) * [-1+eta, -1-eta, 2]
+</pre>
+
+
+<p>
+See also the reference page on the
+<a href="hamiltonian.html#nqi">nuclear quadrupole interaction</a>.
+</p>
+
+<p></p>
+
+</td>
+</tr>
+
+<tr>
+<td><code>
+Qpa
+</code></td>
+<td>
+<p>
+<a href="eulerangles.html">Euler angles</a> alpha, beta and gamma, describing the orientation of the Q tensors in the molecular frame, analogous to <code>gpa</code> and <code>Apa</code>. There must be one row of three angles for each nucleus. The angles are in units of radians, not degrees.
+</p>
+
+<pre class="mlexample">
+Sys.Qpa = [0 pi/4 0];                    % one nucleus
+Sys.Qpa = [30 45 0; 10 -30 0]*pi/180;    % two nuclei
+</pre>
+
+<p>For axial Q tensors, the first value (for the angle alpha) is irrelevant.</p>
+
+Here is how principal values and angles can be converted to a full matrix:
+
+<pre class="mlexample">
+Qpv = [-0.9 -1.1 2]*0.125; % principal values
+Qpa = [10 45 -30]*pi/180;  % Euler angles
+R = erot(Qpa);             % rotation matrix
+Q = R*diag(Qpv)*R';        % full matrix
+</pre>
+
+<p></p>
+
+
+</td>
+</tr>
+</table>
+&nbsp;<br>
+
+<div class="subtitle"><a name="D">Zero-field splittings</a></div>
+
+
+<p>
+For each electron spin, a zero-field splitting can be specified
+in the fields <code>D</code> and <code>Dpa</code>.
+See also the reference page on the
+<a href="hamiltonian.html#zfi">zero-field interaction</a>.
+</p>
+
+
+<table border="1" class="optionlist">
+
+<tr>
+<td><code>
+D
+</code></td>
+<td>
+<p>
+<code>D</code> gives the <a href="hamiltonian.html#zfi">zero-field splitting tensors</a> for the electron spins in the spin system. It should be in units of MHz (1 cm<sup>-1</sup> = 29979 MHz). It can be specified in several different ways.
+</p>
+
+<ul>
+<li>
+<p>
+Axial: If the zero-field splitting tensor is axial, give the D value for each electron spin.
+The orientation of the tensor can be specified in the field <code>Dpa</code> (see below).
+</p>
+
+<pre class="mlexample">
+Sys.D = [200];            % 1 electron spin, D = 200 MHz
+Sys.D = [200 -340];       % 2 electron spins, 	D value each, in MHz
+Sys.D = [200 -340 1100];  % 3 electron spins, D value each, in MHz
+</pre>
+
+<li>
+<p>
+Rhombic: For a zero-field splitting tensor with rhombic asymmetry, give both the D and the E
+value for each electron spin. The orientation of the tensor can be specified in the field <code>Dpa</code> (see below).
+</p>
+
+<pre class="mlexample">
+Sys.D = [200 10];            % 1 electron spin, D = 200 MHz and E = 10 MHz
+Sys.D = [200 10; 340 90];    % 2 electron spins, D and E value for each spin
+</pre>
+
+<li>
+<p>
+Principal values: For both axial and rhombic symmetry, you can give the three principal values of
+the D tensor. The orientation of the tensor can be specified in the field <code>Dpa</code> (see below).
+</p>
+
+<pre class="mlexample">
+Sys.D = [-100 -100 200];               % 1 electron spin, Dx = Dy = -100 MHz, Dz = 200 MHz
+Sys.D = [-150 -50 200; 450 350 -800];  % 2 electron spins
+</pre>
+
+Here is how the principal values can be computed from D and E
+
+<pre class="mlexample">
+D = 120; E = 15;                     % D and E parameters, in MHz
+Sys.D = [-1,-1,2]/3*D + [1,-1,0]*E     % conversion to D principal values
+</pre>
+
+<p>
+It is possible to provide a non-traceless D tensor.
+</p>
+
+<li>
+<p>
+Full matrix: You can also specify the full D matrix for each electron spin. E.g.
+for one electron spin
+</p>
+
+<pre class="mlexample">
+Sys.D =  [-33.8  -24.1 -122.1; -24.1 -91.2 44.4; -122.1 44.4 125];
+</pre>
+
+<p>
+It is possible to provide a non-traceless D tensor.
+</p>
+
+</ul>
+
+<p>
+Include zeros for any electron spin with S = 1/2. 
+</p>
+&nbsp;
+
+</td>
+</tr>
+
+<tr>
+<td><code>
+Dpa
+</code></td>
+<td>
+<p><em>
+nx3 matrix of real
+</em>
+<p>
+<a href="eulerangles.html">Euler angles</a> describing the
+orientation of the D tensors, completely analogous to
+<code>gpa</code> and <code>Qpa</code>. If absent, it is assumed
+to be all zeros.
+</p>
+
+<p>
+Internally, EasySpin uses the following procedure to compute
+the full D tensor in the molecular frame from the given principal
+values and the Euler angles
+</p>
+
+<pre class="mlexample">
+Dpv = [-25 -55 80];      % sample principal values
+Dpa = [10 20 0]*pi/180;  % sample tilt angles
+
+R = erot(Dpa)            % rotation matrix
+D = R*diag(Dpv)*R.'      % computation of the full D tensor
+</pre>
+
+&nbsp;
+</td>
+</tr>
+</table>
+&nbsp;<br>
+
+<div class="subtitle"><a name="B">High-order zero-field splittings</a></div>
+
+
+<p>
+EasySpin supports a series of <a href="stevensoperators.html">high-order electron
+spin operators</a> in the spin Hamiltonian. These, howevere, are available only
+for the first electron spin in a spin system.
+</p>
+
+
+<table border="1" class="optionlist">
+
+<tr>
+<td><code>
+aF
+</code></td>
+<td>
+<p><em>
+1x2 array of real
+</em>
+<p>
+Values, in MHz, of the fourth-order parameters a and F. For their definition, see the
+reference page on <a href="stevensoperators.html">high-order operators</a>.
+
+<pre class="mlexample">
+Sys.aF = [10 -3];   % in MHz
+</pre>
+
+<p>
+Both a and F are defined in terms the molecular reference frame, which is assumed to coincide the four-fold symmetry axes of the cubic part. For other
+orientations (e.g. along the trigonal axes), the high-order parameters <code>B40</code> and <code>B44</code> can be used.
+</p>
+
+</td>
+
+</tr>
+
+<tr>
+<td><code>
+B20, B21, B22, B40, B41, ..., B44, B60, ..., B66
+</code></td>
+<td>
+<p>
+<em>
+real or 1x2 array
+</em>
+<p>
+The coefficients for the
+<a href="stevensoperators.html">extended Stevens operators</a> of the electron
+spin (see also the function <a class="esf" href="stev.html">stev</a>).
+<code>B20</code>, <code>B40</code> and <code>B60</code> are scalars.
+The other fields specify two <img src="eqn/spinsystem1.png" alt="[eqn]"><!--MATH$B_k^q$--> parameters each. E.g.
+<code>B43</code>
+represents <img src="eqn/spinsystem2.png" alt="[eqn]"><!--MATH$[B_4^{+3}, B_4^{-3}]$-->. If only one element is given,
+it is taken as <img src="eqn/spinsystem3.png" alt="[eqn]"><!--MATH$B_k^{+|q|}$-->.
+</td>
+</tr>
+</table>
+
+<p>
+Currently, it is not possible to include tilt angles for the principal frames of these
+high-order interactions. All of them are assumed to be collinear with the molecular frame. By changing
+the molecular frame, i.e. by tilting all other tensors (g, A, etc), this limitation can
+be circumvented to some degree. Still, all the high-order interactions are collinear.
+</p>
+
+<div class="subtitle"><a name="ee">Electron-electron couplings</e></div>
+
+
+<p>
+For each electron spin pair, a bilinear coupling tensor (combining isotropic, anisotropic, and antisymmetric exchange) as well as an isotropic biquadratic exchange coupling can be given.
+See also the reference page on the
+<a href="hamiltonian.html#eei">electron-electron interaction</a>.
+</p>
+
+<table border="1" class="optionlist">
+
+<tr>
+
+<td><code>
+ee
+</code></td>
+<td>
+<p><em>
+1xN or Nx3 or 3Nx3 array of real
+</em>
+<p>
+Principal value of the
+<a href="hamiltonian.html#eei">electron-electron interaction</a> matrices.
+Each row corresponds to the diagonal of an interaction matrix (in its eigenframe). They are lexicographically ordered according to the indices of the electrons involved. If n is the number of electrons, there are N = n(n-1)/2 rows. E.g. for four electrons there have to be six rows with the principal values for the interaction of electrons 1-2, 1-3, 1-4, 2-3, 2-4, and 3-4, in this order. For two electrons, <code>ee</code> contains
+one row only. 
+
+<p>
+E.g. for two S=1/2, the electron-electron interaction with
+isotropic and dipolar coupling is
+<code>Sys.ee = Jiso + Jdip*[1 1 -2]</code>.
+
+<pre class="mlexample">
+Sys.S = [1/2 1/2];     % two electrons
+Sys.ee = [50 50 100];  % one coupling matrix
+
+Sys.S = [1/2 1/2 1/2];                   % three electrons
+Sys.ee = [50 50 100; 10 10 -30; 0 0 0];  % three coupling matrices
+</pre>
+
+<p>
+If only isotropic couplings are needed, one number per coupling is
+sufficient.
+
+<pre class="mlexample">
+Sys.S = [5/2 5/2];      % two electron spins
+Sys.ee = 10*30e3;       % one coupling (1-2)
+
+Sys.S = [1/2 1/2 1/2];         % three electron spins
+Sys.ee = [980 10 10];          % three coupling (1-2,1-3,2-3)
+
+Sys.S = [1/2 1/2 1/2 1/2];     % four electron spins
+Sys.ee = [10 0 0 5 -10 20];    % six couplings (1-2,1-3,1-4,2-3,2-4,3-4)
+</pre>
+
+<p>
+For accomodating antisymmetric exchange, the full 3x3 interaction
+matrices (instead of the 3 principal values and 3 Euler angles) can
+be specified. For a 2-electron system, <code>ee</code> is then a
+3x3 array. For more electrons, the 3x3 matrices are stacked on
+top of each other.
+
+<pre class="mlexample">
+Sys.S = [1/2 1/2];                   % two electrons
+Sys.ee = [50 0 0;0 50 0; 0 0 100];   % one coupling matrix
+
+Sys.S = [1/2 1/2 1/2];                   % three electrons
+ee12 = [50 0 0; 0 50 0; 0 0 100];
+ee13 = diag([10 10 -30]);
+ee23 = zeros(3);
+Sys.ee = [ee12;ee13;ee23];               % three coupling matrices
+</pre>
+
+</td>
+</tr>
+
+<tr>
+<td><code>
+eepa
+</code></td>
+<td>
+<p><em>
+Nx3 array of real
+</em>
+<p>
+<a href="eulerangles.html">Euler angles</a> describing the
+orientation of the electron-electron interaction matrices
+specified in <code>ee</code>.
+Each row contains the Euler angles for the corresponding row
+in <code>ee</code>.
+</td>
+</tr>
+
+<tr>
+<td><code>
+ee2
+</code></td>
+<td>
+<p>Contains the isotropic biquadratic exchange coupling, in MHz, for each pair of electron spins, 
+The spin pairs are ordered as in <code>ee</code>.
+
+<pre class="mlexample">
+Sys.S = [3/2 3/2];     % two electron spins
+Sys.ee2 = 130;         % one biquadratic coupling 1-2
+
+Sys.S = [3/2 3/2 3/2];   % three electron spins
+Sys.ee = [130 150 190];  % couplings 1-2, 1-3, 2-3
+
+Sys.S = [1 1 1 1];          % four electron spins
+Sys.ee = [130 0 130 130 0 130]; % couplings 1-2, 1-3, 1-4, 2-3, 2-4, 3-4
+</pre>
+
+EasySpin defines the biquadratic exchange term in the spin Hamiltonian as +j(S1.S2)<sup>2</sup>,
+with a plus sign. Sometimes, it is defined with a negative sign, so be careful when using literature
+values.
+
+</td>
+</tr>
+
+</table>
+&nbsp;<br>
+
+
+<div class="subtitle"><a name="lw">Line broadenings and strains</a></div>
+
+<p>
+There is a number of fields by which line broadenings can be specified.
+<code>lw</code> and <code>lwEndor</code> are line widths (FWHM) which are used
+for convolution of the simulated spectrum. All others
+are so-called strains and describe Gaussian distributions in
+the associated spin Hamiltonian parameters.
+</p>
+
+<p>
+For a full documentation of the line broadening fields in the spin
+system structure, see the <a href="broadenings.html">page on line broadenings</a>.
+
+<hr>
+</body>
+</html>

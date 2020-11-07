@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <link rel="shortcut icon" href="favicon.ico">
+   <link rel="stylesheet" type="text/css" href="style.css">
+   <title>EasySpin: nucgval</title>
+</head>
+
+<body>
+
+<div class="functitle">nucabund</div>
+
+<!-- ====================================================== -->
+<div class="subtitle">Synopsis</div>
+
+<p>
+Natural abundance of nuclear isotopes.
+</p>
+
+<pre class="mlsyntax">
+Q = nucabund(Isotopes)
+</pre>
+
+<!-- ====================================================== -->
+<div class="subtitle">Description</div>
+
+<p>
+This function returns the natural abundance of the nuclei
+specified in <code>Isotopes</code>, as a number between 0 (not
+occuring naturally) and 1 (the only naturally ocurring isotope).
+
+<code>Isotopes</code> is a string giving the mass number and the
+chemical symbol of the element, e.g. <code>'14N'</code> or <code>'63Cu'</code>.
+If <code>Isotopes</code> is a comma-separated list of isotope labels,
+the function returns a list of all abundances in vector form.
+</p>
+
+<p>
+The data are taken from an internal database through
+<a href="nucdata.html" class="esf">nucdata</a>.
+</p>
+
+<!-- ====================================================== -->
+<div class="subtitle">Examples</div>
+
+<pre class="mlexample">
+w = nucabund('63Cu,65Cu')
+</pre>
+<pre class="mloutput">
+w =
+    0.6917    0.3083
+</pre>
+<pre class="mlexample">
+sum(w)
+</pre>
+<pre class="mloutput">
+ans =
+     1
+</pre>
+
+<!-- ====================================================== -->
+<div class="subtitle">See also</div>
+
+<p>
+<a class="esf" href="nucdata.html">nucdata</a>,
+<a class="esf" href="nucgval.html">nucgval</a>,
+<a class="esf" href="nucqmom.html">nucqmom</a>,
+<a class="esf" href="nucspin.html">nucspin</a>
+</p>
+
+<hr>
+</body>
+
+</html>
