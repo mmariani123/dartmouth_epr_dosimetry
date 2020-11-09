@@ -1,3 +1,7 @@
+This MATLAB application provides a framework for analyzing EPR dosimetry data.
+Note that I have included some libraries utilized by the program that I did not create. 
+Also, see below notes from MathWorks, Inc. concerning the MATLAB compiler.
+
 MATLAB Compiler
 
 1. Prerequisites for Deployment 
