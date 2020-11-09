@@ -1,0 +1,3767 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>NailDosimetry5x3</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-06-10"><meta name="DC.source" content="NailDosimetry5x3.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput"><span class="keyword">function</span> varargout = NailDosimetry5x1(varargin)
+<span class="comment">% NAILDOSIMETRY5X1 MATLAB code for NailDosimetry5x1.fig</span>
+<span class="comment">%      NAILDOSIMETRY5X1, by itself, creates a new NAILDOSIMETRY5X1 or raises the existing</span>
+<span class="comment">%      singleton*.</span>
+<span class="comment">%</span>
+<span class="comment">%      H = NAILDOSIMETRY5X1 returns the handle to a new NAILDOSIMETRY5X1 or the handle to</span>
+<span class="comment">%      the existing singleton*.</span>
+<span class="comment">%</span>
+<span class="comment">%      NAILDOSIMETRY5X1('CALLBACK',hObject,eventData,handles,...) calls the local</span>
+<span class="comment">%      function named CALLBACK in NAILDOSIMETRY5X1.M with the given input arguments.</span>
+<span class="comment">%</span>
+<span class="comment">%      NAILDOSIMETRY5X1('Property','Value',...) creates a new NAILDOSIMETRY5X1 or raises</span>
+<span class="comment">%      the existing singleton*.  Starting from the left, property value pairs are</span>
+<span class="comment">%      applied to the GUI before NailDosimetry5x1_OpeningFcn gets called.  An</span>
+<span class="comment">%      unrecognized property name or invalid value makes property</span>
+<span class="comment">%      application</span>
+<span class="comment">%      stop.  All inputs are passed to NailDosimetry5x1_OpeningFcn via varargin.</span>
+<span class="comment">%</span>
+<span class="comment">%      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one</span>
+<span class="comment">%      instance to run (singleton)".</span>
+<span class="comment">%</span>
+<span class="comment">% See also: GUIDE, GUIDATA, GUIHANDLES</span>
+
+<span class="comment">% Edit the above text to modify the response to help NailDosimetry5x1</span>
+
+<span class="comment">% Last Modified by GUIDE v2.5 03-Jun-2015 09:38:18</span>
+
+<span class="comment">% Update handles structure</span>
+hObject = figure(1);
+handles.figure1 = gcf;
+handles.currentSpectra = struct(<span class="string">'spectra'</span>,[],<span class="string">'spectraInformation'</span>,[],<span class="string">'fileName'</span>,[],<span class="string">'fileDir'</span>,[],<span class="string">'color'</span>,[]);
+handles.spectraBaseline = [];
+handles.numSpectraPoints = [];
+handles.numFitPoints = [];
+handles.search_start = [];
+handles.search_stop = [];
+handles.subtract = false;
+handles.average = false;
+handles.multiPlot = false;
+handles.currentDoses = 0;
+handles.basisSpectra = [];
+handles.savedSpectra = struct(<span class="string">'spectra'</span>,[],<span class="string">'spectraInformation'</span>,[],<span class="string">'fileName'</span>,[],<span class="string">'fileDir'</span>,[],<span class="string">'color'</span>,[]);
+handles.smoothFit = false;
+handles.timesSmoothBeforeFit = 0;
+handles.correctOffset = false;
+handles.subtractBackground = <span class="string">'false'</span>;
+handles.totalMass = 0;
+handles.fieldCenter = [];
+handles.fieldWidth = [];
+handles.plotFit = false;
+handles.normalize = false;
+handles.baselineStart = [];
+handles.baselineStop = [];
+handles.smoothType = <span class="string">'boxcar'</span>;
+handles.smoothSpan = [];
+handles.viewSavedSpectra = false;
+handles.plot3 = false;
+handles.listSpectra = struct(<span class="string">'name'</span>,[],<span class="string">'color'</span>,[]);
+handles.folderList = [];
+guidata(hObject, handles);
+
+initialize_gui(hObject, handles, false);
+
+<span class="comment">% UIWAIT makes NailDosimetry5x1 wait for user response (see UIRESUME)</span>
+<span class="comment">% uiwait(handles.figure1);</span>
+
+
+<span class="comment">% --- Outputs from this function are returned to the command line.</span>
+<span class="keyword">function</span> varargout = NailDosimetry5x1_OutputFcn(hObject, eventdata, handles)
+<span class="comment">% varargout  cell array for returning output args (see VARARGOUT);</span>
+<span class="comment">% hObject    handle to figure</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+
+<span class="comment">% Get default command line output from handles structure</span>
+varargout{1} = handles.output;
+
+
+<span class="comment">% --------------------------------------------------------------------</span>
+<span class="keyword">function</span> initialize_gui(fig_handle, handles, isreset)
+<span class="comment">% If the metricdata field is present and the reset flag is false, it means</span>
+<span class="comment">% we are we are just re-initializing a GUI by calling it from the cmd line</span>
+<span class="comment">% while it is up. So, bail out as we dont want to reset the data.</span>
+<span class="keyword">if</span> isfield(handles, <span class="string">'metricdata'</span>) &amp;&amp; ~isreset
+    <span class="keyword">return</span>;
+<span class="keyword">end</span>
+
+<span class="comment">% Update handles structure</span>
+clf;
+mTextBox = uicontrol(<span class="string">'style'</span>,<span class="string">'text'</span>);
+set(mTextBox,<span class="string">'String'</span>,<span class="string">'System Error! Code:0001'</span>,<span class="string">'FontSize'</span>,30,<span class="string">'ForegroundColor'</span>,<span class="string">'red'</span>);
+set(mTextBox,<span class="string">'Position'</span>,[200,200,300,150]);
+guidata(handles.figure1, handles);
+
+
+<span class="keyword">function</span> fit_start_edit_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to search_start_edit (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+
+<span class="comment">% Hints: get(hObject,'String') returns contents of search_start_edit as text</span>
+<span class="comment">%        str2double(get(hObject,'String')) returns contents of search_start_edit as a double</span>
+value = str2double(get(hObject,<span class="string">'String'</span>));
+<span class="keyword">if</span> ~isa(value,<span class="string">'numeric'</span>) || isnan(value)
+    error(<span class="string">'Fit stop point must be a number!'</span>);
+<span class="keyword">else</span>
+    handles.fitStart = value;
+    guidata(hObject,handles);
+<span class="keyword">end</span>
+
+
+<span class="comment">% --- Executes during object creation, after setting all properties.</span>
+<span class="keyword">function</span> fit_start_edit_CreateFcn(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to search_start_edit (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    empty - handles not created until after all CreateFcns called</span>
+
+<span class="comment">% Hint: edit controls usually have a white background on Windows.</span>
+<span class="comment">%       See ISPC and COMPUTER.</span>
+<span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+    set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+<span class="keyword">end</span>
+
+
+<span class="keyword">function</span> search_stop_edit_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to search_stop_edit (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+
+<span class="comment">% Hints: get(hObject,'String') returns contents of search_stop_edit as text</span>
+<span class="comment">%        str2double(get(hObject,'String')) returns contents of search_stop_edit as a double</span>
+value = str2double(get(hObject,<span class="string">'String'</span>));
+<span class="keyword">if</span> ~isa(value,<span class="string">'numeric'</span>) || isnan(value)
+    error(<span class="string">'Fit stop point must be a number!'</span>);
+<span class="keyword">else</span>
+    handles.search_stop = value;
+    guidata(hObject,handles);
+<span class="keyword">end</span>
+
+
+<span class="comment">% --- Executes during object creation, after setting all properties.</span>
+<span class="keyword">function</span> search_stop_edit_CreateFcn(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to search_stop_edit (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    empty - handles not created until after all CreateFcns called</span>
+
+<span class="comment">% Hint: edit controls usually have a white background on Windows.</span>
+<span class="comment">%       See ISPC and COMPUTER.</span>
+<span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+    set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+<span class="keyword">end</span>
+
+
+<span class="keyword">function</span> pos_down_field_edit_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to pos_down_field_edit (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+
+<span class="comment">% Hints: get(hObject,'String') returns contents of pos_down_field_edit as text</span>
+<span class="comment">%        str2double(get(hObject,'String')) returns contents of pos_down_field_edit as a double</span>
+value = str2double(get(hObject,<span class="string">'String'</span>));
+<span class="keyword">if</span> ~isa(value,<span class="string">'numeric'</span>) || isnan(value)
+    error(<span class="string">'Position down field must be a number!'</span>);
+<span class="keyword">else</span>
+    handles.posDown = value;
+    guidata(hObject,handles);
+<span class="keyword">end</span>
+
+<span class="comment">% --- Executes during object creation, after setting all properties.</span>
+<span class="keyword">function</span> pos_down_field_edit_CreateFcn(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to pos_down_field_edit (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    empty - handles not created until after all CreateFcns called</span>
+
+<span class="comment">% Hint: edit controls usually have a white background on Windows.</span>
+<span class="comment">%       See ISPC and COMPUTER.</span>
+<span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+    set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+<span class="keyword">end</span>
+
+
+<span class="comment">% --- Executes on selection change in file_type_popupmenu.</span>
+<span class="keyword">function</span> file_type_popupmenu_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to file_type_popupmenu (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+
+<span class="comment">% Hints: contents = cellstr(get(hObject,'String')) returns file_type_popupmenu contents as cell array</span>
+<span class="comment">%        contents{get(hObject,'Value')} returns selected item from file_type_popupmenu</span>
+
+
+<span class="comment">% --- Executes during object creation, after setting all properties.</span>
+<span class="keyword">function</span> file_type_popupmenu_CreateFcn(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to file_type_popupmenu (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    empty - handles not created until after all CreateFcns called</span>
+
+<span class="comment">% Hint: popupmenu controls usually have a white background on Windows.</span>
+<span class="comment">%       See ISPC and COMPUTER.</span>
+<span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+    set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+<span class="keyword">end</span>
+
+
+<span class="comment">% --- Executes on button press in smooth_button.</span>
+<span class="keyword">function</span> smooth_button_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to smooth_button (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+cla;
+<span class="keyword">if</span> ~isfield(handles.currentSpectra(1),<span class="string">'spectra'</span>)
+    error(<span class="string">'No spectra selected!'</span>);
+<span class="keyword">end</span>
+<span class="keyword">if</span> strcmpi(handles.smoothType,<span class="string">'lowess'</span>)
+    smoothType = <span class="string">'lowess'</span>;
+<span class="keyword">elseif</span> strcmpi(handles.smoothType,<span class="string">'boxcar'</span>)
+    smoothType = <span class="string">'moving'</span>;
+<span class="keyword">else</span>
+    error(<span class="string">'You must choose an appropriate smooth type!'</span>);
+<span class="keyword">end</span>
+<span class="keyword">if</span> isempty(handles.smoothSpan)
+    error(<span class="string">'You must choose a smoothing window value!'</span>);
+<span class="keyword">end</span>
+
+<span class="keyword">for</span> i = 1:length(handles.currentSpectra)
+    spectraY = handles.currentSpectra(i).spectra(:,2);
+    smoothY = SmoothCorrect(spectraY,handles.smoothSpan,smoothType);
+    spectra(:,2) = smoothY;
+    spectra(:,1) = [1:length(spectra(:,2))];
+    handles.currentSpectra(i).spectra = [spectra(:,1),spectra(:,2)];
+    line(1:length(handles.currentSpectra(i).spectra(:,2)),handles.currentSpectra(i).spectra(:,2),<span class="string">'color'</span>,handles.currentSpectra(i).color);
+    hold <span class="string">on</span>
+<span class="keyword">end</span>
+<span class="keyword">if</span> isfield(handles,<span class="string">'lineLeftClick'</span>)
+    handles = rmfield(handles, <span class="string">'lineLeftClick'</span>);
+<span class="keyword">end</span>
+<span class="keyword">if</span> isfield(handles,<span class="string">'lineRightClick'</span>)
+    handles = rmfield(handles, <span class="string">'lineRightClick'</span>);
+<span class="keyword">end</span>
+guidata(handles.figure1,handles);
+
+
+<span class="comment">% --- Executes on button press in line_fit_button.</span>
+<span class="keyword">function</span> line_fit_button_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to line_fit_button (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+evalString = <span class="string">'line_fit_gui(handles)'</span>;
+subgui_handle = eval(evalString);
+subgui_data_handle = guidata(subgui_handle);
+guidata(subgui_handle,subgui_data_handle);
+
+
+<span class="comment">% --- Executes on button press in load_folder_button.</span>
+<span class="keyword">function</span> load_folder_button_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to load_folder_button (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+handles.viewSavedSpectra = false;
+handles.folderName = uigetdir(<span class="string">''</span>,<span class="string">'Choose Folder to Load Files'</span>);
+cd(handles.folderName);
+folderList = ls;
+folderList(1:2,:) = [];
+handles.folderList = folderList;
+guidata(hObject,handles);
+initialDir = pwd;
+LoadListbox(initialDir,handles,hObject);
+
+
+<span class="comment">%Load list box function.</span>
+<span class="keyword">function</span> LoadListbox(dirPath, handles, hObject)
+cd(dirPath)
+dirStruct = dir(dirPath);
+[sortedNames,sortedIndex] = sortrows({dirStruct.name}');
+sortedNames(1:2,:) = [];
+sortedIndex(1:2,:) = [];
+fullNames = strcat(dirPath,<span class="string">'\'</span>,sortedNames);
+handles.dirPath = strcat(dirPath,<span class="string">'\'</span>);
+handles.fileNames = sortedNames;
+handles.isDir = [dirStruct.isdir];
+handles.sortedIndex = sortedIndex;
+handles.text1 = <span class="string">''</span>;
+set(handles.listbox1,<span class="string">'String'</span>,handles.fileNames,<span class="string">'Value'</span>,1);
+set(handles.text1,<span class="string">'String'</span>,pwd);
+guidata(handles.figure1,handles);
+
+contents = cellstr(get(handles.listbox1,<span class="string">'String'</span>));
+hex = dec2hex([ 0 0 1], 7);
+hexColor = hex(1);
+<span class="keyword">for</span> i = 1:numel(contents)
+    newText = contents{i};
+    rgb = floor(rand(1,3) * 255);
+    color8hex = sprintf(<span class="string">'#%02X%02X%02X'</span>,rgb);
+    colors{i} = color8hex;
+    newColor = sprintf(<span class="string">'&lt;HTML&gt;&lt;font color="%s"&gt;%s&lt;/font&gt;&lt;/HTML&gt;'</span>,color8hex,newText);
+    namestr{i} = newColor;
+<span class="keyword">end</span>
+<span class="keyword">for</span> j = 1:numel(handles.fileNames)
+    handles.listSpectra(j).name = fullNames{j};
+    handles.listSpectra(j).color = colors{j};
+<span class="keyword">end</span>
+set(handles.listbox1, <span class="string">'String'</span>, namestr);
+guidata(hObject,handles);
+
+<span class="keyword">function</span> FilterList(handles,chosenExt,hObject)
+fileNamesNew = handles.listSpectra;
+j=1;
+    <span class="keyword">for</span> i = 1:numel(fileNamesNew)
+        <span class="keyword">if</span> strcmpi(chosenExt,<span class="string">'all'</span>)
+            namestr{i} = handles.folderList(i,:);
+        <span class="keyword">else</span>
+            [pathstr, name, ext] = fileparts(fileNamesNew(i).name);
+            <span class="keyword">if</span> (strcmpi(ext,chosenExt))
+                fileNamesOut{j} = strcat(name,chosenExt);
+                listSpectraNew(j).name = fileNamesNew(i).name;
+                listSpectraNew(j).color = handles.listSpectra(j).color;
+                newText = fileNamesOut{j};
+                color8hex = listSpectraNew(j).color;
+                newColor = sprintf(<span class="string">'&lt;HTML&gt;&lt;font color="%s"&gt;%s&lt;/font&gt;&lt;/HTML&gt;'</span>,color8hex,newText);
+                namestr{j} = newColor;
+                j=j+1;
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">if</span> ~exist(<span class="string">'fileNamesOut'</span>,<span class="string">'var'</span>)
+    namestr = <span class="string">''</span>;
+<span class="keyword">end</span>
+handles.listSpectra = listSpectraNew;
+set(handles.listbox1,<span class="string">'String'</span>,namestr);
+guidata(hObject,handles);
+
+<span class="keyword">function</span> [fileName fileDir data information] = GetData(path,type,handles)
+    [partPath,partName,partExt] = fileparts(path);
+    <span class="keyword">if</span> ~strcmpi(partExt,type)
+        error(<span class="string">'The Extensions do not Match!'</span>);
+    <span class="keyword">end</span>
+    fileName = strcat(partName,partExt);
+    type = lower(type);
+    <span class="keyword">switch</span> type
+        <span class="keyword">case</span> <span class="string">'.fls'</span>
+            spectrum = CenterraReadFLS(path,1);
+            cd(partPath);
+            fileDir = partPath;
+            cellArray1 = spectrum.pars(:,1);
+            <span class="keyword">for</span> i=1:11
+                informationNow{i} = strjoin([spectrum.pars(i,1),spectrum.pars(i,2)]);
+            <span class="keyword">end</span>
+            information.parameters = informationNow';
+            information.comment = spectrum.comment;
+            data = spectrum.data;
+        <span class="keyword">case</span> <span class="string">'.par'</span>
+            [x,data,pars,fileName] = eprload(path);
+            fieldNames = fieldnames(pars);
+            fieldNames = fieldNames(:);
+            <span class="keyword">for</span> i=1:length(fieldNames)
+                value = getfield(pars,strrep(mat2str(cell2mat(fieldNames(i))),<span class="string">''''</span>,<span class="string">''</span>));
+                <span class="keyword">if</span> isa(value,<span class="string">'numeric'</span>)
+                    value = num2str(value);
+                <span class="keyword">end</span>
+                informationNow{i} = strjoin([fieldNames(i),value]);
+            <span class="keyword">end</span>
+            information.parameters = informationNow';
+            information.comment = <span class="string">'None'</span>;
+            cd(partPath);
+            fileDir = partPath;
+        <span class="keyword">case</span> <span class="string">'.spc'</span>
+            [x,data,pars,fileName] = eprload(path);
+            fieldNames = fieldnames(pars);
+            fieldNames = fieldNames(:);
+            <span class="keyword">for</span> i=1:length(fieldNames)
+                value = getfield(pars,strrep(mat2str(cell2mat(fieldNames(i))),<span class="string">''''</span>,<span class="string">''</span>));
+                <span class="keyword">if</span> isa(value,<span class="string">'numeric'</span>)
+                    value = num2str(value);
+                <span class="keyword">end</span>
+                informationNow{i} = strjoin([fieldNames(i),value]);
+            <span class="keyword">end</span>
+            information.parameters = informationNow';
+            information.comment = <span class="string">'None'</span>;
+            cd(partPath);
+            fileDir = partPath;
+        <span class="keyword">case</span> <span class="string">'.xlsx'</span>
+            [data,xtxt,xraw] = xlsread(path);
+            information.parameters = xtxt;
+            information.comment = <span class="string">'None'</span>;
+            cd(partPath);
+            fileDir = partPath;
+        <span class="keyword">case</span> <span class="string">'.csv'</span>
+            data = csvread(path);
+            cd(partPath);
+            fileDir = partPath;
+            information.parameters = <span class="string">'None'</span>;
+            information.comment = <span class="string">'None'</span>;
+    <span class="keyword">end</span>
+
+
+
+<span class="comment">% --- Executes on selection change in listbox1.</span>
+<span class="keyword">function</span> listbox1_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to listbox1 (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+
+<span class="comment">% Hints: contents = cellstr(get(hObject,'String')) returns listbox1 contents as cell array</span>
+<span class="comment">%        contents{get(hObject,'Value')} returns selected item from listbox1</span>
+
+<span class="comment">%get(handles.figure1,'SelectionType');</span>
+<span class="comment">% If double click</span>
+values = get(hObject,<span class="string">'String'</span>);
+index = get(hObject,<span class="string">'Value'</span>);
+<span class="keyword">if</span> ~isfield(handles,<span class="string">'dirPath'</span>)
+    error(<span class="string">'No directory path has been selected!'</span>);
+<span class="keyword">end</span>
+<span class="keyword">if</span> isempty(values)
+    set(hObject,<span class="string">'Value'</span>,1); <span class="comment">% Add this line so that the list can be changed.</span>
+    eror(<span class="string">'No files present!'</span>);
+<span class="keyword">end</span>
+viewSavedSpectra = handles.viewSavedSpectra;
+<span class="keyword">if</span> viewSavedSpectra == true
+    path = strcat(handles.spectraStruct.path(index),<span class="string">'\'</span>,values(index));
+<span class="keyword">else</span>
+    path = handles.listSpectra(index).name;
+<span class="keyword">end</span>
+[partPath,partName,partExt] = fileparts(path);
+selectedName = strcat(partName,partExt);
+szArrayAllowedExt = {<span class="string">'all'</span>,<span class="string">'.fls'</span>,<span class="string">'.par'</span>,<span class="string">'.spc'</span>,<span class="string">'.xlsx'</span>,<span class="string">'.csv'</span>};
+<span class="keyword">for</span> i=1:length(szArrayAllowedExt)
+    found = false;
+    <span class="keyword">if</span> strcmpi(partExt,szArrayAllowedExt{i})
+        <span class="keyword">if</span> ~isempty(handles.currentSpectra(1).fileName)
+            <span class="keyword">for</span> nameIndex = 1:numel(handles.currentSpectra)
+                [currentPath,currentName,currentExt] = fileparts(handles.currentSpectra(nameIndex).fileName);
+                compareName = strcat(currentName,currentExt);
+                <span class="keyword">if</span> strcmpi(selectedName,compareName)
+                    <span class="keyword">return</span>
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+        currentColorHex = handles.listSpectra(index).color;
+        currentColorHex = regexprep(currentColorHex,<span class="string">'#'</span>,<span class="string">''</span>);
+        dec1 = hex2dec(currentColorHex(1:2))/255;
+        dec2 = hex2dec(currentColorHex(3:4))/255;
+        dec3 = hex2dec(currentColorHex(5:6))/255;
+        currentColor = [dec1 dec2 dec3];
+            <span class="keyword">if</span> handles.subtract==true
+                <span class="keyword">if</span> ~isfield(handles,<span class="string">'spectra'</span>)
+                    handles.subtract=false;
+                    guidata(hObject,handles)
+                    error(<span class="string">'You must choose a spectra before subtracting!'</span>);
+                <span class="keyword">end</span>
+                <span class="keyword">if</span> viewSavedSpectra == true
+                    subSpectra(:,2) = handles.spectraStruct.data(index);
+                    subSpectra(:,1) = [1:length(subSpectra(:,2))];
+                <span class="keyword">else</span>
+                    [subfileName subfileDir subSpectra(:,2) handles.spectraInformation] = GetData(path,partExt,handles);
+                    subSpectra(:,1) = [1:length(subSPectra(:,2))];
+                <span class="keyword">end</span>
+                <span class="keyword">if</span> handles.average == true
+                    subSpectra(:,2) = mean(subSpectra,2);
+                    subSpectra(:,1) = [1:length(subSpectra(:,2))];
+                <span class="keyword">end</span>
+                <span class="keyword">if</span> ~all(size(handles.spectra)==size(subSpectra))
+                    handles.subtract=false;
+                    guidata(hObject,handles);
+                    error(<span class="string">'Spectra must be same dimensions to subtract!'</span>);
+                <span class="keyword">else</span>
+                    subSpectra = handles.spectra-subSpectra;
+                    handles.subtract=false;
+                    guidata(hObject,handles)
+                <span class="keyword">end</span>
+            <span class="keyword">else</span>
+                <span class="keyword">if</span> viewSavedSpectra == true
+                    subSpectra(:,2) = handles.spectraStruct.spectra(:,index);
+                    subSPectra(:,1) = [1:length(subSpectra(:,2))];
+                    handles.currentSpectra.spectra = [subSpectra(:,1),subSpectra(:,2)];
+                <span class="keyword">else</span>
+                    [fileName, fileDir, spectraData, spectraInformation] = GetData(path,partExt,handles);
+                    subSpectra(:,2) = spectraData;
+                    subSpectra(:,1) = [1:length(subSpectra(:,2))];
+                    <span class="keyword">if</span> handles.multiPlot == true
+                        <span class="keyword">if</span> isempty(handles.currentSpectra(1).spectra)
+                            handles.currentSpectra(1).fileName = fileName;
+                            handles.currentSpectra(1).fileDir = fileDir;
+                            handles.currentStructure(1).spectraInformation = spectraInformation;
+                            handles.currentSpectra(1).spectra = subSpectra;
+                            handles.currentSpectra(1).color = currentColor;
+                            guidata(hObject,handles);
+                        <span class="keyword">else</span>
+                            structSize = numel(handles.currentSpectra);
+                            handles.currentSpectra(structSize+1).fileName = fileName;
+                            handles.currentSpectra(structSize+1).fileDir = fileDir;
+                            handles.currentStructure(structSize+1).spectraInformation = spectraInformation;
+                            handles.currentSpectra(structSize+1).spectra = subSpectra;
+                            handles.currentSpectra(structSize+1).color = currentColor;
+                            guidata(hObject,handles);
+                        <span class="keyword">end</span>
+                    <span class="keyword">else</span>
+                        handles.currentSpectra = struct(<span class="string">'spectra'</span>,[],<span class="string">'spectraInformation'</span>,[],<span class="string">'fileName'</span>,[],<span class="string">'fileDir'</span>,[]);
+                        handles.currentSpectra(1).fileName = fileName;
+                        handles.currentSpectra(1).fileDir = fileDir;
+                        handles.currentSpectra(1).spectraInformation = spectraInformation;
+                        handles.currentSpectra(1).spectra = subSpectra;
+                        handles.currentSpectra(1).color = currentColor;
+                        guidata(hObject,handles);
+                     <span class="keyword">end</span>
+                <span class="keyword">end</span>
+             <span class="keyword">end</span>
+             <span class="keyword">if</span> handles.average == true
+                handles.spectra = mean(handles.spectra,2);
+             <span class="keyword">end</span>
+            <span class="keyword">if</span> viewSavedSpectra == true
+                handles.plotNow = line(subSpectra(:,1),subSpectra(:,2),<span class="string">'color'</span>,currentColor);
+            <span class="keyword">else</span>
+                <span class="keyword">if</span> handles.multiPlot == true
+                    <span class="keyword">if</span> length(handles.currentSpectra)==1;
+                        handles.plotNow = line(handles.currentSpectra(1).spectra(:,1),handles.currentSpectra(1).spectra(:,2),<span class="string">'color'</span>,handles.currentSpectra(1).color);
+                    <span class="keyword">else</span>
+                        z = 0;
+                        <span class="keyword">for</span> z = 1:numel(handles.currentSpectra)
+                            handles.plotNow = line(handles.currentSpectra(z).spectra(:,1),handles.currentSpectra(z).spectra(:,2),<span class="string">'color'</span>,handles.currentSpectra(z).color);
+                            hold <span class="string">on</span>
+                        <span class="keyword">end</span>
+                    <span class="keyword">end</span>
+            <span class="keyword">else</span>
+            cla;
+            handles.plotNow = line(handles.currentSpectra(1).spectra(:,1),handles.currentSpectra(1).spectra(:,2),<span class="string">'color'</span>,currentColor);
+            <span class="keyword">end</span>
+            <span class="keyword">end</span>
+        guidata(hObject,handles);
+        found = true;
+    <span class="keyword">break</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+<span class="keyword">if</span> found==false
+    error(<span class="string">'You must choose an appropriate file type!'</span>);
+<span class="keyword">end</span>
+<span class="keyword">if</span> isfield(handles,<span class="string">'lineLeftClick'</span>)
+    handles = rmfield(handles, <span class="string">'lineLeftClick'</span>);
+<span class="keyword">end</span>
+<span class="keyword">if</span> isfield(handles,<span class="string">'lineRightClick'</span>)
+    handles = rmfield(handles, <span class="string">'lineRightClick'</span>);
+<span class="keyword">end</span>
+guidata(hObject,handles);
+
+<span class="comment">% --- Executes during object creation, after setting all properties.</span>
+<span class="keyword">function</span> listbox1_CreateFcn(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to listbox1 (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    empty - handles not created until after all CreateFcns called</span>
+
+<span class="comment">% Hint: listbox controls usually have a white background on Windows.</span>
+<span class="comment">%       See ISPC and COMPUTER.</span>
+<span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+    set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+<span class="keyword">end</span>
+
+
+<span class="keyword">function</span> search_start_edit_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to search_start_edit (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+
+<span class="comment">% Hints: get(hObject,'String') returns contents of search_start_edit as text</span>
+<span class="comment">%        str2double(get(hObject,'String')) returns contents of search_start_edit as a double</span>
+value = str2double(get(hObject,<span class="string">'String'</span>));
+<span class="keyword">if</span> ~isa(value,<span class="string">'numeric'</span>) || isnan(value)
+    error(<span class="string">'Position up field must be a number!'</span>);
+<span class="keyword">else</span>;
+    handles.search_start = value;
+    guidata(hObject,handles);
+<span class="keyword">end</span>
+
+
+
+<span class="comment">% --- Executes during object creation, after setting all properties.</span>
+<span class="keyword">function</span> search_start_edit_CreateFcn(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to search_start_edit (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    empty - handles not created until after all CreateFcns called</span>
+
+<span class="comment">% Hint: edit controls usually have a white background on Windows.</span>
+<span class="comment">%       See ISPC and COMPUTER.</span>
+<span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+    set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+<span class="keyword">end</span>
+
+
+<span class="keyword">function</span> pos_up_field_edit_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to pos_up_field_edit (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+
+<span class="comment">% Hints: get(hObject,'String') returns contents of pos_up_field_edit as text</span>
+<span class="comment">%        str2double(get(hObject,'String')) returns contents of pos_up_field_edit as a double</span>
+value = str2double(get(hObject,<span class="string">'String'</span>))
+<span class="keyword">if</span> ~isa(value,<span class="string">'numeric'</span>) || isnan(value)
+    error(<span class="string">'Position up field must be a number!'</span>);
+<span class="keyword">else</span>
+handles.posUp = value;
+guidata(hObject,handles);
+<span class="keyword">end</span>
+
+
+<span class="comment">% --- Executes during object creation, after setting all properties.</span>
+<span class="keyword">function</span> pos_up_field_edit_CreateFcn(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to pos_up_field_edit (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    empty - handles not created until after all CreateFcns called</span>
+
+<span class="comment">% Hint: edit controls usually have a white background on Windows.</span>
+<span class="comment">%       See ISPC and COMPUTER.</span>
+<span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+    set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+<span class="keyword">end</span>
+
+
+<span class="comment">% --- Executes on button press in subtract_spectra_button.</span>
+<span class="keyword">function</span> subtract_spectra_button_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to subtract_spectra_button (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+<span class="keyword">if</span> ~isfield(handles,<span class="string">'spectra'</span>)||isempty(handles.spectra)
+    error(<span class="string">'Much choose spectra from which to subtract!'</span>);
+    handles.subtract = false;
+<span class="keyword">else</span>
+    handles.subtract = true;
+<span class="keyword">end</span>
+guidata(hObject,handles);
+
+
+<span class="comment">% --- Executes on button press in add_spectra_button.</span>
+<span class="keyword">function</span> add_spectra_button_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to add_spectra_button (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+
+<span class="comment">%{
+</span><span class="comment">if isempty(handles.currentSpectra)
+</span><span class="comment">    error('No spectra have been added!');
+</span><span class="comment">end
+</span><span class="comment">%}
+</span>stringCurrent = get(handles.listbox1,<span class="string">'String'</span>);
+lengthStruct = length(handles.savedSpectra);
+<span class="keyword">if</span> lengthStruct == 1 &amp;&amp;  isempty(handles.savedSpectra.spectra)
+    handles.savedSpectra(1).fileName = handles.currentSpectra.fileName;
+    handles.savedSpectra(1).filePath = handles.currentSpectra.fileDir;
+    handles.savedSpectra(1).spectra = handles.currentSpectra.spectra;
+     handles.savedSpectra(1).color = handles.currentSpectra.color;
+<span class="keyword">else</span>
+    <span class="keyword">for</span> i=1:length(handles.listSpectra)
+        name = handles.savedSpectra(i).fileName;
+        <span class="keyword">if</span> strcmpi(name,handles.listSpectra(i).name)==1
+            error(<span class="string">'Spectra cannot have the same names!'</span>);
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    handles.savedSpectra(lengthStruct+1).fileName = handles.fileName;
+    handles.savedSpectra(lengthStruct+1).fileDir = handles.fileDir;
+    handles.savedSpectra(lengthStruct+1).spectra = handles.spectra;
+<span class="keyword">end</span>
+guidata(hObject,handles);
+
+
+<span class="comment">% --- Executes on button press in average_spectra_check_box.</span>
+<span class="keyword">function</span> average_spectra_check_box_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to average_spectra_check_box (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+
+<span class="comment">% Hint: get(hObject,'Value') returns toggle state of average_spectra_check_box</span>
+handles.average=get(hObject,<span class="string">'Value'</span>);
+guidata(hObject,handles);
+
+
+<span class="comment">% --- Executes on button press in plot_together_check_box.</span>
+<span class="keyword">function</span> plot_together_check_box_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to plot_together_check_box (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+
+<span class="comment">% Hint: get(hObject,'Value') returns toggle state of plot_together_check_box</span>
+handles.multiPlot=get(hObject,<span class="string">'Value'</span>);
+guidata(hObject,handles);
+
+
+<span class="comment">% --- Executes on button press in clear_spectra_button.</span>
+<span class="keyword">function</span> clear_spectra_button_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to clear_spectra_button (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+handles.spectraStruct = struct(<span class="string">'name'</span>,[],<span class="string">'path'</span>,[],<span class="string">'spectra'</span>,[]);
+handles.spectra = [];
+handles.spectraBaseline = [];
+handles.spectraTrun = [];
+handles.spectraInformation = [];
+handles.numSpectraPoints = [];
+handles.subtract = false;
+handles.fileName = [];
+handles.fileDir = [];
+handles.correctOffset = false;
+handles.subtractBackground = <span class="string">'false'</span>;
+<span class="keyword">if</span> handles.viewSavedSpectra == true
+    set(handles.listbox1,<span class="string">'String'</span>,<span class="string">''</span>);
+<span class="keyword">end</span>
+handles.viewSavedSpectra = false;
+guidata(hObject,handles);
+
+
+<span class="comment">% --- Executes on button press in open_figure_button.</span>
+<span class="keyword">function</span> open_figure_button_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to open_figure_button (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+<span class="comment">%figure(2);</span>
+<span class="comment">%set(get(gca));</span>
+handles.figure2 = figure(2);
+clf
+copyobj(handles.axes1,handles.figure2);
+
+
+<span class="comment">% --- Executes on button press in filter_files_button.</span>
+<span class="keyword">function</span> filter_files_button_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to filter_files_button (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+extNum = get(handles.file_type_popupmenu,<span class="string">'Value'</span>);
+extList = get(handles.file_type_popupmenu,<span class="string">'String'</span>);
+ext = extList{extNum};
+FilterList(handles,ext,hObject);
+
+
+<span class="keyword">function</span> number_points_fit_edit_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to number_points_fit_edit (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+
+<span class="comment">% Hints: get(hObject,'String') returns contents of number_points_fit_edit as text</span>
+<span class="comment">%        str2double(get(hObject,'String')) returns contents of number_points_fit_edit as a double</span>
+value = str2double(get(hObject,<span class="string">'String'</span>));
+<span class="keyword">if</span> ~isa(value,<span class="string">'numeric'</span>) || isnan(value)
+    error(<span class="string">'Number fit points must be a number!'</span>);
+<span class="keyword">else</span>
+handles.numFitPoints = value;
+guidata(hObject,handles);
+<span class="keyword">end</span>
+
+
+<span class="comment">% --- Executes during object creation, after setting all properties.</span>
+<span class="keyword">function</span> number_points_fit_edit_CreateFcn(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to number_points_fit_edit (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    empty - handles not created until after all CreateFcns called</span>
+
+<span class="comment">% Hint: edit controls usually have a white background on Windows.</span>
+<span class="comment">%       See ISPC and COMPUTER.</span>
+<span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+    set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+<span class="keyword">end</span>
+
+
+<span class="comment">% --- Executes on selection change in smooth_type_popupmenu.</span>
+<span class="keyword">function</span> fit_type_popupmenu_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to smooth_type_popupmenu (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+
+<span class="comment">% Hints: contents = cellstr(get(hObject,'String')) returns smooth_type_popupmenu contents as cell array</span>
+<span class="comment">%        contents{get(hObject,'Value')} returns selected item from smooth_type_popupmenu</span>
+fitTypeContent = cellstr(get(hObject,<span class="string">'String'</span>));
+handles.fitType = fitTypeContent{get(hObject,<span class="string">'Value'</span>)};
+guidata(hObject,handles);
+
+
+<span class="comment">% --- Executes during object creation, after setting all properties.</span>
+<span class="keyword">function</span> fit_type_popupmenu_CreateFcn(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to smooth_type_popupmenu (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    empty - handles not created until after all CreateFcns called</span>
+
+<span class="comment">% Hint: popupmenu controls usually have a white background on Windows.</span>
+<span class="comment">%       See ISPC and COMPUTER.</span>
+<span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+    set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+<span class="keyword">end</span>
+
+
+<span class="comment">% --- Executes on button press in basis_spectra_button.</span>
+<span class="keyword">function</span> basis_spectra_button_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to basis_spectra_button (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+[fileName,pathName] = uigetfile(<span class="string">''</span>,<span class="string">'Choose basis spectra file'</span>);
+nameString = strcat(pathName,fileName);
+[pathstr,name,ext] = fileparts(nameString);
+<span class="keyword">if</span> strcmpi(ext,<span class="string">'.xlsx'</span>)
+    [num,txt,raw] = xlsread(nameString);
+    basisSpectra.names = txt;
+    basisSpectra.data = num;
+<span class="keyword">else</span>
+    error(<span class="string">'Basis spetcra file must be an excel ''.xlsx'' file!'</span>);
+<span class="keyword">end</span>
+handles.basisSpectra = basisSpectra;
+set(handles.basis_spectra_edit,<span class="string">'String'</span>,nameString);
+guidata(hObject,handles);
+
+
+<span class="comment">% --- Executes on button press in plot_fitting_checkbox.</span>
+<span class="keyword">function</span> plot_fitting_checkbox_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to plot_fitting_checkbox (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+
+<span class="comment">% Hint: get(hObject,'Value') returns toggle state of plot_fitting_checkbox</span>
+handles.plotFit = get(hObject,<span class="string">'Value'</span>);
+guidata(hObject,handles);
+
+<span class="keyword">function</span> edit_output_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to edit_output (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+
+<span class="comment">% Hints: get(hObject,'String') returns contents of edit_output as text</span>
+<span class="comment">%        str2double(get(hObject,'String')) returns contents of edit_output as a double</span>
+
+
+<span class="comment">% --- Executes during object creation, after setting all properties.</span>
+<span class="keyword">function</span> edit_output_CreateFcn(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to edit_output (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    empty - handles not created until after all CreateFcns called</span>
+
+<span class="comment">% Hint: edit controls usually have a white background on Windows.</span>
+<span class="comment">%       See ISPC and COMPUTER.</span>
+<span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+    set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+<span class="keyword">end</span>
+
+
+<span class="keyword">function</span> search_end_edit_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to search_end_edit (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+
+<span class="comment">% Hints: get(hObject,'String') returns contents of search_end_edit as text</span>
+<span class="comment">%        str2double(get(hObject,'String')) returns contents of search_end_edit as a double</span>
+value = str2double(get(hObject,<span class="string">'String'</span>));
+<span class="keyword">if</span> ~isa(value,<span class="string">'numeric'</span>) || isnan(value)
+    error(<span class="string">'Standard end must be a number!'</span>);
+<span class="keyword">else</span>
+handles.stdEnd = value;
+guidata(hObject,handles);
+<span class="keyword">end</span>
+
+
+<span class="comment">% --- Executes during object creation, after setting all properties.</span>
+<span class="keyword">function</span> search_end_edit_CreateFcn(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to search_end_edit (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    empty - handles not created until after all CreateFcns called</span>
+
+<span class="comment">% Hint: edit controls usually have a white background on Windows.</span>
+<span class="comment">%       See ISPC and COMPUTER.</span>
+<span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+    set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+<span class="keyword">end</span>
+
+
+<span class="comment">% --- Executes on button press in list_spectra_button.</span>
+<span class="keyword">function</span> list_spectra_button_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to list_spectra_button (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+<span class="keyword">if</span> isempty(handles.spectraStruct)
+    error(<span class="string">'No spectra have been added!'</span>);
+<span class="keyword">else</span>
+    set(handles.edit_output,<span class="string">'String'</span>,[handles.folderList],<span class="string">'Foreground'</span>,[0 0 1]);
+<span class="comment">    %{
+</span><span class="comment">    for i = 1:length(handles.spectraStruct)
+</span><span class="comment">        [pathstr, name, ext] = fileparts(handles.spectraStruct(i).name);
+</span><span class="comment">        nameFile{i,:} = strcat(name,ext);
+</span><span class="comment">    end
+</span><span class="comment">    handles.viewSavedSpectra = true;
+</span><span class="comment">    set(handles.edit_output,'String',['Added Spectra:';nameFile],'Foreground',[0 0 1]);
+</span><span class="comment">    guidata(hObject,handles);
+</span><span class="comment">    set(handles.listbox1,'String',nameFile,'Value',size(nameFile,1),'Foreground',[0 0 1]);
+</span><span class="comment">    guidata(hObject,handles);
+</span><span class="comment">    %}
+</span><span class="keyword">end</span>
+
+
+<span class="keyword">function</span> basis_spectra_edit_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to basis_spectra_edit (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+
+<span class="comment">% Hints: get(hObject,'String') returns contents of basis_spectra_edit as text</span>
+<span class="comment">%        str2double(get(hObject,'String')) returns contents of basis_spectra_edit as a double</span>
+
+
+<span class="comment">% --- Executes during object creation, after setting all properties.</span>
+<span class="keyword">function</span> basis_spectra_edit_CreateFcn(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to basis_spectra_edit (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    empty - handles not created until after all CreateFcns called</span>
+
+<span class="comment">% Hint: edit controls usually have a white background on Windows.</span>
+<span class="comment">%       See ISPC and COMPUTER.</span>
+<span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+    set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+<span class="keyword">end</span>
+
+
+<span class="comment">% --- Executes on key press with focus on edit_doses and none of its controls.</span>
+<span class="keyword">function</span> edit_doses_KeyPressFcn(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to edit_doses (see GCBO)</span>
+<span class="comment">% eventdata  structure with the following fields (see UICONTROL)</span>
+<span class="comment">%	Key: name of the key that was pressed, in lower case</span>
+<span class="comment">%	Character: character interpretation of the key(s) that was pressed</span>
+<span class="comment">%	Modifier: name(s) of the modifier key(s) (i.e., control, shift) pressed</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+
+
+<span class="comment">% --- Executes on button press in load_info_button.</span>
+<span class="keyword">function</span> load_info_button_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to load_info_button (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+set(handles.edit_output,<span class="string">'ForegroundColor'</span>,<span class="string">'black'</span>);
+<span class="keyword">for</span> i = 1:numel(handles.currentSpectra)
+    set(handles.edit_output,<span class="string">'String'</span>,[<span class="string">'SPECTRA NAME:'</span>;handles.currentSpectra(i).fileName;<span class="keyword">...</span>
+        <span class="string">'SPECTRA INFORMATION:'</span>;handles.currentSpectra(i).spectraInformation.parameters;char(10);<span class="keyword">...</span>
+        <span class="string">'SPECTRA COMMENTS'</span>;handles.currentSpectra(i).spectraInformation.comment]);
+<span class="keyword">end</span>
+guidata(hObject,handles);
+
+
+<span class="comment">% --- Executes on button press in clear_terminal_button.</span>
+<span class="keyword">function</span> clear_terminal_button_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to clear_terminal_button (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+set(handles.edit_output,<span class="string">'String'</span>,<span class="string">''</span>);
+guidata(hObject,handles);
+
+
+<span class="comment">% --- Executes on button press in save_path_button.</span>
+<span class="keyword">function</span> save_path_button_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to save_path_button (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+handles.savePath = uigetdir();
+set(handles.edit_output,<span class="string">'String'</span>,strvcat(<span class="string">'Save Path:'</span>,handles.savePath));
+guidata(hObject,handles);
+
+
+<span class="comment">% --- Executes on button press in truncate_button.</span>
+<span class="keyword">function</span> truncate_button_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to truncate_button (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+<span class="keyword">if</span>(get(handles.use_line_check_box,<span class="string">'Value'</span>)==0)
+    <span class="keyword">if</span> isempty(handles.search_stop || handles.search_start)
+        error(<span class="string">'Use lines to specify truncation region!'</span>);
+    <span class="keyword">else</span>
+        truncateLow = handles.search_start;
+        truncateHigh = handles.search_end;
+    <span class="keyword">end</span>
+<span class="keyword">else</span>
+    api = iptgetapi(handles.lineLeftClick);
+    posLeft = api.getPosition();
+    api = iptgetapi(handles.lineRightClick);
+    posRight = api.getPosition();
+    posLeft = posLeft(:,1);
+    posLeft = posLeft(1);
+    posRight = posRight(:,1);
+    posRight = posRight(1);
+    <span class="keyword">if</span> posLeft &gt; posRight
+        posLeftNew = posRight;
+        posRightNew = posLeft;
+        truncateLow = posLeftNew;
+        truncateHigh = posRightNew;
+    <span class="keyword">else</span>
+        truncateLow = posLeft;
+        truncateHigh = posRight;
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+<span class="keyword">if</span> isempty(handles.currentSpectra(1).spectra)
+    error(<span class="string">'You must choose a spectra and set truncation points!'</span>);
+<span class="keyword">elseif</span> truncateHigh-truncateLow + 1 &gt; length(handles.currentSpectra(1).spectra(:,2))
+    error(<span class="string">'Truncation out of range!'</span>);
+<span class="keyword">else</span>
+    cla;
+    <span class="keyword">for</span> i = 1:length(handles.currentSpectra)
+        spectra = handles.currentSpectra(i).spectra;
+        handles.currentSpectra(i).spectra = zeros(length(spectra(truncateLow:truncateHigh,2)),2);
+        handles.currentSpectra(i).spectra(:,2) = spectra(truncateLow:truncateHigh,2);
+        handles.currentSpectra(i).spectra(:,1) = 1:length(handles.currentSpectra(i).spectra(:,2));
+        line(1:length(handles.currentSpectra(i).spectra(:,1)),handles.currentSpectra(i).spectra(:,2),<span class="string">'color'</span>,handles.currentSpectra(i).color);
+        hold <span class="string">on</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+<span class="keyword">if</span> isfield(handles,<span class="string">'lineLeftClick'</span>)
+    handles = rmfield(handles, <span class="string">'lineLeftClick'</span>);
+<span class="keyword">end</span>
+<span class="keyword">if</span> isfield(handles,<span class="string">'lineRightClick'</span>)
+    handles = rmfield(handles, <span class="string">'lineRightClick'</span>);
+<span class="keyword">end</span>
+guidata(hObject,handles)
+
+
+<span class="comment">% --- Executes on button press in normalize_checkbox.</span>
+<span class="keyword">function</span> normalize_checkbox_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to normalize_checkbox (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+
+<span class="comment">% Hint: get(hObject,'Value') returns toggle state of normalize_checkbox</span>
+handles.normalize = get(hObject,<span class="string">'Value'</span>);
+guidata(hObject,handles);
+
+
+<span class="comment">% --- Executes on button press in baseline_fit_button.</span>
+<span class="keyword">function</span> baseline_fit_button_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to baseline_fit_button (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+<span class="keyword">if</span> ~isfield(handles.currentSpectra,<span class="string">'spectra'</span>)
+    error(<span class="string">'You must choose a spectra!'</span>);
+<span class="keyword">elseif</span> (get(handles.use_line_check_box,<span class="string">'Value'</span>)==0)
+    <span class="keyword">if</span> isempty(handles.search_start) || isempty(handles.search_stop)
+        handles.search_start = 1;
+        handles.search_stop = length(handles.currentSpectra(1).spectra(:,2));
+        truncateLow = handles.search_start;
+        truncateHigh = handles.search_stop;
+
+    <span class="keyword">else</span>
+        truncateLow = handles.search_start;
+        truncateHigh = handles.search_stop;
+    <span class="keyword">end</span>
+<span class="keyword">else</span>
+    <span class="keyword">if</span> ~isfield(handles,<span class="string">'lineLeftClick'</span>) || ~isfield(handles,<span class="string">'lineRightClick'</span>);
+        error(<span class="string">'You must set marker lines!'</span>);
+    <span class="keyword">end</span>
+    api = iptgetapi(handles.lineLeftClick);
+    posLeft = api.getPosition();
+    api = iptgetapi(handles.lineRightClick);
+    posRight = api.getPosition();
+    posLeft = posLeft(:,1);
+    posLeft = posLeft(1);
+    posRight = posRight(:,1);
+    posRight = posRight(1);
+    <span class="keyword">if</span> posLeft &gt; posRight
+        posLeftNew = posRight;
+        posRightNew = posLeft;
+        truncateLow = posLeftNew;
+        truncateHigh = posRightNew;
+    <span class="keyword">else</span>
+        truncateLow = posLeft;
+        truncateHigh = posRight;
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+truncateHigh = floor(truncateHigh);
+truncateLow = ceil(truncateLow);
+<span class="keyword">if</span> isempty(handles.currentSpectra(1).spectra)
+    error(<span class="string">'Error: must choose a spectra and set truncation points!'</span>);
+<span class="keyword">elseif</span> truncateHigh-truncateLow + 1 &gt; length(handles.currentSpectra(1).spectra(:,2))
+    error(<span class="string">'Error: truncation our of range!'</span>);
+<span class="keyword">else</span>
+    cla;
+    <span class="keyword">for</span> i=1:numel(handles.currentSpectra)
+        spectraNow = handles.currentSpectra(i).spectra;
+        spectraY = spectraNow(:,2);
+        spectraY = spectraY(truncateLow:truncateHigh);
+        spectraX = 1:length(spectraY);
+        spectraX = spectraX(:);
+        array = (truncateLow:1:truncateHigh)';
+        slope_and_intercept = polyfit(spectraX,spectraY,1);
+        handles.spectraBaseline = [];
+        handles.spectraBaseline(:,i) = (array*slope_and_intercept(1))+slope_and_intercept(2);
+        handles.currentSpectra(i).spectra = [];
+        handles.currentSpectra(i).spectra(:,2) = spectraY;
+        handles.currentSpectra(i).spectra(:,1) = spectraX;
+        line(1:length(handles.spectraBaseline(:,i)),handles.spectraBaseline(:,i),<span class="string">'color'</span>,<span class="string">'r'</span>);
+        hold <span class="string">on</span>
+        handles.plotNow = line(spectraX,spectraY,<span class="string">'color'</span>,handles.currentSpectra(i).color);
+        hold <span class="string">on</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+<span class="keyword">if</span> isfield(handles,<span class="string">'lineLeftClick'</span>)
+    handles = rmfield(handles, <span class="string">'lineLeftClick'</span>);
+<span class="keyword">end</span>
+<span class="keyword">if</span> isfield(handles,<span class="string">'lineRightClick'</span>)
+    handles = rmfield(handles, <span class="string">'lineRightClick'</span>);
+<span class="keyword">end</span>
+handles.search_stop = [];
+handles.search_start = [];
+guidata(hObject,handles);
+
+
+
+<span class="comment">% --- Executes on button press in subtract_baseline_button.</span>
+<span class="keyword">function</span> subtract_baseline_button_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to subtract_baseline_button (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+<span class="keyword">if</span> ~isfield(handles,<span class="string">'currentSpectra'</span>)
+    error(<span class="string">'You must choose a spectra!'</span>);
+<span class="keyword">elseif</span> isempty(handles.search_start) || isempty(handles.search_stop)
+    handles.search_start = 1;
+    handles.search_stop = length(handles.currentSpectra(1).spectra(:,2));
+<span class="keyword">end</span>
+cla;
+<span class="keyword">for</span> i = 1:numel(handles.currentSpectra)
+    spectra = handles.currentSpectra(i).spectra(:,2);
+    spectra = spectra - handles.spectraBaseline(:,i);
+    handles.plotNow = line(1:length(spectra(:)),spectra,<span class="string">'color'</span>,handles.currentSpectra(i).color);
+    hold <span class="string">on</span>
+    xlswrite(<span class="string">'C:\Users\Spencer\Desktop\current_baseline.xlsx'</span>,spectra);
+    handles.currentSpectra(i).spectra(:,2) = spectra;
+    handles.currentSpectra(i).spectra(:,1) = 1:length(spectra);
+<span class="keyword">end</span>
+<span class="keyword">if</span> isfield(handles,<span class="string">'lineLeftClick'</span>)
+    handles = rmfield(handles, <span class="string">'lineLeftClick'</span>);
+<span class="keyword">end</span>
+<span class="keyword">if</span> isfield(handles,<span class="string">'lineRightClick'</span>)
+    handles = rmfield(handles, <span class="string">'lineRightClick'</span>);
+<span class="keyword">end</span>
+guidata(hObject,handles);
+
+
+<span class="comment">% --- Executes on selection change in smooth_type_popupmenu.</span>
+<span class="keyword">function</span> smooth_type_popupmenu_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to smooth_type_popupmenu (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+
+<span class="comment">% Hints: contents = cellstr(get(hObject,'String')) returns smooth_type_popupmenu contents as cell array</span>
+<span class="comment">%        contents{get(hObject,'Value')} returns selected item from smooth_type_popupmenu</span>
+
+contents = cellstr(get(hObject,<span class="string">'String'</span>));
+selected = contents{get(hObject,<span class="string">'Value'</span>)};
+handles.smoothType = selected;
+guidata(hObject,handles);
+
+
+<span class="comment">% --- Executes during object creation, after setting all properties.</span>
+<span class="keyword">function</span> smooth_type_popupmenu_CreateFcn(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to smooth_type_popupmenu (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    empty - handles not created until after all CreateFcns called</span>
+
+<span class="comment">% Hint: popupmenu controls usually have a white background on Windows.</span>
+<span class="comment">%       See ISPC and COMPUTER.</span>
+<span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+    set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+<span class="keyword">end</span>
+
+
+
+<span class="keyword">function</span> edit_text_span_input_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to edit_text_span_input (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+
+<span class="comment">% Hints: get(hObject,'String') returns contents of edit_text_span_input as text</span>
+<span class="comment">%        str2double(get(hObject,'String')) returns contents of edit_text_span_input as a double</span>
+handles.smoothSpan = str2double(get(hObject,<span class="string">'String'</span>));
+guidata(hObject,handles);
+
+<span class="comment">% --- Executes during object creation, after setting all properties.</span>
+<span class="keyword">function</span> edit_text_span_input_CreateFcn(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to edit_text_span_input (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    empty - handles not created until after all CreateFcns called</span>
+
+<span class="comment">% Hint: edit controls usually have a white background on Windows.</span>
+<span class="comment">%       See ISPC and COMPUTER.</span>
+<span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+    set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+<span class="keyword">end</span>
+
+
+<span class="comment">% --- Executes on mouse press over axes background.</span>
+<span class="keyword">function</span> axes1_ButtonDownFcn(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to axes1 (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+<span class="comment">%{
+</span><span class="comment">cP = get(gca,'Currentpoint');
+</span><span class="comment">x = cP(1,1);
+</span><span class="comment">y = cP(1,2);
+</span><span class="comment">xlim = get(gca,'xlim');
+</span><span class="comment">ylim = get(gca,'ylim');
+</span><span class="comment">hold on
+</span><span class="comment">plot([x x], ylim); % vertical line
+</span><span class="comment">%}
+</span>clickType = get(gcbf, <span class="string">'SelectionType'</span>);
+xlim = get(gca,<span class="string">'xlim'</span>);
+ylim = get(gca,<span class="string">'ylim'</span>);
+cP = get(gca,<span class="string">'Currentpoint'</span>);
+<span class="keyword">if</span> (get(handles.amplitude_checkbox,<span class="string">'Value'</span>)==1)
+    y = cP(1,2);
+    xArray = [xlim(1) xlim(2)];
+    yArray = [y y];
+<span class="keyword">else</span>
+    x = cP(1,1);
+    xArray = [x x];
+    yArray = [ylim(1) ylim(2)];
+<span class="keyword">end</span>
+<span class="keyword">if</span> strcmpi(clickType,<span class="string">'normal'</span>)==1
+    <span class="keyword">if</span> isfield(handles,<span class="string">'lineLeftClick'</span>)==1
+        xlim = get(gca,<span class="string">'xlim'</span>);
+        ylim = get(gca,<span class="string">'ylim'</span>);
+        cP = get(gca,<span class="string">'Currentpoint'</span>);
+        y = cP(1,2);
+        lineHandle = handles.lineLeftClick;
+        setPosition(lineHandle,xArray,yArray);
+        guidata(hObject,handles);
+    <span class="keyword">else</span>
+        xlim = get(gca,<span class="string">'xlim'</span>);
+        ylim = get(gca,<span class="string">'ylim'</span>);
+        cP = get(gca,<span class="string">'Currentpoint'</span>);
+        y = cP(1,2);
+        handles.lineLeftClick = imline(gca,xArray,yArray);
+        api = iptgetapi(handles.lineLeftClick);
+        fcn = makeConstrainToRectFcn(<span class="string">'imline'</span>,get(gca,<span class="string">'XLim'</span>),<span class="keyword">...</span>
+        get(gca,<span class="string">'YLim'</span>));
+        api.setPositionConstraintFcn(fcn);
+        guidata(hObject,handles);
+    <span class="keyword">end</span>
+<span class="keyword">elseif</span> strcmpi(clickType,<span class="string">'alt'</span>)==1
+    <span class="keyword">if</span> isfield(handles,<span class="string">'lineRightClick'</span>)
+        <span class="string">'handle exists!'</span>;
+        xlim = get(gca,<span class="string">'xlim'</span>);
+        ylim = get(gca,<span class="string">'ylim'</span>);
+        cP = get(gca,<span class="string">'Currentpoint'</span>);
+        y = cP(1,2);
+        lineHandle = handles.lineRightClick;
+        setPosition(lineHandle,xArray,yArray);
+        guidata(hObject,handles);
+    <span class="keyword">else</span>
+        handles.lineRightClick = imline(gca,xArray,yArray);
+        api = iptgetapi(handles.lineRightClick);
+        fcn = makeConstrainToRectFcn(<span class="string">'imline'</span>,get(gca,<span class="string">'XLim'</span>),<span class="keyword">...</span>
+        get(gca,<span class="string">'YLim'</span>));
+        api.setPositionConstraintFcn(fcn);
+        guidata(hObject,handles);
+        <span class="comment">%id = addNewPositionCallback('imline','ButtonDownFcn'); adds the function handle fcn to the list of new-position callback functions of the ROI object h. Whenever the ROI object changes its position each function in the list is called with the syntax:</span>
+        <span class="comment">%guidata(hObject,handles);</span>
+    <span class="keyword">end</span>
+<span class="keyword">else</span>
+    error(<span class="string">'Error : Mouse click error!'</span>);
+<span class="keyword">end</span>
+
+<span class="comment">% --- Executes on button press in line_distance_button.</span>
+<span class="keyword">function</span> line_distance_button_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to line_distance_button (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+
+api = iptgetapi(handles.lineLeftClick);
+posLeft = api.getPosition();
+api = iptgetapi(handles.lineRightClick);
+posRight = api.getPosition();
+<span class="keyword">if</span> (get(handles.amplitude_checkbox,<span class="string">'Value'</span>)==1)
+    posLeft = posLeft(:,2);
+    posLeft = posLeft(1);
+    posRight = posRight(:,2);
+    posRight = posRight(1);
+<span class="keyword">else</span>
+    posLeft = posLeft(:,1);
+    posLeft = posLeft(1);
+    posRight = posRight(:,1);
+    posRight = posRight(1);
+<span class="keyword">end</span>
+distance = abs(posLeft-posRight);
+set(handles.line_distance_output_edit,<span class="string">'String'</span>,num2str(distance));
+guidata(hObject,handles);
+
+
+<span class="keyword">function</span> line_distance_output_edit_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to line_distance_output_edit (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+
+<span class="comment">% Hints: get(hObject,'String') returns contents of line_distance_output_edit as text</span>
+<span class="comment">%        str2double(get(hObject,'String')) returns contents of line_distance_output_edit as a double</span>
+
+
+<span class="comment">% --- Executes during object creation, after setting all properties.</span>
+<span class="keyword">function</span> line_distance_output_edit_CreateFcn(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to line_distance_output_edit (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    empty - handles not created until after all CreateFcns called</span>
+
+<span class="comment">% Hint: edit controls usually have a white background on Windows.</span>
+<span class="comment">%       See ISPC and COMPUTER.</span>
+<span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+    set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+<span class="keyword">end</span>
+
+
+<span class="comment">% --- Executes on button press in amplitude_checkbox.</span>
+<span class="keyword">function</span> amplitude_checkbox_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to amplitude_checkbox (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+
+<span class="comment">% Hint: get(hObject,'Value') returns toggle state of amplitude_checkbox</span>
+set(handles.line_width_checkbox,<span class="string">'Value'</span>,0);
+guidata(hObject,handles);
+
+<span class="comment">% --- Executes on button press in fit_button.</span>
+<span class="keyword">function</span> fit_button_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to fit_button (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+
+fitType = handles.fitType;
+
+<span class="keyword">if</span>(get(handles.use_line_check_box,<span class="string">'Value'</span>)==0)
+    stdStart = handles.stdStart;
+    stdEnd   = handles.stdEnd;
+    fitStart = handles.fitStart;
+    fitStop = handles.fitStop;
+    numFitPoints = abs(fitStart-fitStop)+1;
+<span class="keyword">else</span>
+    api = iptgetapi(handles.lineLeftClick);
+    posLeft = api.getPosition();
+    api = iptgetapi(handles.lineRightClick);
+    posRight = api.getPosition();
+    posLeft = posLeft(:,1);
+    posLeft = posLeft(1);
+    posRight = posRight(:,1);
+    posRight = posRight(1);
+    distance = abs(posLeft-posRight);
+    set(handles.line_distance_output_edit,<span class="string">'String'</span>,num2str(distance));
+    guidata(hObject,handles);
+
+    basisSpectra = handles.basisSpectra.data;
+    stdStart = posLeft;
+    stdEnd   = posRight;
+    start = posLeft;
+    stop = posRight;
+    <span class="keyword">if</span> start &lt; stop
+        startCeil = ceil(start);
+        stopFloor = floor(stop);
+    <span class="keyword">elseif</span> start &gt; stop
+        startCeil = ceil(stop);
+        stopFloor = floor(start);
+    <span class="keyword">else</span>
+        distanceErrorString = <span class="string">'Zero distance between lines!'</span>;
+        set(handles.edit_output,<span class="string">'String'</span>,distanceErrorString,<span class="string">'ForegroundColor'</span>,<span class="string">'r'</span>);
+        guidata(hObject,handles);
+        error(distanceErrorString);
+    <span class="keyword">end</span>
+    lengthBasis = size(basisSpectra,1);
+    width = abs(startCeil-stopFloor)+1;
+    difference = abs(width-lengthBasis);
+    gap = difference/2;
+    <span class="keyword">if</span> width &lt; lengthBasis
+        <span class="keyword">if</span> mod(gap, 1) == 0
+            gap1 = gap;
+            gap2 = gap;
+        <span class="keyword">else</span>
+            gap1 = floor(gap)
+            gap2 = ceil(gap);
+        <span class="keyword">end</span>
+        basisSpectra = basisSpectra(gap1+1:length(basisSpectra)-gap2);
+        fitStart = startCeil;
+        fitStop = stopFloor;
+    <span class="keyword">elseif</span> width &gt; lengthBasis
+        <span class="keyword">if</span> mod(gap, 1) == 0
+            gap1 = gap;
+            gap2 = gap;
+        <span class="keyword">else</span>
+            gap1 = floor(gap);
+            gap2 = ceil(gap);
+        <span class="keyword">end</span>
+        fitStart = startCeil + gap1;
+        fitStop = stopFloor - gap2;
+    <span class="keyword">else</span>
+        fitStart = startCeil;
+        fitStop = stopFloor;
+    <span class="keyword">end</span>
+    numFitPoints = abs(fitStart-fitStop)+1;
+<span class="keyword">end</span>
+
+<span class="keyword">if</span> (size(basisSpectra,1) ~= numFitPoints)
+    fitErrorString = <span class="string">'Error : Number of fit points must equal number of points in chosen basis spectra!'</span>;
+    set(handles.edit_output,<span class="string">'String'</span>,fitErrorString,<span class="string">'ForegroundColor'</span>,<span class="string">'r'</span>);
+    guidata(hObject,handles);
+    error(fitErrorString);
+<span class="keyword">end</span>
+
+<span class="keyword">if</span> strcmpi(fitType,<span class="string">'Original'</span>)
+    fitType = 0;
+<span class="keyword">else</span>
+    fitType = 1;
+<span class="keyword">end</span>
+
+<span class="keyword">for</span> i =1:numel(handles.currentSpectra)
+    numSpectraPoints{i} = length(handles.currentSpectra(i).spectra);
+    normalize = true;
+    normalizeValue = 1;
+    data = handles.currentSpectra(i).spectra;
+    analyze = AnalyzeClass(data,basisSpectra,numSpectraPoints,numFitPoints,fitType,fitStart,fitStop,false,normalizeValue);
+    analyze.DataFit();
+    amplitudes(i) = analyze.amplitudes();
+    fitted(:,i) = basisSpectra.*amplitudes(i);
+    xValues(:,i) = 1:length(fitted(:,i));
+    numValues(:,i)=i.*ones(length(fitted(:,i)),1);
+<span class="keyword">end</span>
+
+plot3 = handles.plot3;
+<span class="keyword">if</span>(get(handles.plot_fitting_checkbox,<span class="string">'Value'</span>)==1)
+        <span class="keyword">if</span> plot3 == true
+            api1 = iptgetapi(handles.lineLeftClick);
+            pos1 = api1.getPosition();
+            api2 = iptgetapi(handles.lineRightClick);
+            pos2 = api2.getPosition();
+            cla;
+            numValues = [1:numel(handles.currentSpectra)];
+            repNum = repmat(numValues,length(xValues(:,1)),1);
+            repNum2 = repmat(1,1024,1);
+
+            numValues = [1.01,2.01,3.01,4.01,5.01];
+            repNum = repmat(numValues,length(xValues(:,1)),1);
+
+            num = struct(<span class="string">'num'</span>,[]);
+            num(1).num = [350:1:350+length(fitted(:,1))-1];
+            num(2).num = [350:1:350+length(fitted(:,2))-1];
+            num(3).num = [350:1:350+length(fitted(:,3))-1];
+            num(4).num = [350:1:350+length(fitted(:,4))-1];
+            num(5).num = [350:1:350+length(fitted(:,5))-1];
+
+
+<span class="comment">            %{
+</span><span class="comment">            x = [0,0,0,0;1,1,1,1;2,2,2,2]';
+</span><span class="comment">            y = [1,2,3,4;1,2,3,4;1,2,3,4]';
+</span><span class="comment">            z = [1,5,10,9;6,2,6,8;1,6,9,5]';
+</span><span class="comment">            %}
+</span>            <span class="keyword">for</span> m = 1:length(handles.currentSpectra)
+                line(repNum(:,m),num(m).num,fitted(:,m),<span class="string">'color'</span>,<span class="string">'red'</span>);
+                hold <span class="string">on</span>
+                line(repmat(m,1024,1),handles.currentSpectra(m).spectra(:,1),handles.currentSpectra(m).spectra(:,2),<span class="string">'color'</span>,handles.currentSpectra(m).color)
+                hold <span class="string">on</span>
+            <span class="keyword">end</span>
+            <span class="comment">%surf(repNum,xValues,fitted,'EdgeColor','none','FaceColor','red');</span>
+            camlight <span class="string">left</span>; lighting <span class="string">phong</span>
+            view(26, 42);
+
+            <span class="comment">%[X,Y,Z] = peaks(25);</span>
+            <span class="comment">%surf(gca,X,Y,Z);</span>
+            <span class="comment">%handles.lineLeftClick = imline(gca,pos1);</span>
+            <span class="comment">%handles.lineRightClick = imline(gca,pos2);</span>
+        <span class="keyword">else</span>
+            line(fitStart:fitStop,fitted,<span class="string">'linewidth'</span>,2.0,<span class="string">'color'</span>,<span class="string">'r'</span>);
+
+        <span class="keyword">end</span>
+<span class="keyword">end</span>
+set(handles.edit_output,<span class="string">'String'</span>,[<span class="string">'Amplitudes :'</span>,<span class="string">' '</span>,num2str(amplitudes)]);
+savePath = handles.savePath;
+nameWrite = strcat(savePath,<span class="string">'\'</span>,<span class="string">'results_'</span>,<span class="string">'nail_dosimetry'</span>,<span class="string">'.xlsx'</span>);
+xlswrite(nameWrite,fitted);
+guidata(hObject,handles);
+
+<span class="comment">%{
+</span><span class="comment">    for h = 1:length(fitResults)
+</span><span class="comment">    A = cell('');
+</span><span class="comment">    A(1,1:5) = {'Amplitudes','NormRSquared','Residual','Fit','FitTotal'};
+</span><span class="comment">    A(2:(2+length(fitResults(h).amplitudes))-1,1) = num2cell(fitResults(h).amplitudes);
+</span><span class="comment">    A(2:(2+length(fitResults(h).resNorm)-1),2) = num2cell(fitResults(h).resNorm);
+</span><span class="comment">    A(2:(2+size(fitResults(h).residual,1)-1),3:(3+size(fitResults(h).residual,2)-1)) = num2cell(fitResults(h).residual);
+</span><span class="comment">    currentCount = 3+size(fitResults(h).residual,2)-1;
+</span><span class="comment">    A(2:(2+size(fitResults(h).fitted,1)-1),(currentCount+1:(currentCount+size(fitResults(h).residual,2)))) = num2cell(fitResults(h).fitted);
+</span><span class="comment">    currentCount = currentCount+size(fitResults(h).residual,2);
+</span><span class="comment">    A(2:(2+length(fitResults(h).fittedTotal)-1),currentCount+1) = num2cell(fitResults(h).fittedTotal);
+</span><span class="comment">    finalCount = size(A,2);
+</span><span class="comment">    nums = (finalCount - 3)/2;
+</span><span class="comment">    A(1,1) = {'Amplitudes'};
+</span><span class="comment">    A(1,2) = {'NormRSquared'};
+</span><span class="comment">    A(1,3:3+nums-1) = {'Residual'};
+</span><span class="comment">    A(1,3+nums:(3+(2*nums)-1)) = {'Fit'};
+</span><span class="comment">    A(1,3+(2*nums)) = {'FitTotal'};
+</span><span class="comment">    savePath = handles.savePath;
+</span><span class="comment">    nameWrite = strcat(savePath,'\','results_',fileNames{h},'.xlsx');
+</span><span class="comment">    xlswrite(nameWrite,A);
+</span><span class="comment">end
+</span><span class="comment">
+</span><span class="comment">if handles.plotFit == true
+</span><span class="comment">figure(3)
+</span><span class="comment">clf
+</span><span class="comment">for i=1:numberOfDoses
+</span><span class="comment">    subplot(ceil(numberOfDoses/3),3,i);
+</span><span class="comment">    plot(1:numFitPoints,dataTrun(fitStart:fitStop,i),'b','linewidth',2);
+</span><span class="comment">    set(gca, 'xTickLabel', num2str(get(gca,'xTick')','%g'))  %can use %E or %e as well or %.2g.
+</span><span class="comment">    hold on
+</span><span class="comment">    plot(1:numFitPoints,fitResults(i).fittedTotal,'r','linewidth',2);
+</span><span class="comment">end
+</span><span class="comment">Suptitle(strvcat('Fit to Spectra ',strcat('Doses:',strjoin(doses))));
+</span><span class="comment">% determine position of the axes:
+</span><span class="comment">axp = get(gca,'Position');
+</span><span class="comment">% determine startpoint and endpoint for the arrows:
+</span><span class="comment">xs = 0.07;
+</span><span class="comment">xe=axp(1)+axp(3);
+</span><span class="comment">ys = 0.05;
+</span><span class="comment">ye=axp(2)+axp(4);
+</span><span class="comment">% make the arrows:
+</span><span class="comment">annotation('arrow', [xs xe],[ys ys],'LineWidth',2);
+</span><span class="comment">annotation('arrow', [xs xs],[ys ye],'LineWidth',2);
+</span><span class="comment">ylabel('Signal Amplitude (AU)','color','k','FontSize',12);
+</span><span class="comment">xlabel('Magnetic Field (gauss)','color','k','FontSize',12);
+</span><span class="comment">end
+</span><span class="comment">%}
+</span>
+
+<span class="comment">% --- Executes on button press in find_center_button.</span>
+<span class="keyword">function</span> find_center_button_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to find_center_button (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+spectra = handles.spectra;
+<span class="keyword">if</span> get(handles.use_line_check_box,<span class="string">'Value'</span>)==0
+    posLeft = str2double(get(handles.search_start_edit,<span class="string">'String'</span>));
+    posRight = str2double(get(handles.search_end_edit,<span class="string">'String'</span>));
+<span class="keyword">else</span>
+    api1 = iptgetapi(handles.lineLeftClick);
+    posLeft = api1.getPosition();
+    api2 = iptgetapi(handles.lineRightClick);
+    posRight = api2.getPosition();
+    <span class="keyword">if</span> posLeft &gt; posRight
+        posLeftNew = posRight;
+        posRightNew = posLeft;
+        posLeft = posLeftNew;
+        posRight = posRightNew;
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+spectraTrun = spectra(posRight:posLeft);
+center = AnalyzeClass();
+centerPoint = center.GetCenter();
+set(handles.edit_output,<span class="string">'String'</span>,[<span class="string">'Center : '</span>,<span class="string">''</span>,num2str(centerPoint)]);
+guidata(hObject,handles);
+
+<span class="comment">% --- Executes on button press in range_button.</span>
+<span class="keyword">function</span> range_button_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to range_button (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+spectra = handles.spectra;
+<span class="keyword">if</span> get(handles.use_line_check_box,<span class="string">'Value'</span>)==0
+    posLeft = str2double(get(handles.search_start_edit,<span class="string">'String'</span>));
+    posRight = str2double(get(handles.search_end_edit,<span class="string">'String'</span>));
+<span class="keyword">else</span>
+    api1 = iptgetapi(handles.lineLeftClick);
+    posLeft = api1.getPosition();
+    api2 = iptgetapi(handles.lineRightClick);
+    posRight = api2.getPosition();
+    <span class="keyword">if</span> posLeft &gt; posRight
+        posLeftNew = posRight;
+        posRightNew = posLeft;
+        posLeft = posLeftNew;
+        posRight = posRightNew;
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+rangeNum = range(spectra(posLeft:posRight));
+set(handles.edit_output,<span class="string">'String'</span>,[<span class="string">'Range : '</span>,<span class="string">''</span>,num2str(rangeNum)]);
+guidata(hObject,handles);
+
+<span class="comment">% --- Executes on button press in pushbutton62.</span>
+<span class="keyword">function</span> pushbutton62_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to pushbutton62 (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+
+
+<span class="comment">% --- Executes on button press in line_width_checkbox.</span>
+<span class="keyword">function</span> line_width_checkbox_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to line_width_checkbox (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+
+<span class="comment">% Hint: get(hObject,'Value') returns toggle state of line_width_checkbox</span>
+set(handles.amplitude_checkbox,<span class="string">'Value'</span>,0);
+guidata(hObject,handles);
+
+
+<span class="comment">% --- Executes on button press in use_line_check_box.</span>
+<span class="keyword">function</span> use_line_check_box_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to use_line_check_box (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+
+<span class="comment">% Hint: get(hObject,'Value') returns toggle state of use_line_check_box</span>
+
+
+<span class="comment">% --- Executes on button press in handles_button.</span>
+<span class="keyword">function</span> handles_button_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to handles_button (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+structSize = length(fieldnames(handles));
+names = fieldnames(handles);
+set(handles.edit_output,<span class="string">'String'</span>,names,<span class="string">'ForegroundColor'</span>,<span class="string">'k'</span>);
+guidata(hObject,handles);
+
+
+<span class="comment">% --- Executes on button press in plot3d_checkbox.</span>
+<span class="keyword">function</span> plot3d_checkbox_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to plot3d_checkbox (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+
+<span class="comment">% Hint: get(hObject,'Value') returns toggle state of plot3d_checkbox</span>
+handles.plot3 = get(hObject,<span class="string">'Value'</span>);
+guidata(hObject,handles);
+
+
+<span class="comment">% --- Executes on button press in clear_current_spectra_button.</span>
+<span class="keyword">function</span> clear_current_spectra_button_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to clear_current_spectra_button (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+handles.currentSpectra = struct(<span class="string">'spectra'</span>,[],<span class="string">'spectraInformation'</span>,[],<span class="string">'fileName'</span>,[],<span class="string">'fileDir'</span>,[]);
+cla;
+guidata(hObject,handles);
+
+<span class="comment">% --- Executes on button press in delete_spectra_button.</span>
+<span class="keyword">function</span> delete_spectra_button_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to delete_spectra_button (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+<span class="keyword">if</span> isempty(handles.currentSpectra(1).fileName)
+    error(<span class="string">'No spectra have been added!'</span>);
+<span class="keyword">end</span>
+<span class="keyword">if</span> handles.viewSavedSpectra == true
+
+<span class="keyword">else</span>
+index = 0;
+<span class="keyword">for</span> index = 1:numel(handles.currentSpectra)
+    [pathstr,name,ext] = fileparts(handles.currentSpectra(index).fileName);
+    extName = strcat(name,ext);
+    index = get(handles.listbox1,<span class="string">'Value'</span>);
+    strings = get(handles.listbox1,<span class="string">'String'</span>);
+    selectedString = strings{index};
+    [pathstrS,nameS,extS] = fileparts(selectedString);
+    extSelect = strcat(nameS,extS);
+    <span class="keyword">if</span> strcmpi(extSelect,extName)
+        handles.currentSpectra(index) = [];
+<span class="comment">        %{
+</span><span class="comment">        handles.currentSpectra(index).fileName = [];
+</span><span class="comment">        handles.currentSpectra(index).fileName = handles.currentSpectra(index).fileName(~cellfun(@isempty, handles.currentSpectra(index).fileName));
+</span><span class="comment">        handles.currentSpectra(index).path = [];
+</span><span class="comment">        handles.currentSpectra(index).path = handles.currentSpectra(index).path(~cellfun(@isempty, handles.currentSpectra(index).path));
+</span><span class="comment">        handles.currentSpectra(index).spectra = [];
+</span><span class="comment">        handles.currentSpectra(index).spectra = handles.currentSpectra(index).spectra(~cellfun(@isempty, handles.currentSpectra(index).spectra));
+</span><span class="comment">        handles.currentSpectra(index).information = [];
+</span><span class="comment">        %}
+</span>        <span class="comment">%filenames = getfield(handles.currentSpectra, 'fileName');</span>
+        allNames = {handles.currentSpectra.fileName};
+        size = numel(handles.currentSpectra);
+        set(handles.listbox1,<span class="string">'String'</span>,allNames,<span class="string">'Value'</span>,size);
+        guidata(hObject,handles);
+        <span class="keyword">break</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+cla;
+<span class="keyword">for</span> j = 1:numel(handles.currentSpectra)
+    line(1:length(handles.currentSpectra(j).spectra(:,2)),handles.currentSpectra(j).spectra(:,2));
+<span class="keyword">end</span>
+<span class="keyword">end</span>
+
+
+<span class="comment">% --- Executes on button press in standard_align_button.</span>
+<span class="keyword">function</span> standard_align_button_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to standard_align_button (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+<span class="keyword">if</span> ~isfield(handles,<span class="string">'currentSpectra'</span>)
+    error(<span class="string">'You must choose a spectra!'</span>);
+<span class="keyword">end</span>
+<span class="keyword">if</span> get(handles.use_line_check_box,<span class="string">'Value'</span>)==0
+    posLeft = str2double(get(handles.search_start_edit,<span class="string">'String'</span>));
+    posRight = str2double(get(handles.search_end_edit,<span class="string">'String'</span>));
+<span class="keyword">else</span>
+    api1 = iptgetapi(handles.lineLeftClick);
+    posLeft = api1.getPosition();
+    api2 = iptgetapi(handles.lineRightClick);
+    posRight = api2.getPosition();
+    <span class="keyword">if</span> posLeft &gt; posRight
+        posLeftNew = posRight;
+        posRightNew = posLeft;
+        posLeft = posLeftNew;
+        posRight = posRightNew;
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+stdStart = ceil(posLeft(1));
+stdEnd = floor(posRight(1));
+<span class="keyword">for</span> i=1:numel(handles.currentSpectra)
+    crossovers(i) = AnalyzeClass.Crossover(handles.currentSpectra(i).spectra(:,2),stdStart,stdEnd);
+    rgb = handles.currentSpectra(i).color;
+    color8hex = sprintf(<span class="string">'#%02X%02X%02X'</span>,rgb*255);
+    output = num2str(crossovers(i));
+    newText = [<span class="string">'Crossover Points :'</span>,<span class="string">' '</span>,output];
+    newColor = sprintf(<span class="string">'&lt;HTML&gt;&lt;font color="%s"&gt;%s&lt;/font&gt;&lt;/HTML&gt;'</span>,color8hex,newText);
+    namestr{i} = newColor;
+<span class="keyword">end</span>
+<span class="comment">%set(handles.edit_output,'String',namestr);</span>
+set(handles.edit_output,<span class="string">'Style'</span>,<span class="string">'list'</span>,<span class="string">'String'</span>,namestr);
+guidata(hObject,handles);
+
+
+<span class="comment">% --- Executes on button press in right_move_button.</span>
+<span class="keyword">function</span> right_move_button_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to right_move_button (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+<span class="keyword">if</span> ~isfield(handles,<span class="string">'spectra'</span>)
+    error(<span class="string">'You must choose a spectra!'</span>);
+<span class="keyword">end</span>
+spectra(:,2) = handles.spectra(:,2);
+spectra(:,1) = handles.spectra(:,1);
+newX = spectra(:,1)+1;
+newX = newX(:);
+cla;
+line(newX,spectra(:,2));
+handles.spectra = [newX,spectra(:,2)];
+guidata(hObject,handles);
+
+
+<span class="comment">% --- Executes on button press in left_move_button.</span>
+<span class="keyword">function</span> left_move_button_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to left_move_button (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+<span class="keyword">if</span> ~isfield(handles,<span class="string">'spectra'</span>)
+    error(<span class="string">'You must choose a spectra!'</span>);
+<span class="keyword">end</span>
+spectra(:,2) = handles.spectra(:,2);
+spectra(:,1) = handles.spectra(:,1);
+newX = spectra(:,1)-1;
+newX = newX(:);
+cla;
+line(newX,spectra(:,2));
+handles.spectra = [newX,spectra(:,2)];
+guidata(hObject,handles);
+
+
+<span class="comment">% --- Executes on button press in up_move_button.</span>
+<span class="keyword">function</span> up_move_button_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to up_move_button (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+<span class="keyword">if</span> ~isfield(handles,<span class="string">'spectra'</span>)
+    error(<span class="string">'You must choose a spectra!'</span>);
+<span class="keyword">end</span>
+spectra(:,2) = handles.spectra(:,2);
+spectra(:,1) = handles.spectra(:,1);
+newY = spectra(:,2)+1;
+newY = newY(:);
+cla;
+line(spectra(:,1),newY);
+handles.spectra = [spectra(:,1),newY];
+guidata(hObject,handles);
+
+<span class="comment">% --- Executes on button press in down_move_button.</span>
+<span class="keyword">function</span> down_move_button_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to down_move_button (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+<span class="keyword">if</span> ~isfield(handles,<span class="string">'spectra'</span>)
+    error(<span class="string">'You must choose a spectra!'</span>);
+<span class="keyword">end</span>
+spectra(:,2) = handles.spectra(:,2);
+spectra(:,1) = handles.spectra(:,1);
+newY = spectra(:,2)-1;
+newY = newY(:);
+cla;
+line(spectra(:,1),newY);
+handles.spectra = [spectra(:,1),newY];
+guidata(hObject,handles);
+
+
+<span class="keyword">function</span> edit58_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to edit58 (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+
+<span class="comment">% Hints: get(hObject,'String') returns contents of edit58 as text</span>
+<span class="comment">%        str2double(get(hObject,'String')) returns contents of edit58 as a double</span>
+
+
+<span class="comment">% --- Executes during object creation, after setting all properties.</span>
+<span class="keyword">function</span> edit58_CreateFcn(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to edit58 (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    empty - handles not created until after all CreateFcns called</span>
+
+<span class="comment">% Hint: edit controls usually have a white background on Windows.</span>
+<span class="comment">%       See ISPC and COMPUTER.</span>
+<span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+    set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+<span class="keyword">end</span>
+
+
+
+<span class="keyword">function</span> edit59_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to edit59 (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+
+<span class="comment">% Hints: get(hObject,'String') returns contents of edit59 as text</span>
+<span class="comment">%        str2double(get(hObject,'String')) returns contents of edit59 as a double</span>
+
+
+<span class="comment">% --- Executes during object creation, after setting all properties.</span>
+<span class="keyword">function</span> edit59_CreateFcn(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to edit59 (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    empty - handles not created until after all CreateFcns called</span>
+
+<span class="comment">% Hint: edit controls usually have a white background on Windows.</span>
+<span class="comment">%       See ISPC and COMPUTER.</span>
+<span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+    set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+<span class="keyword">end</span>
+
+
+
+<span class="keyword">function</span> edit60_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to edit60 (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+
+<span class="comment">% Hints: get(hObject,'String') returns contents of edit60 as text</span>
+<span class="comment">%        str2double(get(hObject,'String')) returns contents of edit60 as a double</span>
+
+
+<span class="comment">% --- Executes during object creation, after setting all properties.</span>
+<span class="keyword">function</span> edit60_CreateFcn(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to edit60 (see GCBO)</span>
+<span class="comment">% eventdata  reserved - to be defined in a future version of MATLAB</span>
+<span class="comment">% handles    empty - handles not created until after all CreateFcns called</span>
+
+<span class="comment">% Hint: edit controls usually have a white background on Windows.</span>
+<span class="comment">%       See ISPC and COMPUTER.</span>
+<span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+    set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+<span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="NailDosimetry5x3_01.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+function varargout = NailDosimetry5x1(varargin)
+% NAILDOSIMETRY5X1 MATLAB code for NailDosimetry5x1.fig
+%      NAILDOSIMETRY5X1, by itself, creates a new NAILDOSIMETRY5X1 or raises the existing
+%      singleton*.
+%
+%      H = NAILDOSIMETRY5X1 returns the handle to a new NAILDOSIMETRY5X1 or the handle to
+%      the existing singleton*.
+%
+%      NAILDOSIMETRY5X1('CALLBACK',hObject,eventData,handles,...) calls the local
+%      function named CALLBACK in NAILDOSIMETRY5X1.M with the given input arguments.
+%
+%      NAILDOSIMETRY5X1('Property','Value',...) creates a new NAILDOSIMETRY5X1 or raises
+%      the existing singleton*.  Starting from the left, property value pairs are
+%      applied to the GUI before NailDosimetry5x1_OpeningFcn gets called.  An
+%      unrecognized property name or invalid value makes property
+%      application
+%      stop.  All inputs are passed to NailDosimetry5x1_OpeningFcn via varargin.
+%
+%      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one
+%      instance to run (singleton)".
+%
+% See also: GUIDE, GUIDATA, GUIHANDLES
+
+% Edit the above text to modify the response to help NailDosimetry5x1
+
+% Last Modified by GUIDE v2.5 03-Jun-2015 09:38:18
+
+% Update handles structure
+hObject = figure(1);
+handles.figure1 = gcf;
+handles.currentSpectra = struct('spectra',[],'spectraInformation',[],'fileName',[],'fileDir',[],'color',[]);
+handles.spectraBaseline = [];
+handles.numSpectraPoints = [];
+handles.numFitPoints = [];
+handles.search_start = [];
+handles.search_stop = [];
+handles.subtract = false;
+handles.average = false;
+handles.multiPlot = false;
+handles.currentDoses = 0;
+handles.basisSpectra = [];
+handles.savedSpectra = struct('spectra',[],'spectraInformation',[],'fileName',[],'fileDir',[],'color',[]);
+handles.smoothFit = false;
+handles.timesSmoothBeforeFit = 0;
+handles.correctOffset = false;
+handles.subtractBackground = 'false';
+handles.totalMass = 0;
+handles.fieldCenter = [];
+handles.fieldWidth = [];
+handles.plotFit = false;
+handles.normalize = false;
+handles.baselineStart = [];
+handles.baselineStop = [];
+handles.smoothType = 'boxcar';
+handles.smoothSpan = [];
+handles.viewSavedSpectra = false;
+handles.plot3 = false;
+handles.listSpectra = struct('name',[],'color',[]);
+handles.folderList = [];
+guidata(hObject, handles);
+
+initialize_gui(hObject, handles, false);
+
+% UIWAIT makes NailDosimetry5x1 wait for user response (see UIRESUME)
+% uiwait(handles.figure1);
+
+
+% REPLACE_WITH_DASH_DASH- Outputs from this function are returned to the command line.
+function varargout = NailDosimetry5x1_OutputFcn(hObject, eventdata, handles)
+% varargout  cell array for returning output args (see VARARGOUT);
+% hObject    handle to figure
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Get default command line output from handles structure
+varargout{1} = handles.output;
+
+
+% REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+function initialize_gui(fig_handle, handles, isreset)
+% If the metricdata field is present and the reset flag is false, it means
+% we are we are just re-initializing a GUI by calling it from the cmd line
+% while it is up. So, bail out as we dont want to reset the data.
+if isfield(handles, 'metricdata') && ~isreset
+    return;
+end
+
+% Update handles structure
+clf;
+mTextBox = uicontrol('style','text');
+set(mTextBox,'String','System Error! Code:0001','FontSize',30,'ForegroundColor','red');
+set(mTextBox,'Position',[200,200,300,150]);
+guidata(handles.figure1, handles);
+
+
+function fit_start_edit_Callback(hObject, eventdata, handles)
+% hObject    handle to search_start_edit (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of search_start_edit as text
+%        str2double(get(hObject,'String')) returns contents of search_start_edit as a double
+value = str2double(get(hObject,'String'));
+if ~isa(value,'numeric') || isnan(value)
+    error('Fit stop point must be a number!');
+else
+    handles.fitStart = value;
+    guidata(hObject,handles);
+end
+
+
+% REPLACE_WITH_DASH_DASH- Executes during object creation, after setting all properties.
+function fit_start_edit_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to search_start_edit (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+function search_stop_edit_Callback(hObject, eventdata, handles)
+% hObject    handle to search_stop_edit (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of search_stop_edit as text
+%        str2double(get(hObject,'String')) returns contents of search_stop_edit as a double
+value = str2double(get(hObject,'String'));
+if ~isa(value,'numeric') || isnan(value)
+    error('Fit stop point must be a number!');
+else
+    handles.search_stop = value;
+    guidata(hObject,handles);
+end
+
+
+% REPLACE_WITH_DASH_DASH- Executes during object creation, after setting all properties.
+function search_stop_edit_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to search_stop_edit (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+function pos_down_field_edit_Callback(hObject, eventdata, handles)
+% hObject    handle to pos_down_field_edit (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of pos_down_field_edit as text
+%        str2double(get(hObject,'String')) returns contents of pos_down_field_edit as a double
+value = str2double(get(hObject,'String'));
+if ~isa(value,'numeric') || isnan(value)
+    error('Position down field must be a number!');
+else
+    handles.posDown = value;
+    guidata(hObject,handles);
+end
+
+% REPLACE_WITH_DASH_DASH- Executes during object creation, after setting all properties.
+function pos_down_field_edit_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to pos_down_field_edit (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% REPLACE_WITH_DASH_DASH- Executes on selection change in file_type_popupmenu.
+function file_type_popupmenu_Callback(hObject, eventdata, handles)
+% hObject    handle to file_type_popupmenu (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns file_type_popupmenu contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from file_type_popupmenu
+
+
+% REPLACE_WITH_DASH_DASH- Executes during object creation, after setting all properties.
+function file_type_popupmenu_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to file_type_popupmenu (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in smooth_button.
+function smooth_button_Callback(hObject, eventdata, handles)
+% hObject    handle to smooth_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+cla;
+if ~isfield(handles.currentSpectra(1),'spectra')
+    error('No spectra selected!');
+end
+if strcmpi(handles.smoothType,'lowess')
+    smoothType = 'lowess';
+elseif strcmpi(handles.smoothType,'boxcar')
+    smoothType = 'moving';
+else
+    error('You must choose an appropriate smooth type!');
+end
+if isempty(handles.smoothSpan)
+    error('You must choose a smoothing window value!');
+end
+
+for i = 1:length(handles.currentSpectra)
+    spectraY = handles.currentSpectra(i).spectra(:,2);
+    smoothY = SmoothCorrect(spectraY,handles.smoothSpan,smoothType);
+    spectra(:,2) = smoothY;
+    spectra(:,1) = [1:length(spectra(:,2))];
+    handles.currentSpectra(i).spectra = [spectra(:,1),spectra(:,2)];
+    line(1:length(handles.currentSpectra(i).spectra(:,2)),handles.currentSpectra(i).spectra(:,2),'color',handles.currentSpectra(i).color);
+    hold on
+end
+if isfield(handles,'lineLeftClick')
+    handles = rmfield(handles, 'lineLeftClick');
+end
+if isfield(handles,'lineRightClick')
+    handles = rmfield(handles, 'lineRightClick');
+end
+guidata(handles.figure1,handles);
+
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in line_fit_button.
+function line_fit_button_Callback(hObject, eventdata, handles)
+% hObject    handle to line_fit_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+evalString = 'line_fit_gui(handles)';
+subgui_handle = eval(evalString);
+subgui_data_handle = guidata(subgui_handle);
+guidata(subgui_handle,subgui_data_handle); 
+
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in load_folder_button.
+function load_folder_button_Callback(hObject, eventdata, handles)
+% hObject    handle to load_folder_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+handles.viewSavedSpectra = false;
+handles.folderName = uigetdir('','Choose Folder to Load Files');
+cd(handles.folderName);
+folderList = ls;
+folderList(1:2,:) = [];
+handles.folderList = folderList;
+guidata(hObject,handles);
+initialDir = pwd;
+LoadListbox(initialDir,handles,hObject);
+
+
+%Load list box function. 
+function LoadListbox(dirPath, handles, hObject)
+cd(dirPath)
+dirStruct = dir(dirPath);
+[sortedNames,sortedIndex] = sortrows({dirStruct.name}');
+sortedNames(1:2,:) = [];
+sortedIndex(1:2,:) = [];
+fullNames = strcat(dirPath,'\',sortedNames);
+handles.dirPath = strcat(dirPath,'\');
+handles.fileNames = sortedNames;
+handles.isDir = [dirStruct.isdir];
+handles.sortedIndex = sortedIndex;
+handles.text1 = '';
+set(handles.listbox1,'String',handles.fileNames,'Value',1);
+set(handles.text1,'String',pwd);
+guidata(handles.figure1,handles);
+
+contents = cellstr(get(handles.listbox1,'String'));
+hex = dec2hex([ 0 0 1], 7);
+hexColor = hex(1);
+for i = 1:numel(contents)
+    newText = contents{i}; 
+    rgb = floor(rand(1,3) * 255);
+    color8hex = sprintf('#%02X%02X%02X',rgb);
+    colors{i} = color8hex;
+    newColor = sprintf('<HTML><font color="%s">%s</font></HTML>',color8hex,newText);
+    namestr{i} = newColor; 
+end
+for j = 1:numel(handles.fileNames)
+    handles.listSpectra(j).name = fullNames{j};
+    handles.listSpectra(j).color = colors{j};
+end
+set(handles.listbox1, 'String', namestr);
+guidata(hObject,handles);
+
+function FilterList(handles,chosenExt,hObject)
+fileNamesNew = handles.listSpectra;
+j=1;
+    for i = 1:numel(fileNamesNew)
+        if strcmpi(chosenExt,'all')
+            namestr{i} = handles.folderList(i,:);
+        else
+            [pathstr, name, ext] = fileparts(fileNamesNew(i).name);
+            if (strcmpi(ext,chosenExt))
+                fileNamesOut{j} = strcat(name,chosenExt);
+                listSpectraNew(j).name = fileNamesNew(i).name;
+                listSpectraNew(j).color = handles.listSpectra(j).color;
+                newText = fileNamesOut{j};
+                color8hex = listSpectraNew(j).color;
+                newColor = sprintf('<HTML><font color="%s">%s</font></HTML>',color8hex,newText);
+                namestr{j} = newColor; 
+                j=j+1;
+            end
+        end
+    end
+if ~exist('fileNamesOut','var')
+    namestr = '';
+end
+handles.listSpectra = listSpectraNew;
+set(handles.listbox1,'String',namestr);
+guidata(hObject,handles);
+
+function [fileName fileDir data information] = GetData(path,type,handles)
+    [partPath,partName,partExt] = fileparts(path);
+    if ~strcmpi(partExt,type)
+        error('The Extensions do not Match!');
+    end
+    fileName = strcat(partName,partExt);
+    type = lower(type);
+    switch type
+        case '.fls'
+            spectrum = CenterraReadFLS(path,1);
+            cd(partPath);
+            fileDir = partPath;
+            cellArray1 = spectrum.pars(:,1);
+            for i=1:11
+                informationNow{i} = strjoin([spectrum.pars(i,1),spectrum.pars(i,2)]);
+            end
+            information.parameters = informationNow';
+            information.comment = spectrum.comment;
+            data = spectrum.data;
+        case '.par'
+            [x,data,pars,fileName] = eprload(path);
+            fieldNames = fieldnames(pars);
+            fieldNames = fieldNames(:);
+            for i=1:length(fieldNames)
+                value = getfield(pars,strrep(mat2str(cell2mat(fieldNames(i))),'''',''));
+                if isa(value,'numeric')
+                    value = num2str(value);
+                end
+                informationNow{i} = strjoin([fieldNames(i),value]);
+            end
+            information.parameters = informationNow';
+            information.comment = 'None';
+            cd(partPath);
+            fileDir = partPath;
+        case '.spc'
+            [x,data,pars,fileName] = eprload(path);
+            fieldNames = fieldnames(pars);
+            fieldNames = fieldNames(:);
+            for i=1:length(fieldNames)
+                value = getfield(pars,strrep(mat2str(cell2mat(fieldNames(i))),'''',''));
+                if isa(value,'numeric')
+                    value = num2str(value);
+                end
+                informationNow{i} = strjoin([fieldNames(i),value]);
+            end
+            information.parameters = informationNow';
+            information.comment = 'None';
+            cd(partPath);
+            fileDir = partPath;
+        case '.xlsx'
+            [data,xtxt,xraw] = xlsread(path);
+            information.parameters = xtxt;
+            information.comment = 'None';
+            cd(partPath);
+            fileDir = partPath;
+        case '.csv'
+            data = csvread(path);
+            cd(partPath);
+            fileDir = partPath;
+            information.parameters = 'None';
+            information.comment = 'None';
+    end
+
+
+
+% REPLACE_WITH_DASH_DASH- Executes on selection change in listbox1.
+function listbox1_Callback(hObject, eventdata, handles)
+% hObject    handle to listbox1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns listbox1 contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from listbox1
+
+%get(handles.figure1,'SelectionType');
+% If double click
+values = get(hObject,'String');
+index = get(hObject,'Value');
+if ~isfield(handles,'dirPath')
+    error('No directory path has been selected!');
+end
+if isempty(values)
+    set(hObject,'Value',1); % Add this line so that the list can be changed.
+    eror('No files present!');
+end
+viewSavedSpectra = handles.viewSavedSpectra;
+if viewSavedSpectra == true
+    path = strcat(handles.spectraStruct.path(index),'\',values(index));
+else
+    path = handles.listSpectra(index).name;
+end
+[partPath,partName,partExt] = fileparts(path);
+selectedName = strcat(partName,partExt);
+szArrayAllowedExt = {'all','.fls','.par','.spc','.xlsx','.csv'};
+for i=1:length(szArrayAllowedExt)
+    found = false;
+    if strcmpi(partExt,szArrayAllowedExt{i})
+        if ~isempty(handles.currentSpectra(1).fileName)
+            for nameIndex = 1:numel(handles.currentSpectra)
+                [currentPath,currentName,currentExt] = fileparts(handles.currentSpectra(nameIndex).fileName);
+                compareName = strcat(currentName,currentExt);
+                if strcmpi(selectedName,compareName) 
+                    return
+                end
+            end
+        end
+        currentColorHex = handles.listSpectra(index).color;
+        currentColorHex = regexprep(currentColorHex,'#','');
+        dec1 = hex2dec(currentColorHex(1:2))/255;
+        dec2 = hex2dec(currentColorHex(3:4))/255;
+        dec3 = hex2dec(currentColorHex(5:6))/255;
+        currentColor = [dec1 dec2 dec3];
+            if handles.subtract==true
+                if ~isfield(handles,'spectra')
+                    handles.subtract=false;
+                    guidata(hObject,handles)
+                    error('You must choose a spectra before subtracting!');
+                end
+                if viewSavedSpectra == true
+                    subSpectra(:,2) = handles.spectraStruct.data(index);
+                    subSpectra(:,1) = [1:length(subSpectra(:,2))];
+                else
+                    [subfileName subfileDir subSpectra(:,2) handles.spectraInformation] = GetData(path,partExt,handles);
+                    subSpectra(:,1) = [1:length(subSPectra(:,2))];
+                end
+                if handles.average == true
+                    subSpectra(:,2) = mean(subSpectra,2);
+                    subSpectra(:,1) = [1:length(subSpectra(:,2))];
+                end
+                if ~all(size(handles.spectra)==size(subSpectra))
+                    handles.subtract=false;
+                    guidata(hObject,handles);
+                    error('Spectra must be same dimensions to subtract!');
+                else
+                    subSpectra = handles.spectra-subSpectra;
+                    handles.subtract=false;
+                    guidata(hObject,handles)
+                end   
+            else
+                if viewSavedSpectra == true
+                    subSpectra(:,2) = handles.spectraStruct.spectra(:,index);
+                    subSPectra(:,1) = [1:length(subSpectra(:,2))];
+                    handles.currentSpectra.spectra = [subSpectra(:,1),subSpectra(:,2)];
+                else
+                    [fileName, fileDir, spectraData, spectraInformation] = GetData(path,partExt,handles);
+                    subSpectra(:,2) = spectraData;
+                    subSpectra(:,1) = [1:length(subSpectra(:,2))];
+                    if handles.multiPlot == true
+                        if isempty(handles.currentSpectra(1).spectra)
+                            handles.currentSpectra(1).fileName = fileName;
+                            handles.currentSpectra(1).fileDir = fileDir;
+                            handles.currentStructure(1).spectraInformation = spectraInformation;
+                            handles.currentSpectra(1).spectra = subSpectra;
+                            handles.currentSpectra(1).color = currentColor;
+                            guidata(hObject,handles);
+                        else
+                            structSize = numel(handles.currentSpectra);
+                            handles.currentSpectra(structSize+1).fileName = fileName;
+                            handles.currentSpectra(structSize+1).fileDir = fileDir;
+                            handles.currentStructure(structSize+1).spectraInformation = spectraInformation;
+                            handles.currentSpectra(structSize+1).spectra = subSpectra;
+                            handles.currentSpectra(structSize+1).color = currentColor;
+                            guidata(hObject,handles);
+                        end
+                    else
+                        handles.currentSpectra = struct('spectra',[],'spectraInformation',[],'fileName',[],'fileDir',[]);
+                        handles.currentSpectra(1).fileName = fileName;
+                        handles.currentSpectra(1).fileDir = fileDir;
+                        handles.currentSpectra(1).spectraInformation = spectraInformation;
+                        handles.currentSpectra(1).spectra = subSpectra;
+                        handles.currentSpectra(1).color = currentColor;
+                        guidata(hObject,handles);
+                     end
+                end
+             end
+             if handles.average == true
+                handles.spectra = mean(handles.spectra,2);
+             end
+            if viewSavedSpectra == true
+                handles.plotNow = line(subSpectra(:,1),subSpectra(:,2),'color',currentColor);
+            else
+                if handles.multiPlot == true
+                    if length(handles.currentSpectra)==1;
+                        handles.plotNow = line(handles.currentSpectra(1).spectra(:,1),handles.currentSpectra(1).spectra(:,2),'color',handles.currentSpectra(1).color);
+                    else
+                        z = 0;
+                        for z = 1:numel(handles.currentSpectra)
+                            handles.plotNow = line(handles.currentSpectra(z).spectra(:,1),handles.currentSpectra(z).spectra(:,2),'color',handles.currentSpectra(z).color);
+                            hold on
+                        end
+                    end
+            else
+            cla;
+            handles.plotNow = line(handles.currentSpectra(1).spectra(:,1),handles.currentSpectra(1).spectra(:,2),'color',currentColor);
+            end
+            end            
+        guidata(hObject,handles);
+        found = true;
+    break
+    end
+end
+if found==false
+    error('You must choose an appropriate file type!');
+end
+if isfield(handles,'lineLeftClick')
+    handles = rmfield(handles, 'lineLeftClick');
+end
+if isfield(handles,'lineRightClick')
+    handles = rmfield(handles, 'lineRightClick');
+end
+guidata(hObject,handles);
+
+% REPLACE_WITH_DASH_DASH- Executes during object creation, after setting all properties.
+function listbox1_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to listbox1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: listbox controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+function search_start_edit_Callback(hObject, eventdata, handles)
+% hObject    handle to search_start_edit (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of search_start_edit as text
+%        str2double(get(hObject,'String')) returns contents of search_start_edit as a double
+value = str2double(get(hObject,'String'));
+if ~isa(value,'numeric') || isnan(value)
+    error('Position up field must be a number!');
+else;
+    handles.search_start = value;
+    guidata(hObject,handles);
+end
+
+
+
+% REPLACE_WITH_DASH_DASH- Executes during object creation, after setting all properties.
+function search_start_edit_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to search_start_edit (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+function pos_up_field_edit_Callback(hObject, eventdata, handles)
+% hObject    handle to pos_up_field_edit (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of pos_up_field_edit as text
+%        str2double(get(hObject,'String')) returns contents of pos_up_field_edit as a double
+value = str2double(get(hObject,'String'))
+if ~isa(value,'numeric') || isnan(value)
+    error('Position up field must be a number!');
+else
+handles.posUp = value;
+guidata(hObject,handles);
+end
+
+
+% REPLACE_WITH_DASH_DASH- Executes during object creation, after setting all properties.
+function pos_up_field_edit_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to pos_up_field_edit (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in subtract_spectra_button.
+function subtract_spectra_button_Callback(hObject, eventdata, handles)
+% hObject    handle to subtract_spectra_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+if ~isfield(handles,'spectra')||isempty(handles.spectra)
+    error('Much choose spectra from which to subtract!');
+    handles.subtract = false;
+else
+    handles.subtract = true;
+end
+guidata(hObject,handles);
+
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in add_spectra_button.
+function add_spectra_button_Callback(hObject, eventdata, handles)
+% hObject    handle to add_spectra_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+%{
+if isempty(handles.currentSpectra)
+    error('No spectra have been added!');
+end
+%}
+stringCurrent = get(handles.listbox1,'String');
+lengthStruct = length(handles.savedSpectra);
+if lengthStruct == 1 &&  isempty(handles.savedSpectra.spectra)
+    handles.savedSpectra(1).fileName = handles.currentSpectra.fileName;
+    handles.savedSpectra(1).filePath = handles.currentSpectra.fileDir;
+    handles.savedSpectra(1).spectra = handles.currentSpectra.spectra;
+     handles.savedSpectra(1).color = handles.currentSpectra.color;
+else
+    for i=1:length(handles.listSpectra)
+        name = handles.savedSpectra(i).fileName;
+        if strcmpi(name,handles.listSpectra(i).name)==1
+            error('Spectra cannot have the same names!');
+        end
+    end
+    handles.savedSpectra(lengthStruct+1).fileName = handles.fileName;
+    handles.savedSpectra(lengthStruct+1).fileDir = handles.fileDir;
+    handles.savedSpectra(lengthStruct+1).spectra = handles.spectra;
+end
+guidata(hObject,handles);
+
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in average_spectra_check_box.
+function average_spectra_check_box_Callback(hObject, eventdata, handles)
+% hObject    handle to average_spectra_check_box (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of average_spectra_check_box
+handles.average=get(hObject,'Value');
+guidata(hObject,handles);
+
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in plot_together_check_box.
+function plot_together_check_box_Callback(hObject, eventdata, handles)
+% hObject    handle to plot_together_check_box (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of plot_together_check_box
+handles.multiPlot=get(hObject,'Value');
+guidata(hObject,handles);
+
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in clear_spectra_button.
+function clear_spectra_button_Callback(hObject, eventdata, handles)
+% hObject    handle to clear_spectra_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+handles.spectraStruct = struct('name',[],'path',[],'spectra',[]);
+handles.spectra = [];
+handles.spectraBaseline = [];
+handles.spectraTrun = [];
+handles.spectraInformation = [];
+handles.numSpectraPoints = [];
+handles.subtract = false;
+handles.fileName = [];
+handles.fileDir = [];
+handles.correctOffset = false;
+handles.subtractBackground = 'false';
+if handles.viewSavedSpectra == true
+    set(handles.listbox1,'String','');
+end
+handles.viewSavedSpectra = false;
+guidata(hObject,handles);
+
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in open_figure_button.
+function open_figure_button_Callback(hObject, eventdata, handles)
+% hObject    handle to open_figure_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+%figure(2);
+%set(get(gca));
+handles.figure2 = figure(2);
+clf
+copyobj(handles.axes1,handles.figure2);
+
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in filter_files_button.
+function filter_files_button_Callback(hObject, eventdata, handles)
+% hObject    handle to filter_files_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+extNum = get(handles.file_type_popupmenu,'Value');
+extList = get(handles.file_type_popupmenu,'String');
+ext = extList{extNum};
+FilterList(handles,ext,hObject);
+
+
+function number_points_fit_edit_Callback(hObject, eventdata, handles)
+% hObject    handle to number_points_fit_edit (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of number_points_fit_edit as text
+%        str2double(get(hObject,'String')) returns contents of number_points_fit_edit as a double
+value = str2double(get(hObject,'String'));
+if ~isa(value,'numeric') || isnan(value)
+    error('Number fit points must be a number!');
+else
+handles.numFitPoints = value;
+guidata(hObject,handles);
+end
+
+
+% REPLACE_WITH_DASH_DASH- Executes during object creation, after setting all properties.
+function number_points_fit_edit_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to number_points_fit_edit (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% REPLACE_WITH_DASH_DASH- Executes on selection change in smooth_type_popupmenu.
+function fit_type_popupmenu_Callback(hObject, eventdata, handles)
+% hObject    handle to smooth_type_popupmenu (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns smooth_type_popupmenu contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from smooth_type_popupmenu
+fitTypeContent = cellstr(get(hObject,'String'));
+handles.fitType = fitTypeContent{get(hObject,'Value')};
+guidata(hObject,handles);
+
+
+% REPLACE_WITH_DASH_DASH- Executes during object creation, after setting all properties.
+function fit_type_popupmenu_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to smooth_type_popupmenu (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in basis_spectra_button.
+function basis_spectra_button_Callback(hObject, eventdata, handles)
+% hObject    handle to basis_spectra_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+[fileName,pathName] = uigetfile('','Choose basis spectra file');
+nameString = strcat(pathName,fileName);
+[pathstr,name,ext] = fileparts(nameString);
+if strcmpi(ext,'.xlsx') 
+    [num,txt,raw] = xlsread(nameString);
+    basisSpectra.names = txt;
+    basisSpectra.data = num;
+else
+    error('Basis spetcra file must be an excel ''.xlsx'' file!');
+end
+handles.basisSpectra = basisSpectra;
+set(handles.basis_spectra_edit,'String',nameString);
+guidata(hObject,handles);
+
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in plot_fitting_checkbox.
+function plot_fitting_checkbox_Callback(hObject, eventdata, handles)
+% hObject    handle to plot_fitting_checkbox (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of plot_fitting_checkbox
+handles.plotFit = get(hObject,'Value');
+guidata(hObject,handles);
+
+function edit_output_Callback(hObject, eventdata, handles)
+% hObject    handle to edit_output (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit_output as text
+%        str2double(get(hObject,'String')) returns contents of edit_output as a double
+
+
+% REPLACE_WITH_DASH_DASH- Executes during object creation, after setting all properties.
+function edit_output_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit_output (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+function search_end_edit_Callback(hObject, eventdata, handles)
+% hObject    handle to search_end_edit (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of search_end_edit as text
+%        str2double(get(hObject,'String')) returns contents of search_end_edit as a double
+value = str2double(get(hObject,'String'));
+if ~isa(value,'numeric') || isnan(value)
+    error('Standard end must be a number!');
+else
+handles.stdEnd = value;
+guidata(hObject,handles);
+end
+
+
+% REPLACE_WITH_DASH_DASH- Executes during object creation, after setting all properties.
+function search_end_edit_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to search_end_edit (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in list_spectra_button.
+function list_spectra_button_Callback(hObject, eventdata, handles)
+% hObject    handle to list_spectra_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+if isempty(handles.spectraStruct)
+    error('No spectra have been added!');
+else
+    set(handles.edit_output,'String',[handles.folderList],'Foreground',[0 0 1]);
+    %{
+    for i = 1:length(handles.spectraStruct)
+        [pathstr, name, ext] = fileparts(handles.spectraStruct(i).name);
+        nameFile{i,:} = strcat(name,ext);
+    end
+    handles.viewSavedSpectra = true;
+    set(handles.edit_output,'String',['Added Spectra:';nameFile],'Foreground',[0 0 1]);
+    guidata(hObject,handles);
+    set(handles.listbox1,'String',nameFile,'Value',size(nameFile,1),'Foreground',[0 0 1]);
+    guidata(hObject,handles);
+    %}
+end
+
+
+function basis_spectra_edit_Callback(hObject, eventdata, handles)
+% hObject    handle to basis_spectra_edit (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of basis_spectra_edit as text
+%        str2double(get(hObject,'String')) returns contents of basis_spectra_edit as a double
+
+
+% REPLACE_WITH_DASH_DASH- Executes during object creation, after setting all properties.
+function basis_spectra_edit_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to basis_spectra_edit (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% REPLACE_WITH_DASH_DASH- Executes on key press with focus on edit_doses and none of its controls.
+function edit_doses_KeyPressFcn(hObject, eventdata, handles)
+% hObject    handle to edit_doses (see GCBO)
+% eventdata  structure with the following fields (see UICONTROL)
+%	Key: name of the key that was pressed, in lower case
+%	Character: character interpretation of the key(s) that was pressed
+%	Modifier: name(s) of the modifier key(s) (i.e., control, shift) pressed
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in load_info_button.
+function load_info_button_Callback(hObject, eventdata, handles)
+% hObject    handle to load_info_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+set(handles.edit_output,'ForegroundColor','black');
+for i = 1:numel(handles.currentSpectra)
+    set(handles.edit_output,'String',['SPECTRA NAME:';handles.currentSpectra(i).fileName;...
+        'SPECTRA INFORMATION:';handles.currentSpectra(i).spectraInformation.parameters;char(10);...
+        'SPECTRA COMMENTS';handles.currentSpectra(i).spectraInformation.comment]);
+end
+guidata(hObject,handles);
+
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in clear_terminal_button.
+function clear_terminal_button_Callback(hObject, eventdata, handles)
+% hObject    handle to clear_terminal_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+set(handles.edit_output,'String','');
+guidata(hObject,handles);
+
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in save_path_button.
+function save_path_button_Callback(hObject, eventdata, handles)
+% hObject    handle to save_path_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+handles.savePath = uigetdir();
+set(handles.edit_output,'String',strvcat('Save Path:',handles.savePath));
+guidata(hObject,handles);
+
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in truncate_button.
+function truncate_button_Callback(hObject, eventdata, handles)
+% hObject    handle to truncate_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+if(get(handles.use_line_check_box,'Value')==0)
+    if isempty(handles.search_stop || handles.search_start)
+        error('Use lines to specify truncation region!');
+    else
+        truncateLow = handles.search_start;                    
+        truncateHigh = handles.search_end;
+    end
+else
+    api = iptgetapi(handles.lineLeftClick);
+    posLeft = api.getPosition();
+    api = iptgetapi(handles.lineRightClick);
+    posRight = api.getPosition();
+    posLeft = posLeft(:,1);
+    posLeft = posLeft(1);
+    posRight = posRight(:,1);
+    posRight = posRight(1); 
+    if posLeft > posRight
+        posLeftNew = posRight;
+        posRightNew = posLeft;
+        truncateLow = posLeftNew;
+        truncateHigh = posRightNew;
+    else
+        truncateLow = posLeft;
+        truncateHigh = posRight;
+    end
+end
+if isempty(handles.currentSpectra(1).spectra)
+    error('You must choose a spectra and set truncation points!');
+elseif truncateHigh-truncateLow + 1 > length(handles.currentSpectra(1).spectra(:,2))
+    error('Truncation out of range!');
+else
+    cla;
+    for i = 1:length(handles.currentSpectra)
+        spectra = handles.currentSpectra(i).spectra;
+        handles.currentSpectra(i).spectra = zeros(length(spectra(truncateLow:truncateHigh,2)),2);
+        handles.currentSpectra(i).spectra(:,2) = spectra(truncateLow:truncateHigh,2);
+        handles.currentSpectra(i).spectra(:,1) = 1:length(handles.currentSpectra(i).spectra(:,2));
+        line(1:length(handles.currentSpectra(i).spectra(:,1)),handles.currentSpectra(i).spectra(:,2),'color',handles.currentSpectra(i).color);
+        hold on
+    end
+end
+if isfield(handles,'lineLeftClick')
+    handles = rmfield(handles, 'lineLeftClick');
+end
+if isfield(handles,'lineRightClick')
+    handles = rmfield(handles, 'lineRightClick');
+end
+guidata(hObject,handles)
+
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in normalize_checkbox.
+function normalize_checkbox_Callback(hObject, eventdata, handles)
+% hObject    handle to normalize_checkbox (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of normalize_checkbox
+handles.normalize = get(hObject,'Value');
+guidata(hObject,handles);
+
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in baseline_fit_button.
+function baseline_fit_button_Callback(hObject, eventdata, handles)
+% hObject    handle to baseline_fit_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+if ~isfield(handles.currentSpectra,'spectra')
+    error('You must choose a spectra!');
+elseif (get(handles.use_line_check_box,'Value')==0)
+    if isempty(handles.search_start) || isempty(handles.search_stop)
+        handles.search_start = 1;
+        handles.search_stop = length(handles.currentSpectra(1).spectra(:,2));
+        truncateLow = handles.search_start;
+        truncateHigh = handles.search_stop;
+       
+    else
+        truncateLow = handles.search_start;                    
+        truncateHigh = handles.search_stop;
+    end
+else
+    if ~isfield(handles,'lineLeftClick') || ~isfield(handles,'lineRightClick');
+        error('You must set marker lines!');
+    end
+    api = iptgetapi(handles.lineLeftClick);
+    posLeft = api.getPosition();
+    api = iptgetapi(handles.lineRightClick);
+    posRight = api.getPosition();
+    posLeft = posLeft(:,1);
+    posLeft = posLeft(1);
+    posRight = posRight(:,1);
+    posRight = posRight(1); 
+    if posLeft > posRight
+        posLeftNew = posRight;
+        posRightNew = posLeft;
+        truncateLow = posLeftNew;
+        truncateHigh = posRightNew;
+    else
+        truncateLow = posLeft;
+        truncateHigh = posRight;
+    end
+end
+truncateHigh = floor(truncateHigh);
+truncateLow = ceil(truncateLow);
+if isempty(handles.currentSpectra(1).spectra)
+    error('Error: must choose a spectra and set truncation points!');
+elseif truncateHigh-truncateLow + 1 > length(handles.currentSpectra(1).spectra(:,2))
+    error('Error: truncation our of range!');
+else
+    cla;
+    for i=1:numel(handles.currentSpectra)
+        spectraNow = handles.currentSpectra(i).spectra;  
+        spectraY = spectraNow(:,2);
+        spectraY = spectraY(truncateLow:truncateHigh);
+        spectraX = 1:length(spectraY);
+        spectraX = spectraX(:);
+        array = (truncateLow:1:truncateHigh)';
+        slope_and_intercept = polyfit(spectraX,spectraY,1);
+        handles.spectraBaseline = [];
+        handles.spectraBaseline(:,i) = (array*slope_and_intercept(1))+slope_and_intercept(2);
+        handles.currentSpectra(i).spectra = [];
+        handles.currentSpectra(i).spectra(:,2) = spectraY;
+        handles.currentSpectra(i).spectra(:,1) = spectraX;
+        line(1:length(handles.spectraBaseline(:,i)),handles.spectraBaseline(:,i),'color','r');
+        hold on
+        handles.plotNow = line(spectraX,spectraY,'color',handles.currentSpectra(i).color);
+        hold on
+    end
+end
+if isfield(handles,'lineLeftClick')
+    handles = rmfield(handles, 'lineLeftClick');
+end
+if isfield(handles,'lineRightClick')
+    handles = rmfield(handles, 'lineRightClick');
+end
+handles.search_stop = [];
+handles.search_start = [];
+guidata(hObject,handles);
+
+
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in subtract_baseline_button.
+function subtract_baseline_button_Callback(hObject, eventdata, handles)
+% hObject    handle to subtract_baseline_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+if ~isfield(handles,'currentSpectra')
+    error('You must choose a spectra!');
+elseif isempty(handles.search_start) || isempty(handles.search_stop)
+    handles.search_start = 1;
+    handles.search_stop = length(handles.currentSpectra(1).spectra(:,2));
+end
+cla;
+for i = 1:numel(handles.currentSpectra)
+    spectra = handles.currentSpectra(i).spectra(:,2);
+    spectra = spectra - handles.spectraBaseline(:,i);
+    handles.plotNow = line(1:length(spectra(:)),spectra,'color',handles.currentSpectra(i).color);
+    hold on
+    xlswrite('C:\Users\Spencer\Desktop\current_baseline.xlsx',spectra);
+    handles.currentSpectra(i).spectra(:,2) = spectra;
+    handles.currentSpectra(i).spectra(:,1) = 1:length(spectra);
+end
+if isfield(handles,'lineLeftClick')
+    handles = rmfield(handles, 'lineLeftClick');
+end
+if isfield(handles,'lineRightClick')
+    handles = rmfield(handles, 'lineRightClick');
+end
+guidata(hObject,handles);
+
+
+% REPLACE_WITH_DASH_DASH- Executes on selection change in smooth_type_popupmenu.
+function smooth_type_popupmenu_Callback(hObject, eventdata, handles)
+% hObject    handle to smooth_type_popupmenu (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns smooth_type_popupmenu contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from smooth_type_popupmenu
+
+contents = cellstr(get(hObject,'String'));
+selected = contents{get(hObject,'Value')};
+handles.smoothType = selected;
+guidata(hObject,handles);
+
+
+% REPLACE_WITH_DASH_DASH- Executes during object creation, after setting all properties.
+function smooth_type_popupmenu_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to smooth_type_popupmenu (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function edit_text_span_input_Callback(hObject, eventdata, handles)
+% hObject    handle to edit_text_span_input (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit_text_span_input as text
+%        str2double(get(hObject,'String')) returns contents of edit_text_span_input as a double
+handles.smoothSpan = str2double(get(hObject,'String'));
+guidata(hObject,handles);
+
+% REPLACE_WITH_DASH_DASH- Executes during object creation, after setting all properties.
+function edit_text_span_input_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit_text_span_input (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% REPLACE_WITH_DASH_DASH- Executes on mouse press over axes background.
+function axes1_ButtonDownFcn(hObject, eventdata, handles)
+% hObject    handle to axes1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+%{
+cP = get(gca,'Currentpoint');
+x = cP(1,1);
+y = cP(1,2);
+xlim = get(gca,'xlim');
+ylim = get(gca,'ylim');
+hold on
+plot([x x], ylim); % vertical line
+%}
+clickType = get(gcbf, 'SelectionType');
+xlim = get(gca,'xlim');
+ylim = get(gca,'ylim');
+cP = get(gca,'Currentpoint');
+if (get(handles.amplitude_checkbox,'Value')==1)
+    y = cP(1,2);
+    xArray = [xlim(1) xlim(2)];
+    yArray = [y y];
+else
+    x = cP(1,1);
+    xArray = [x x];
+    yArray = [ylim(1) ylim(2)];
+end
+if strcmpi(clickType,'normal')==1
+    if isfield(handles,'lineLeftClick')==1
+        xlim = get(gca,'xlim');
+        ylim = get(gca,'ylim');
+        cP = get(gca,'Currentpoint');
+        y = cP(1,2);
+        lineHandle = handles.lineLeftClick;
+        setPosition(lineHandle,xArray,yArray);
+        guidata(hObject,handles);
+    else
+        xlim = get(gca,'xlim');
+        ylim = get(gca,'ylim');
+        cP = get(gca,'Currentpoint');
+        y = cP(1,2);
+        handles.lineLeftClick = imline(gca,xArray,yArray);
+        api = iptgetapi(handles.lineLeftClick);
+        fcn = makeConstrainToRectFcn('imline',get(gca,'XLim'),...
+        get(gca,'YLim'));
+        api.setPositionConstraintFcn(fcn);
+        guidata(hObject,handles);
+    end
+elseif strcmpi(clickType,'alt')==1
+    if isfield(handles,'lineRightClick')
+        'handle exists!';
+        xlim = get(gca,'xlim');
+        ylim = get(gca,'ylim');
+        cP = get(gca,'Currentpoint');
+        y = cP(1,2);
+        lineHandle = handles.lineRightClick;
+        setPosition(lineHandle,xArray,yArray);
+        guidata(hObject,handles); 
+    else
+        handles.lineRightClick = imline(gca,xArray,yArray);
+        api = iptgetapi(handles.lineRightClick);
+        fcn = makeConstrainToRectFcn('imline',get(gca,'XLim'),...
+        get(gca,'YLim'));
+        api.setPositionConstraintFcn(fcn);
+        guidata(hObject,handles);
+        %id = addNewPositionCallback('imline','ButtonDownFcn'); adds the function handle fcn to the list of new-position callback functions of the ROI object h. Whenever the ROI object changes its position each function in the list is called with the syntax:
+        %guidata(hObject,handles); 
+    end
+else
+    error('Error : Mouse click error!');
+end
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in line_distance_button.
+function line_distance_button_Callback(hObject, eventdata, handles)
+% hObject    handle to line_distance_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+api = iptgetapi(handles.lineLeftClick);
+posLeft = api.getPosition();
+api = iptgetapi(handles.lineRightClick);
+posRight = api.getPosition();
+if (get(handles.amplitude_checkbox,'Value')==1)
+    posLeft = posLeft(:,2);
+    posLeft = posLeft(1);
+    posRight = posRight(:,2);
+    posRight = posRight(1);
+else
+    posLeft = posLeft(:,1);
+    posLeft = posLeft(1);
+    posRight = posRight(:,1);
+    posRight = posRight(1); 
+end
+distance = abs(posLeft-posRight);
+set(handles.line_distance_output_edit,'String',num2str(distance)); 
+guidata(hObject,handles);
+
+
+function line_distance_output_edit_Callback(hObject, eventdata, handles)
+% hObject    handle to line_distance_output_edit (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of line_distance_output_edit as text
+%        str2double(get(hObject,'String')) returns contents of line_distance_output_edit as a double
+
+
+% REPLACE_WITH_DASH_DASH- Executes during object creation, after setting all properties.
+function line_distance_output_edit_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to line_distance_output_edit (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in amplitude_checkbox.
+function amplitude_checkbox_Callback(hObject, eventdata, handles)
+% hObject    handle to amplitude_checkbox (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of amplitude_checkbox
+set(handles.line_width_checkbox,'Value',0);
+guidata(hObject,handles);
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in fit_button.
+function fit_button_Callback(hObject, eventdata, handles)
+% hObject    handle to fit_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+fitType = handles.fitType;
+
+if(get(handles.use_line_check_box,'Value')==0)
+    stdStart = handles.stdStart;                    
+    stdEnd   = handles.stdEnd;
+    fitStart = handles.fitStart;
+    fitStop = handles.fitStop;
+    numFitPoints = abs(fitStart-fitStop)+1;
+else
+    api = iptgetapi(handles.lineLeftClick);
+    posLeft = api.getPosition();
+    api = iptgetapi(handles.lineRightClick);
+    posRight = api.getPosition();
+    posLeft = posLeft(:,1);
+    posLeft = posLeft(1);
+    posRight = posRight(:,1);
+    posRight = posRight(1); 
+    distance = abs(posLeft-posRight);
+    set(handles.line_distance_output_edit,'String',num2str(distance)); 
+    guidata(hObject,handles);
+    
+    basisSpectra = handles.basisSpectra.data;
+    stdStart = posLeft;                    
+    stdEnd   = posRight;
+    start = posLeft;
+    stop = posRight;
+    if start < stop
+        startCeil = ceil(start);
+        stopFloor = floor(stop);
+    elseif start > stop
+        startCeil = ceil(stop);
+        stopFloor = floor(start);
+    else
+        distanceErrorString = 'Zero distance between lines!';
+        set(handles.edit_output,'String',distanceErrorString,'ForegroundColor','r');
+        guidata(hObject,handles);
+        error(distanceErrorString);
+    end
+    lengthBasis = size(basisSpectra,1);
+    width = abs(startCeil-stopFloor)+1;
+    difference = abs(width-lengthBasis);
+    gap = difference/2;
+    if width < lengthBasis
+        if mod(gap, 1) == 0
+            gap1 = gap;
+            gap2 = gap;
+        else
+            gap1 = floor(gap)
+            gap2 = ceil(gap);
+        end
+        basisSpectra = basisSpectra(gap1+1:length(basisSpectra)-gap2);
+        fitStart = startCeil;
+        fitStop = stopFloor;
+    elseif width > lengthBasis
+        if mod(gap, 1) == 0
+            gap1 = gap;
+            gap2 = gap;
+        else
+            gap1 = floor(gap);
+            gap2 = ceil(gap);
+        end
+        fitStart = startCeil + gap1;
+        fitStop = stopFloor - gap2;
+    else
+        fitStart = startCeil;
+        fitStop = stopFloor;
+    end
+    numFitPoints = abs(fitStart-fitStop)+1;
+end
+
+if (size(basisSpectra,1) ~= numFitPoints)
+    fitErrorString = 'Error : Number of fit points must equal number of points in chosen basis spectra!';
+    set(handles.edit_output,'String',fitErrorString,'ForegroundColor','r');
+    guidata(hObject,handles);
+    error(fitErrorString);
+end
+
+if strcmpi(fitType,'Original')
+    fitType = 0;
+else
+    fitType = 1;
+end
+
+for i =1:numel(handles.currentSpectra)
+    numSpectraPoints{i} = length(handles.currentSpectra(i).spectra);                                                               
+    normalize = true;
+    normalizeValue = 1;
+    data = handles.currentSpectra(i).spectra;
+    analyze = AnalyzeClass(data,basisSpectra,numSpectraPoints,numFitPoints,fitType,fitStart,fitStop,false,normalizeValue);
+    analyze.DataFit();
+    amplitudes(i) = analyze.amplitudes();
+    fitted(:,i) = basisSpectra.*amplitudes(i);
+    xValues(:,i) = 1:length(fitted(:,i));
+    numValues(:,i)=i.*ones(length(fitted(:,i)),1);
+end
+        
+plot3 = handles.plot3;
+if(get(handles.plot_fitting_checkbox,'Value')==1)
+        if plot3 == true
+            api1 = iptgetapi(handles.lineLeftClick);
+            pos1 = api1.getPosition();
+            api2 = iptgetapi(handles.lineRightClick);
+            pos2 = api2.getPosition();
+            cla;
+            numValues = [1:numel(handles.currentSpectra)];
+            repNum = repmat(numValues,length(xValues(:,1)),1);
+            repNum2 = repmat(1,1024,1);
+            
+            numValues = [1.01,2.01,3.01,4.01,5.01];
+            repNum = repmat(numValues,length(xValues(:,1)),1);
+            
+            num = struct('num',[]);
+            num(1).num = [350:1:350+length(fitted(:,1))-1];
+            num(2).num = [350:1:350+length(fitted(:,2))-1];
+            num(3).num = [350:1:350+length(fitted(:,3))-1];
+            num(4).num = [350:1:350+length(fitted(:,4))-1];
+            num(5).num = [350:1:350+length(fitted(:,5))-1];
+            
+            
+            %{
+            x = [0,0,0,0;1,1,1,1;2,2,2,2]';
+            y = [1,2,3,4;1,2,3,4;1,2,3,4]';
+            z = [1,5,10,9;6,2,6,8;1,6,9,5]';
+            %}
+            for m = 1:length(handles.currentSpectra)
+                line(repNum(:,m),num(m).num,fitted(:,m),'color','red');
+                hold on
+                line(repmat(m,1024,1),handles.currentSpectra(m).spectra(:,1),handles.currentSpectra(m).spectra(:,2),'color',handles.currentSpectra(m).color)
+                hold on
+            end
+            %surf(repNum,xValues,fitted,'EdgeColor','none','FaceColor','red');
+            camlight left; lighting phong
+            view(26, 42);
+
+            %[X,Y,Z] = peaks(25);
+            %surf(gca,X,Y,Z);
+            %handles.lineLeftClick = imline(gca,pos1);
+            %handles.lineRightClick = imline(gca,pos2);
+        else
+            line(fitStart:fitStop,fitted,'linewidth',2.0,'color','r');
+            
+        end
+end
+set(handles.edit_output,'String',['Amplitudes :',' ',num2str(amplitudes)]);
+savePath = handles.savePath;
+nameWrite = strcat(savePath,'\','results_','nail_dosimetry','.xlsx');
+xlswrite(nameWrite,fitted);
+guidata(hObject,handles);
+    
+%{
+    for h = 1:length(fitResults)
+    A = cell('');
+    A(1,1:5) = {'Amplitudes','NormRSquared','Residual','Fit','FitTotal'};
+    A(2:(2+length(fitResults(h).amplitudes))-1,1) = num2cell(fitResults(h).amplitudes);
+    A(2:(2+length(fitResults(h).resNorm)-1),2) = num2cell(fitResults(h).resNorm);
+    A(2:(2+size(fitResults(h).residual,1)-1),3:(3+size(fitResults(h).residual,2)-1)) = num2cell(fitResults(h).residual);
+    currentCount = 3+size(fitResults(h).residual,2)-1;
+    A(2:(2+size(fitResults(h).fitted,1)-1),(currentCount+1:(currentCount+size(fitResults(h).residual,2)))) = num2cell(fitResults(h).fitted);
+    currentCount = currentCount+size(fitResults(h).residual,2);
+    A(2:(2+length(fitResults(h).fittedTotal)-1),currentCount+1) = num2cell(fitResults(h).fittedTotal);
+    finalCount = size(A,2);
+    nums = (finalCount - 3)/2;
+    A(1,1) = {'Amplitudes'};
+    A(1,2) = {'NormRSquared'};
+    A(1,3:3+nums-1) = {'Residual'};
+    A(1,3+nums:(3+(2*nums)-1)) = {'Fit'};
+    A(1,3+(2*nums)) = {'FitTotal'};
+    savePath = handles.savePath;
+    nameWrite = strcat(savePath,'\','results_',fileNames{h},'.xlsx');
+    xlswrite(nameWrite,A);
+end
+
+if handles.plotFit == true
+figure(3)
+clf
+for i=1:numberOfDoses
+    subplot(ceil(numberOfDoses/3),3,i);
+    plot(1:numFitPoints,dataTrun(fitStart:fitStop,i),'b','linewidth',2);
+    set(gca, 'xTickLabel', num2str(get(gca,'xTick')','%g'))  %can use %E or %e as well or %.2g.
+    hold on
+    plot(1:numFitPoints,fitResults(i).fittedTotal,'r','linewidth',2);
+end
+Suptitle(strvcat('Fit to Spectra ',strcat('Doses:',strjoin(doses))));
+% determine position of the axes:
+axp = get(gca,'Position');
+% determine startpoint and endpoint for the arrows:
+xs = 0.07;
+xe=axp(1)+axp(3);
+ys = 0.05;
+ye=axp(2)+axp(4);
+% make the arrows:
+annotation('arrow', [xs xe],[ys ys],'LineWidth',2);
+annotation('arrow', [xs xs],[ys ye],'LineWidth',2);
+ylabel('Signal Amplitude (AU)','color','k','FontSize',12);
+xlabel('Magnetic Field (gauss)','color','k','FontSize',12);
+end
+%}
+
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in find_center_button.
+function find_center_button_Callback(hObject, eventdata, handles)
+% hObject    handle to find_center_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+spectra = handles.spectra;
+if get(handles.use_line_check_box,'Value')==0
+    posLeft = str2double(get(handles.search_start_edit,'String'));
+    posRight = str2double(get(handles.search_end_edit,'String'));
+else
+    api1 = iptgetapi(handles.lineLeftClick);
+    posLeft = api1.getPosition();
+    api2 = iptgetapi(handles.lineRightClick);
+    posRight = api2.getPosition();
+    if posLeft > posRight
+        posLeftNew = posRight;
+        posRightNew = posLeft;
+        posLeft = posLeftNew;
+        posRight = posRightNew;
+    end
+end
+spectraTrun = spectra(posRight:posLeft);
+center = AnalyzeClass();
+centerPoint = center.GetCenter();
+set(handles.edit_output,'String',['Center : ','',num2str(centerPoint)]);
+guidata(hObject,handles);
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in range_button.
+function range_button_Callback(hObject, eventdata, handles)
+% hObject    handle to range_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+spectra = handles.spectra;
+if get(handles.use_line_check_box,'Value')==0
+    posLeft = str2double(get(handles.search_start_edit,'String'));
+    posRight = str2double(get(handles.search_end_edit,'String'));
+else
+    api1 = iptgetapi(handles.lineLeftClick);
+    posLeft = api1.getPosition();
+    api2 = iptgetapi(handles.lineRightClick);
+    posRight = api2.getPosition();
+    if posLeft > posRight
+        posLeftNew = posRight;
+        posRightNew = posLeft;
+        posLeft = posLeftNew;
+        posRight = posRightNew;
+    end
+end
+rangeNum = range(spectra(posLeft:posRight));
+set(handles.edit_output,'String',['Range : ','',num2str(rangeNum)]);
+guidata(hObject,handles);
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in pushbutton62.
+function pushbutton62_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton62 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in line_width_checkbox.
+function line_width_checkbox_Callback(hObject, eventdata, handles)
+% hObject    handle to line_width_checkbox (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of line_width_checkbox
+set(handles.amplitude_checkbox,'Value',0);
+guidata(hObject,handles);
+
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in use_line_check_box.
+function use_line_check_box_Callback(hObject, eventdata, handles)
+% hObject    handle to use_line_check_box (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of use_line_check_box
+
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in handles_button.
+function handles_button_Callback(hObject, eventdata, handles)
+% hObject    handle to handles_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+structSize = length(fieldnames(handles));
+names = fieldnames(handles);
+set(handles.edit_output,'String',names,'ForegroundColor','k');
+guidata(hObject,handles);
+
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in plot3d_checkbox.
+function plot3d_checkbox_Callback(hObject, eventdata, handles)
+% hObject    handle to plot3d_checkbox (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of plot3d_checkbox
+handles.plot3 = get(hObject,'Value');
+guidata(hObject,handles);
+
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in clear_current_spectra_button.
+function clear_current_spectra_button_Callback(hObject, eventdata, handles)
+% hObject    handle to clear_current_spectra_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+handles.currentSpectra = struct('spectra',[],'spectraInformation',[],'fileName',[],'fileDir',[]);
+cla;
+guidata(hObject,handles);
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in delete_spectra_button.
+function delete_spectra_button_Callback(hObject, eventdata, handles)
+% hObject    handle to delete_spectra_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+if isempty(handles.currentSpectra(1).fileName)
+    error('No spectra have been added!');
+end
+if handles.viewSavedSpectra == true
+
+else
+index = 0;   
+for index = 1:numel(handles.currentSpectra)
+    [pathstr,name,ext] = fileparts(handles.currentSpectra(index).fileName);
+    extName = strcat(name,ext);
+    index = get(handles.listbox1,'Value');
+    strings = get(handles.listbox1,'String');
+    selectedString = strings{index};
+    [pathstrS,nameS,extS] = fileparts(selectedString);
+    extSelect = strcat(nameS,extS);
+    if strcmpi(extSelect,extName)
+        handles.currentSpectra(index) = [];
+        %{
+        handles.currentSpectra(index).fileName = [];
+        handles.currentSpectra(index).fileName = handles.currentSpectra(index).fileName(~cellfun(@isempty, handles.currentSpectra(index).fileName));
+        handles.currentSpectra(index).path = [];
+        handles.currentSpectra(index).path = handles.currentSpectra(index).path(~cellfun(@isempty, handles.currentSpectra(index).path));
+        handles.currentSpectra(index).spectra = [];
+        handles.currentSpectra(index).spectra = handles.currentSpectra(index).spectra(~cellfun(@isempty, handles.currentSpectra(index).spectra));
+        handles.currentSpectra(index).information = [];
+        %}
+        %filenames = getfield(handles.currentSpectra, 'fileName');
+        allNames = {handles.currentSpectra.fileName};
+        size = numel(handles.currentSpectra);
+        set(handles.listbox1,'String',allNames,'Value',size);
+        guidata(hObject,handles);
+        break
+    end
+end
+cla;
+for j = 1:numel(handles.currentSpectra)
+    line(1:length(handles.currentSpectra(j).spectra(:,2)),handles.currentSpectra(j).spectra(:,2));
+end
+end
+
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in standard_align_button.
+function standard_align_button_Callback(hObject, eventdata, handles)
+% hObject    handle to standard_align_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+if ~isfield(handles,'currentSpectra')
+    error('You must choose a spectra!');
+end
+if get(handles.use_line_check_box,'Value')==0
+    posLeft = str2double(get(handles.search_start_edit,'String'));
+    posRight = str2double(get(handles.search_end_edit,'String'));
+else
+    api1 = iptgetapi(handles.lineLeftClick);
+    posLeft = api1.getPosition();
+    api2 = iptgetapi(handles.lineRightClick);
+    posRight = api2.getPosition();
+    if posLeft > posRight
+        posLeftNew = posRight;
+        posRightNew = posLeft;
+        posLeft = posLeftNew;
+        posRight = posRightNew;
+    end
+end
+stdStart = ceil(posLeft(1));
+stdEnd = floor(posRight(1));
+for i=1:numel(handles.currentSpectra)
+    crossovers(i) = AnalyzeClass.Crossover(handles.currentSpectra(i).spectra(:,2),stdStart,stdEnd);
+    rgb = handles.currentSpectra(i).color;
+    color8hex = sprintf('#%02X%02X%02X',rgb*255);
+    output = num2str(crossovers(i));
+    newText = ['Crossover Points :',' ',output];
+    newColor = sprintf('<HTML><font color="%s">%s</font></HTML>',color8hex,newText);
+    namestr{i} = newColor; 
+end
+%set(handles.edit_output,'String',namestr);
+set(handles.edit_output,'Style','list','String',namestr);
+guidata(hObject,handles);
+   
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in right_move_button.
+function right_move_button_Callback(hObject, eventdata, handles)
+% hObject    handle to right_move_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+if ~isfield(handles,'spectra')
+    error('You must choose a spectra!');
+end
+spectra(:,2) = handles.spectra(:,2);
+spectra(:,1) = handles.spectra(:,1);
+newX = spectra(:,1)+1;
+newX = newX(:);
+cla;
+line(newX,spectra(:,2));
+handles.spectra = [newX,spectra(:,2)];
+guidata(hObject,handles);
+
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in left_move_button.
+function left_move_button_Callback(hObject, eventdata, handles)
+% hObject    handle to left_move_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+if ~isfield(handles,'spectra')
+    error('You must choose a spectra!');
+end
+spectra(:,2) = handles.spectra(:,2);
+spectra(:,1) = handles.spectra(:,1);
+newX = spectra(:,1)-1;
+newX = newX(:);
+cla;
+line(newX,spectra(:,2));
+handles.spectra = [newX,spectra(:,2)];
+guidata(hObject,handles);
+
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in up_move_button.
+function up_move_button_Callback(hObject, eventdata, handles)
+% hObject    handle to up_move_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+if ~isfield(handles,'spectra')
+    error('You must choose a spectra!');
+end
+spectra(:,2) = handles.spectra(:,2);
+spectra(:,1) = handles.spectra(:,1);
+newY = spectra(:,2)+1;
+newY = newY(:);
+cla;
+line(spectra(:,1),newY);
+handles.spectra = [spectra(:,1),newY];
+guidata(hObject,handles);
+
+% REPLACE_WITH_DASH_DASH- Executes on button press in down_move_button.
+function down_move_button_Callback(hObject, eventdata, handles)
+% hObject    handle to down_move_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+if ~isfield(handles,'spectra')
+    error('You must choose a spectra!');
+end
+spectra(:,2) = handles.spectra(:,2);
+spectra(:,1) = handles.spectra(:,1);
+newY = spectra(:,2)-1;
+newY = newY(:);
+cla;
+line(spectra(:,1),newY);
+handles.spectra = [spectra(:,1),newY];
+guidata(hObject,handles);
+
+
+function edit58_Callback(hObject, eventdata, handles)
+% hObject    handle to edit58 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit58 as text
+%        str2double(get(hObject,'String')) returns contents of edit58 as a double
+
+
+% REPLACE_WITH_DASH_DASH- Executes during object creation, after setting all properties.
+function edit58_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit58 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function edit59_Callback(hObject, eventdata, handles)
+% hObject    handle to edit59 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit59 as text
+%        str2double(get(hObject,'String')) returns contents of edit59 as a double
+
+
+% REPLACE_WITH_DASH_DASH- Executes during object creation, after setting all properties.
+function edit59_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit59 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function edit60_Callback(hObject, eventdata, handles)
+% hObject    handle to edit60 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit60 as text
+%        str2double(get(hObject,'String')) returns contents of edit60 as a double
+
+
+% REPLACE_WITH_DASH_DASH- Executes during object creation, after setting all properties.
+function edit60_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit60 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+##### SOURCE END #####
+--></body></html>

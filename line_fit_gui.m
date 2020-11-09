@@ -92,7 +92,7 @@ values = cell2mat(data(:,2:end));
 cla
 finalString = [];
 xRange = [-0.1:0.1:max(doses)+1];
-fitType = 'pf';
+fitType = 'zero';
 randomColor = hsv(size(values,2));
 for j = 1:size(values,2)
     plot(doses,values(:,j),'o','markerfacecolor',randomColor(j,:),'markeredgecolor',randomColor(j,:));
